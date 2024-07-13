@@ -18,7 +18,10 @@ const createErr = (errInfo) => {
 
 userController.addUser = async (req, res, next) => {
   // write code here
-  const { username, password, profilePicture, email } = req.body;
+
+  // Working with Postman, profile_id is a number
+  // username/password/email/pfp are strings
+  const { username, password, email, pfp } = req.body;
 
   // First checking if the username already exists
   const text = `
@@ -37,16 +40,23 @@ userController.addUser = async (req, res, next) => {
       INSERT INTO profile ( bio, pfp, location, server, languages, fav4games, contact_info )
       VALUES ($1, $2, $3, $4, $5, $6, $7)
       RETURNING *`;
-      const paramsProfile = ['', '', '', '', '', ARRAY[('', '', '', '')], ''];
+      const paramsProfile = ['', '', '', '', '', ['', '', '', ''], ''];
       const resultProfile = await db.query(textProfile, paramsProfile);
       res.locals.profile = resultProfile.rows[0];
       // creating user
       const hashedPassword = await pass.hashPassword(password);
       const text = `
-            INSERT INTO users ( username, password, pfp, email, profile_id )
-            VALUES ($1, $2, $3)
+            INSERT INTO users ( username, password, email, pfp, profile_id )
+            VALUES ($1, $2, $3, $4, $5)
             RETURNING *`;
-      const params = [username, hashedPassword, pfp, email, res.locals.profile.id];
+      console.log(typeof res.locals.profile.id);
+      const params = [
+        username,
+        hashedPassword,
+        email,
+        pfp,
+        res.locals.profile.id,
+      ];
       const result = await db.query(text, params);
       res.locals.user = result.rows[0];
       return next();

@@ -44,6 +44,13 @@ module.exports = {
   devServer: {
     port: 8080, // Port for development server
     hot: true, // Enable live reload
+    proxy: [
+      {
+        context:['/**'],
+        target: 'http://localhost:3001',
+        secure: false,
+      },
+    ]
   },
   plugins: [
     new HtmlWebpackPlugin({
