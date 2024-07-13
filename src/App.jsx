@@ -6,9 +6,11 @@ import Sidebar from './components/Sidebar.jsx';
 import Home  from './pages/Home.jsx';
 import Profile from './pages/Profile.jsx';
 import NotFound from './pages/NotFound.jsx';
+import './App.scss'
 
 const App = () => {
     return (
+        <Provider store={store}>
         <Router>
             <div>
                 <Header />
@@ -22,7 +24,8 @@ const App = () => {
                 </main>
                 <Footer />
             </div>
-        </Router>
+            </Router>
+            </Provider>
     )
 }
 
