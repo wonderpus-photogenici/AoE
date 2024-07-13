@@ -32,23 +32,23 @@ userController.addUser = async (req, res, next) => {
     return console.log('username already exists');
   } else {
     try {
-      // creating user 
-      const hashedPassword = await pass.hashPassword(password);
-      const text = `
-      INSERT INTO users ( username, password )
-      VALUES ($1, $2)
-      RETURNING *`;
-      const params = [username, hashedPassword];
-      const result = await db.query(text, params);
-      res.locals.user = result.rows[0];
       // creating blank profile
       const textProfile = `
       INSERT INTO profile ( bio, pfp, location, server, languages, fav4games, contact_info )
       VALUES ($1, $2, $3, $4, $5, $6, $7)
       RETURNING *`;
-      const paramsProfile = [ '', '', '', '', '', ARRAY['','','',''], ''];
+      const paramsProfile = ['', '', '', '', '', ARRAY[('', '', '', '')], ''];
       const resultProfile = await db.query(textProfile, paramsProfile);
       res.locals.profile = resultProfile.rows[0];
+      // creating user
+      const hashedPassword = await pass.hashPassword(password);
+      const text = `
+            INSERT INTO users ( username, password, profile_id )
+            VALUES ($1, $2, $3)
+            RETURNING *`;
+      const params = [username, hashedPassword, res.locals.profile.id];
+      const result = await db.query(text, params);
+      res.locals.user = result.rows[0];
       return next();
     } catch (err) {
       return next(
@@ -88,7 +88,7 @@ userController.verifyUser = async (req, res, next) => {
 
     const passwordMatch = await pass.comparePasswords(password, user.password);
     if (!passwordMatch) {
-      // Just a temp console log 
+      // Just a temp console log
       return console.log('username or password does not match');
       // return res.redirect('/signup');
     } else {
