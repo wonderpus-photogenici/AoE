@@ -6,23 +6,26 @@ import Sidebar from './components/Sidebar.jsx';
 import Home  from './pages/Home.jsx';
 import Profile from './pages/Profile.jsx';
 import NotFound from './pages/NotFound.jsx';
+import LogIn from './pages/LogIn.jsx';
+import SignUp from './pages/SignUp.jsx';
+import store from './store.js'
+
 import './App.scss'
 
 const App = () => {
     return (
         <Provider store={store}>
-        <Router>
+            <Router>
             <div>
-                <Header />
-                <Navigation />
                 <main>
                     <Routes>
                         <Route path="/" element={<Home />} />
+                        <Route path="/signup" element={<SignUp />} />
+                        <Route path="/login" element={<LogIn />} />
                         <Route path="/profile" element={<Profile />} />
                         <Route path="*" element={<NotFound />} />
                     </Routes>
-                </main>
-                <Footer />
+                    </main>
             </div>
             </Router>
             </Provider>
