@@ -18,7 +18,7 @@ const createErr = (errInfo) => {
 
 userController.addUser = async (req, res, next) => {
   // write code here
-  const { username, password } = req.body;
+  const { username, password, profilePicture, email } = req.body;
 
   // First checking if the username already exists
   const text = `
@@ -43,10 +43,10 @@ userController.addUser = async (req, res, next) => {
       // creating user
       const hashedPassword = await pass.hashPassword(password);
       const text = `
-            INSERT INTO users ( username, password, profile_id )
+            INSERT INTO users ( username, password, pfp, email, profile_id )
             VALUES ($1, $2, $3)
             RETURNING *`;
-      const params = [username, hashedPassword, res.locals.profile.id];
+      const params = [username, hashedPassword, pfp, email, res.locals.profile.id];
       const result = await db.query(text, params);
       res.locals.user = result.rows[0];
       return next();
