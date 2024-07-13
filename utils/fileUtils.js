@@ -13,4 +13,7 @@ export const convertFileToBase64 = (file, callback) => {
   } else {
     throw new Error("File is not an image");
   }
-};
+}; // => huge ass string 
+
+
+export default convertFileToBase64
