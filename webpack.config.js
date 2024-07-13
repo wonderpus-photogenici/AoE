@@ -28,6 +28,17 @@ module.exports = {
           "sass-loader", // Compiles Sass to CSS
         ],
       },
+      {
+        test: /\.(png|jpe?g|gif|svg)$/i, // Handle image files
+        use: [
+          {
+            loader: "file-loader",
+            options: {
+              name: "[path][name].[ext]", // Keep original file structure
+            },
+          },
+        ],
+      },
     ],
   },
   devServer: {
@@ -41,4 +52,3 @@ module.exports = {
   ],
 };
 
- // Corrected path for HTML template
