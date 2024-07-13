@@ -1,3 +1,4 @@
+
 const express = require("express");
 const path = require("path");
 const bodyParser = require("body-parser");
@@ -58,3 +59,5 @@ app.use((err, req, res, next) => {
 app.listen(PORT, () => {
 console.log(`Server running on ${PORT}`);
 });
+
+module.exports = app;

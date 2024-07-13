@@ -3,7 +3,6 @@ html {
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
-    background-color: #f5f5f5;
 }
 
 .app {
@@ -111,8 +110,13 @@ input[type="file"] {
 }
 
 .home-wrapper {
-    text-align: center;
-    padding: 2rem;
+    display: grid;
+    grid-template-areas: 
+        "header header header"
+        "home-left feed home-right";
+    grid-template-columns: 20% 60% 20%;
+    grid-template-rows: 15% auto;
+    height: 100vh;
 }
 
 .home-wrapper h1 {
@@ -122,4 +126,47 @@ input[type="file"] {
 
 .home-wrapper p {
     font-size: 1.125rem;
+}
+
+.home-left {
+    grid-area: home-left;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #303030; /* Example background color */
+    padding: 1rem;
+}
+
+.header-wrapper {
+    grid-area: header;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #303030;
+    border: 1px solid black;
+    padding: 1rem;
+}
+
+.feed-wrapper {
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    background-color: #303030; /* Example background color */
+    padding: 1rem;
+    justify-content: baseline;
+    align-items: center;
+}
+
+.homeright-wrapper {
+    grid-area: home-right;
+    display: flex;
+    flex-direction: column;
+    background-color: #303030; /* Example background color */
+    padding: 1rem;
+}
+
+img {
+    width: 150px;
 }
