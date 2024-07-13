@@ -3,7 +3,7 @@ import { Sidebar } from "flowbite-react";
 import { HiArrowSmRight, HiChartPie, HiInbox, HiShoppingBag, HiTable, HiUser, HiViewBoards } from "react-icons/hi";
 
 // THIS IS A TEMPLATE FOR NOW - WE WILL FILL OUT CORRECTLY WHEN WE SET UP APP NAVIGATION FLOW 
-const Sidebar = () => {
+const SidebarComponent = () => {
   return (
     <Sidebar aria-label="Default sidebar example">
       <Sidebar.Items>
@@ -35,6 +35,6 @@ const Sidebar = () => {
   );
 }
 
-export default Sidebar
+export default SidebarComponent
 
 // FLOWBITE REACT DOCS: https://flowbite-react.com/docs/components/sidebar

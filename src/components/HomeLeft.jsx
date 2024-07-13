@@ -1,12 +1,12 @@
 import React from 'react'
 import logo from '../Assets/aoelogo2.png';
-import Sidebar from './Sidebar.jsx';
+import SidebarComponent from './Sidebar.jsx';
 
 const HomeLeft = () => {
   return (
     <div>
         <logo />
-        <Sidebar />
+        <SidebarComponent />
     </div>
   )
 }

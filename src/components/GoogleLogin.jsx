@@ -1,7 +1,7 @@
 import React from 'react'
 import { GoogleLogin } from '@react-oauth/google';
 
-const GoogleLogin = () => {
+const GoogleLoginButton = () => {
     const onSuccess = (response) => {
         console.log('Login Success:', response);
     };
@@ -12,7 +12,7 @@ const GoogleLogin = () => {
 
   return (
     <div id="signInButton">
-        <GoogleLogin 
+        <GoogleLogin
         buttonText="Login"
         onSuccess={onSuccess} 
         onFailure={onFailure} 
@@ -23,4 +23,4 @@ const GoogleLogin = () => {
   )
 }
 // Google Login Library handles functionality for us, which is why onSuccess an onFailure functions are pretty bare bones
-export default GoogleLogin
+export default GoogleLoginButton

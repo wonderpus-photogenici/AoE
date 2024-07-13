@@ -1,0 +1,125 @@
+body,
+html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+}
+
+.app {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f5f5f5;
+}
+
+.form-container {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+.title {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="file"] {
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.register-btn,
+.login-btn {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.register-btn:hover,
+.login-btn:hover {
+    background-color: #0056b3;
+}
+
+.oauth-container {
+    display: flex;
+    justify-content: space-evenly;
+    margin: 1rem 0;
+}
+
+.oauth-btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.oauth-btn.google {
+    background-color: #ea4335;
+}
+
+.oauth-btn.riot-games {
+    background-color: #5c6bc0;
+}
+
+.oauth-btn:hover {
+    opacity: 0.7;
+}
+
+.link-to-p {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.link-to-p a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.link-to-p a:hover {
+    text-decoration: underline;
+}
+
+.home-wrapper {
+    text-align: center;
+    padding: 2rem;
+}
+
+.home-wrapper h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.home-wrapper p {
+    font-size: 1.125rem;
+}
