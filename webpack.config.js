@@ -29,16 +29,16 @@ module.exports = {
         ],
       },
       {
-        test: /\.(png|jpe?g|gif)$/i, // Handle image files
+        test: /\.(png|jpe?g|gif|svg)$/i, // Handle image files
         use: [
           {
-            loader: 'file-loader',
+            loader: "file-loader",
             options: {
-              name: '[path][name].[ext]',
+              name: "[path][name].[ext]", // Keep original file structure
             },
           },
         ],
-      }
+      },
     ],
   },
   devServer: {
@@ -52,4 +52,3 @@ module.exports = {
   ],
 };
 
- // Corrected path for HTML template

@@ -1,4 +1,3 @@
-// server/server.js
 const express = require("express");
 const path = require("path");
 const bodyParser = require("body-parser");
@@ -13,14 +12,6 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json({ limit: "10mb" })); // Increased limit for large base64 images
 
-// Static files (if needed)
-app.use(express.static(path.join(__dirname, "../dist")));
-
-// Routes
-app.post("/api/signup", userController.addUser);
-app.post("/api/login", userController.verifyUser);
-//app.post("/api/save-tune", userController.saveTune);
-//app.get("/api/display-tune", userController.displayTune);
 
 // Serve your React app (if using client-side routing)
 app.get("*", (req, res) => {
@@ -40,5 +31,5 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Server is running on port: ${PORT}`)
+
 });
