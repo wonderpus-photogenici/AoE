@@ -1,8 +1,13 @@
 import React from 'react'
+import UserRec from './UserRec.jsx';
 
 const Feed = () => {
   return (
-    <div>Feed</div>
+    <div className="feed-wrapper">
+        <UserRec />
+        <UserRec />
+        <UserRec />
+    </div>
   )
 }
 

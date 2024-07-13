@@ -2,7 +2,9 @@ import React from 'react'
 
 const HomeRight = () => {
   return (
-    <div>HomeRight</div>
+    <div className="homeright-wrapper">
+      Home Right
+    </div>
   )
 }
 
