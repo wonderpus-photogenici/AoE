@@ -1,74 +1,63 @@
-// express
 
-const express = require('express'); 
-const App = express();
-const path = require('path');
-const cors = require('cors'); 
-const cookieParser = require('cookie-parser');
+const express = require("express");
+const path = require("path");
+const bodyParser = require("body-parser");
+const cors = require("cors");
+const userController = require("./controllers/userController.js");
 
+const app = express();
+const PORT = process.env.PORT || 3001;
 
-const userController = require('./controllers/userController');
-
-App.use(cors());
-App.use(cookieParser());
-App.use(express.json());
-App.use(express.urlencoded({extended: true}))
-
-// set up the static files for the entry of webpack path.join(direct path)
-App.use(express.static(path.join(__dirname, '/dist')));
-
-//route for adding user to the database
-App.post('/api/register', userController.addUser, (req, res) => {
-    res.status(200).json({message: 'Successful Registration'})
-    res.redirect('/login');
-})
-
-//autenticating users from the database; 
-App.post('/api/login', userController.verifyUser, (req, res) => {
-    res.status(200).json({message: 'Login Success'})
-    res.redirect('/home'); 
-})
-
-//User will be directed to the html login page. 
-App.get('*', (req, res) => {
-    return res.status(200).sendFile(path.resolve(__dirname, '../src/index.html'));
-})
-
-// App.get('/home', (req, res) => {
-//     return res.status(200).sendFile('../src/index.html')
-// }) 
-
-// App.get('/profile', (req, res) => {
-//     return res.status(200).sendFile('../src/index.html')
-// })
-
-// App.get('/signUp', (req, res) => {
-//     return res.status(200).sendFile('../src/index.html')
-// })
+// Middleware for parsing JSON and form data
+app.use(cors());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json({ limit: "10mb" })); // Increased limit for large base64 images
 
 
 
+app.get("/api/summoner", async (req, res) => {
+  const { gameName, tagLine } = req.query;
+  const apiKey = "RGAPI-8ad5975a-93a8-4d4c-8b3b-1764d79529af";
+
+  if (!gameName || !tagLine) {
+    return res.status(400).json({ error: "gameName and tagLine are required" });
+  }
+
+  try {
+    const response = await axios.get(
+      `https://americas.api.riotgames.com/riot/account/v1/accounts/by-riot-id/${gameName}/${tagLine}`,
+      {
+        headers: {
+          "X-Riot-Token": apiKey,
+        },
+      }
+    );
+    res.status(200).json(response.data);
+  } catch (error) {
+    res.status(error.response.status).json({ error: error.message });
+  }
+});
 
 
-//Unknown route error handler 
-App.use('*', (req, res) => res.status(404).sendFile('../src/index.html'))
+// Serve your React app (if using client-side routing)
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "../dist/index.html"));
+});
 
+// Error handling middleware
+app.use((err, req, res, next) => {
+  const defaultErr = {
+    log: "Express error handler caught unknown middleware error",
+    status: 500,
+    message: { err: "An error occurred" },
+  };
+  const errorObj = Object.assign({}, defaultErr, err);
+  console.log(errorObj.log);
+  return res.status(errorObj.status).json(errorObj.message);
+});
 
+app.listen(PORT, () => {
+console.log(`Server running on ${PORT}`);
+});
 
-//Global error handler
-App.use((err, req, res, next) => {
-    const defaultErr = {
-      log: 'Express error handler caught unknown middleware error',
-      status: 500,
-      message: { err: 'An error occurred' },
-    };
-    const errorObj = Object.assign({}, defaultErr, err);
-    console.log(errorObj.log);
-    return res.status(errorObj.status).json(errorObj.message);
-  });
-
-
-const port = process.env.port || 3001;
-App.listen(3001, () => console.log(`Listening on PORT ${port}}`))
-
-module.exports = App;
+module.exports = app;
