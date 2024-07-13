@@ -9,6 +9,7 @@
      import NotFound from './pages/NotFound.jsx';
      import LogIn from './pages/LogIn.jsx';
      import SignUp from './pages/SignUp.jsx';
+     import RootPage from './pages/RootPage.jsx';
      import store from './redux/store';
      import './App.scss';
 
@@ -20,6 +21,7 @@
                <main>
                  <Routes>
                    <Route path="/" element={<Home />} />
+                   <Route path="/root" element={<RootPage />} />
                    <Route path="/signup" element={<SignUp />} />
                    <Route path="/login" element={<LogIn />} />
                    <Route path="/profile" element={<Profile />} />
