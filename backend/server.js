@@ -9,7 +9,7 @@ const userController = require('./controllers/userController');
 
 app.use(cors());
 app.use(cookieParser());
-app.use(express.json());
+app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({extended: true}))
 
 app.use(express.static(path.join(__dirname, '/dist')));
@@ -27,6 +27,28 @@ app.post('/api/login', userController.verifyUser, (req, res) => {
     res.redirect('/'); 
 })
 
+app.get("/api/summoner", async (req, res) => {
+  const { gameName, tagLine } = req.query;
+  const apiKey = "RGAPI-8ad5975a-93a8-4d4c-8b3b-1764d79529af";
+
+  if (!gameName || !tagLine) {
+    return res.status(400).json({ error: "gameName and tagLine are required" });
+  }
+
+  try {
+    const response = await axios.get(
+      `https://americas.api.riotgames.com/riot/account/v1/accounts/by-riot-id/${gameName}/${tagLine}`,
+      {
+        headers: {
+          "X-Riot-Token": apiKey,
+        },
+      }
+    );
+    res.status(200).json(response.data);
+  } catch (error) {
+    res.status(error.response.status).json({ error: error.message });
+  }
+});
 
 app.get('*', (req, res) => {
     return res.status(200).sendFile(path.resolve(__dirname, '../src/index.html'));

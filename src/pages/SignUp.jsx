@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../redux/userSlice';
 import GoogleLoginButton from '../components/GoogleLogin.jsx';
+import RiotLoginButton from '../components/RiotLogin.jsx'; // Import RiotLoginButton
 import convertFileToBase64 from '../../utils/fileUtils';
 import '../App.scss';
 
@@ -55,6 +56,7 @@ const SignUp = () => {
   return (
     <div className='wrapper'>
       <GoogleLoginButton />
+      <RiotLoginButton />
       <div className='form-container'>
         <div className='title'>Register</div>
         <form onSubmit={handleSubmit}>
