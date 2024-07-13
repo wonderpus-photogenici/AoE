@@ -5,7 +5,7 @@ import SidebarComponent from './Sidebar.jsx';
 const HomeLeft = () => {
   return (
     <div>
-        <logo />
+        <img src={logo} alt="Logo" />
         <SidebarComponent />
     </div>
   )
