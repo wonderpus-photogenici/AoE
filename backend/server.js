@@ -11,7 +11,6 @@ const PORT = process.env.PORT || 3001;
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json({ limit: "10mb" })); // Increased limit for large base64 images
-app.use(express.static(path.join(__dirname, "../dist")));
 
 
 // Serve your React app (if using client-side routing)
@@ -32,5 +31,5 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+
 });
