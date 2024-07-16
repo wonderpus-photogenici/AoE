@@ -1,29 +1,22 @@
 import React from "react";
-import { Sidebar } from "flowbite-react";
-import {
-  HiArrowSmRight,
-  HiChartPie,
-  HiInbox,
-  HiShoppingBag,
-  HiTable,
-  HiUser,
-  HiViewBoards,
-} from "react-icons/hi";
 import "../App.scss";
 import axios from 'axios';
 // fuzzysort used for a fuzzy search
 import fuzzysort from 'fuzzysort'
-import FriendSearchSingle from "./FriendSearchSingle.jsx";
 import { useState, useEffect } from 'react'
 import FriendSearchComp from "./FriendSearchComp.jsx";
+import { useDispatch } from 'react-redux';
+import { setAllUsers } from '../redux/allUsersSlice';
+import store from '../redux/store';
 
 // THIS IS A TEMPLATE FOR NOW - WE WILL FILL OUT CORRECTLY WHEN WE SET UP APP NAVIGATION FLOW
 const SidebarComponent = () => {
   const [charactersList, setCharacters] = useState([]);
 
+  const dispatch = useDispatch();
+
   // const friendsSearchArray = [];
   let matches;
-  let allUsers;
   // There has to be a better way to search a databse for users with usernames close to what is typed in
   // other than returning all the users in the database then searching through all of them
   // but idk what it is and this will work for our case 
@@ -33,7 +26,10 @@ const SidebarComponent = () => {
   const retrieveAllUsers = async (event) => {
     // event.preventDefault();
     try {
-      allUsers = await axios.post('http://localhost:3001/api/findAllUsers');
+      console.log('in retrieveAllUsers');
+      let allUsers = await axios.post('http://localhost:3001/api/findAllUsers');
+      // console.log('allUsers.data: ', allUsers.data);
+      dispatch(setAllUsers(allUsers.data));
     } catch (err) {
       console.error('error in retrieveAllUsers:', error.response?.data || error.message);
     }
@@ -43,11 +39,16 @@ const SidebarComponent = () => {
     event.preventDefault();
     try {
       let value = document.getElementById('friendsSearchInput').value;
+
+      // Using the next two lines is great if we need the most up to date user data
+      // immediately, but making a post request on every single input seems a bit excessive
+      // for this use case, it does seem to be more reliable than storing in redux 
+      // store though
       // const response = await axios.post('http://localhost:3001/api/findAllUsers');
       // matches = fuzzysort.go(value, response.data);
-      // I can user allUsers if I save it to the redux store probably
-      console.log(allUsers);
-      matches = fuzzysort.go(value, allUsers.data);
+
+      // so when the search bar is clicked on, it'll send the 
+      matches = fuzzysort.go(value, store.getState().allUsers.allUsers);
       let testArray = [];
 
       if (matches.total !== 0) {
@@ -95,7 +96,9 @@ const SidebarComponent = () => {
           {/* It would probably be better to retrieve all users from db on page load, or */}
           {/* onClick, unless we absolutely need the latest users list immediately */}
           {/* it should be fine to only get the users list onClick */}
-          <input type="text" placeholder="Search" id="friendsSearchInput" className="homeSearchInput" onInput={handleFriendSearch} onClick={() => {
+          {/* decided to use onFocus instead of onClick, since someone could shift into */}
+          {/* the input field or some other way of bringing it into focus */}
+          <input type="text" placeholder="Search" id="friendsSearchInput" className="homeSearchInput" onInput={handleFriendSearch} onFocus={() => {
             retrieveAllUsers();
             document.getElementById('friendsDropDown').style.display = 'block';
           }}></input>
