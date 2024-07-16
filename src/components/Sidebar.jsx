@@ -1,8 +1,17 @@
-import React from 'react';
+import React from "react";
 import { Sidebar } from "flowbite-react";
-import { HiArrowSmRight, HiChartPie, HiInbox, HiShoppingBag, HiTable, HiUser, HiViewBoards } from "react-icons/hi";
+import {
+  HiArrowSmRight,
+  HiChartPie,
+  HiInbox,
+  HiShoppingBag,
+  HiTable,
+  HiUser,
+  HiViewBoards,
+} from "react-icons/hi";
+import "../App.scss";
 
-// THIS IS A TEMPLATE FOR NOW - WE WILL FILL OUT CORRECTLY WHEN WE SET UP APP NAVIGATION FLOW 
+// THIS IS A TEMPLATE FOR NOW - WE WILL FILL OUT CORRECTLY WHEN WE SET UP APP NAVIGATION FLOW
 const SidebarComponent = () => {
   return (
     // Obviously later rewrite this to dynamically import
@@ -192,8 +201,8 @@ const SidebarComponent = () => {
     //   </Sidebar.Items>
     // </Sidebar>
   );
-}
+};
 
-export default SidebarComponent
+export default SidebarComponent;
 
 // FLOWBITE REACT DOCS: https://flowbite-react.com/docs/components/sidebar

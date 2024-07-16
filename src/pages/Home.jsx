@@ -10,7 +10,7 @@ import '../App.scss';
 const Home = () => {
     return (
         <div className="home-wrapper">
-            <Header />
+            {/* <Header /> */}
             <HomeLeft className="home-left" />
             <Feed className="feed"/>
             <HomeRight className="home-right"/>
