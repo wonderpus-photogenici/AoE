@@ -4,9 +4,14 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
   entry: path.resolve(__dirname, "src/index.js"), // Corrected path for entry point
+  // output: {
+  //   path: path.join(__dirname, "/dist"), // Output directory for bundled files
+  //   filename: "bundle.js", // Output filename
+  // },
   output: {
-    path: path.join(__dirname, "/dist"), // Output directory for bundled files
-    filename: "bundle.js", // Output filename
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: '/',
+    filename: 'bundle.js',
   },
   mode: "development",
   // target: "node", // Set target to Node.js
@@ -50,7 +55,11 @@ module.exports = {
         target: 'http://localhost:3001',
         secure: false,
       },
-    ]
+    ],
+    static: {
+      directory: path.resolve(__dirname, 'dist'),
+      publicPath: '/',
+    },
   },
   plugins: [
     new HtmlWebpackPlugin({
