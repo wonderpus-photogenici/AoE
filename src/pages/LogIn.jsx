@@ -4,7 +4,6 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../redux/userSlice';
 import GoogleLoginButton from '../components/GoogleLogin.jsx';
-import RiotLoginButton from '../components/RiotLogin.jsx'; // Import RiotLoginButton
 import '../App.scss';
 
 const LogIn = () => {
@@ -26,6 +25,7 @@ const LogIn = () => {
         username,
         password,
       });
+
       if (response.status === 200) {
         const { user } = response.data;
         dispatch(setUser(user));
@@ -44,7 +44,6 @@ const LogIn = () => {
   return (
     <div className='wrapper'>
       <GoogleLoginButton />
-      <RiotLoginButton />
       <div className='animate_animated animate__fadeInLeft'>
         <div className='form-container'>
           <div className='title'>Login</div>

@@ -13,4 +13,4 @@ const HomeLeft = () => {
   )
 }
 
-export default HomeLeft
+export default HomeLeft;
