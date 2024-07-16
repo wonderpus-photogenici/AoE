@@ -30,10 +30,10 @@ userController.addUser = async (req, res, next) => {
     try {
       // Creating blank profile
       const textProfile = `
-      INSERT INTO profile ( bio, pfp, location, server, languages, fav4games, contact_info )
-      VALUES ($1, $2, $3, $4, $5, $6, $7)
+      INSERT INTO profile ( bio, pfp, location, server, languages, fav4games, contact_info, friends )
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
       RETURNING *`;
-      const paramsProfile = ["", "", "", "", "", ["", "", "", ""], ""];
+      const paramsProfile = ["", "", "", "", "", ["", "", "", ""], "", []];
       const resultProfile = await db.query(textProfile, paramsProfile);
       res.locals.profile = resultProfile.rows[0];
 
@@ -106,6 +106,22 @@ userController.verifyUser = async (req, res, next) => {
     return next("Error in userController.verifyUser: " + JSON.stringify(err));
   }
 };
+
+userController.findAllUsers = async (req, res, next) => {
+  try {
+    let usersArray = [];
+    const text = `
+    SELECT username FROM users`;
+    const result = await db.query(text);
+    for (let i = 0; i < result.rows.length; i++) {
+      usersArray.push(result.rows[i].username);
+    };
+    res.locals.users = usersArray;
+    return next();
+  } catch (err ){
+    return next("Error in userController.findUser: " + JSON.stringify(err));
+  }
+}
 
 userController.saveRiotAccountData = async (userId, riotData) => {
   try {

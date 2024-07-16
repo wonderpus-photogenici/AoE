@@ -25,6 +25,10 @@ app.post('/api/login', userController.verifyUser, (req, res) => {
      res.status(200).json({message: 'Login Success'});
 })
 
+// finding all users in database
+app.post('/api/findAllUsers', userController.findAllUsers, (req, res) => {
+  res.status(200).send(res.locals.users);
+})
 
 
 // Endpoint to link Riot account

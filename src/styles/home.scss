@@ -1,14 +1,27 @@
 $homeSides-bgColor: #0f0f13;
 $homeFeed-bgColor: rgb(21, 20, 23);
 
+// .home-wrapper {
+//     display: grid;
+//     grid-template-areas: 
+//         "header header header"
+//         "home-left feed home-right";
+//     grid-template-columns: 20% 60% 20%;
+//     grid-template-rows: 80px auto;
+//     height: 100vh;
+// }
+
 .home-wrapper {
+    background: #161616;
     display: grid;
     grid-template-areas: 
-        "header header header"
+        /* "header header header" */
         "home-left feed home-right";
-    grid-template-columns: 20% 60% 20%;
-    grid-template-rows: 80px auto;
-    height: 100vh;
+    grid-template-columns: minmax(300px, 20%) minmax(760px, 60%)minmax(300px, 20%);
+    grid-template-rows: auto;
+    height: calc(100vh - 30px);
+    gap: 20px;
+    padding: 20px;
 }
 
 .home-wrapper h1 {
@@ -20,17 +33,27 @@ $homeFeed-bgColor: rgb(21, 20, 23);
     font-size: 1.125rem;
 }
 
+// .home-left {
+//     grid-area: home-left;
+//     display: flex;
+//     flex-direction: column;
+//     align-items: center;
+//     // background-color: #303030; /* Example background color */
+//     // background-color: #0d1117;
+//     background-color: $homeSides-bgColor;
+//     // color: rgba($color: #ffffff, $alpha: 1.0);
+//     color: #b9cac2;
+//     padding: 1rem;
+// }
+
 .home-left {
     grid-area: home-left;
     display: flex;
     flex-direction: column;
     align-items: center;
-    // background-color: #303030; /* Example background color */
-    // background-color: #0d1117;
-    background-color: $homeSides-bgColor;
-    // color: rgba($color: #ffffff, $alpha: 1.0);
-    color: #b9cac2;
+    background-color: #101010; /* Example background color */
     padding: 1rem;
+    color: #b9cac2;
 }
 
 .homeright-wrapper {
@@ -170,7 +193,7 @@ $homeFeed-bgColor: rgb(21, 20, 23);
     margin-top: 5px;
     margin-bottom: 5px;
     display: grid;
-    grid-template-columns: 60px 1fr 90px;
+    grid-template-columns: 60px 1fr 50px;
     grid-template-rows: 100%;
     // display: flex;
     // justify-content: left;
@@ -182,20 +205,35 @@ $homeFeed-bgColor: rgb(21, 20, 23);
 .homeLeftSideBarGroupName {
     grid-column: 1;
     grid-row: 1;
-    background-color: red;
+    background-color: rgb(0, 0, 0);
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 100%;
+    justify-content: center;
+    align-items: center;
 }
 
 .homeLeftSideBarGroupSearch {
-    grid-column: 2;
+    grid-column: 2/4;
     grid-row: 1;
     background-color: blue;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 100%;
+    justify-content: center;
+    align-items: center;
 }
 
-.homeLeftSideBarGroupAdd {
-    grid-column: 3;
-    grid-row: 1;
-    background-color: rgb(69, 50, 50);
-}
+// .homeLeftSideBarGroupAdd {
+//     grid-column: 3;
+//     grid-row: 1;
+//     background-color: rgb(69, 50, 50);
+//     display: grid;
+//     grid-template-columns: 100%;
+//     grid-template-rows: 100%;
+//     justify-content: center;
+//     align-items: center;
+// }
 
 .homeLeftSideBarIcon {
     grid-column: 1;
@@ -227,3 +265,68 @@ $homeFeed-bgColor: rgb(21, 20, 23);
     justify-content: left;
     align-items: center;
 }
+
+.homeSearchInput {
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0)
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #000000;
+    min-width: 150px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    // border: 2px solid rgb(255, 255, 255);
+    border-radius: 5px;
+  }
+
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+
+//   .dropdown-content div {
+//     color: black;
+//     padding: 12px 16px;
+//     text-decoration: none;
+//     display: block;
+//   }
+
+  .dropdown-content div:hover {background-color: #2b2b2b;}
+
+//   .show {display:block;}
+
+  .friendSearchSingleWrapper {
+    height: 40px;
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    grid-template-rows: 100%;
+    box-sizing: border-box;
+    // justify-content: center;
+    align-items: center;
+    margin-top: 5px;
+  }
+
+  .friendSearchPfpWrapper {
+    grid-column: 1;
+    grid-row: 1;
+    height: 100%;
+    width: 100%;
+    background-color: orange;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .friendSearchSingleName {
+    padding-left: 10px;
+    grid-column: 2;
+    grid-row: 1;
+    // align-items: center;
+  }

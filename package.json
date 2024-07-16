@@ -27,6 +27,7 @@
     "css-loader": "^7.1.2",
     "express": "^4.19.2",
     "flowbite-react": "^0.10.1",
+    "fuzzysort": "^3.0.2",
     "gapi-script": "^1.2.0",
     "html-webpack-plugin": "^5.6.0",
     "node": "^18.20.4",
