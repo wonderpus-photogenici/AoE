@@ -4,7 +4,6 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../redux/userSlice';
 import GoogleLoginButton from '../components/GoogleLogin.jsx';
-import RiotLoginButton from '../components/RiotLogin.jsx'; // Import RiotLoginButton
 import convertFileToBase64 from '../../utils/fileUtils';
 import '../App.scss';
 
@@ -24,39 +23,51 @@ const SignUp = () => {
     if (name === 'profilePicture') setProfilePicture(files[0]);
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    if (!profilePicture) {
-      alert("Please select a profile picture.");
-      return;
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    let base64ProfilePicture = '';
+    if (profilePicture) {
+      base64ProfilePicture = await convertFileToBase64(profilePicture);
     }
-    const base64Image = await convertFileToBase64(profilePicture);
+
+    const requestBody = {
+      username,
+      password,
+      email,
+      pfp: base64ProfilePicture,
+    };
+
     try {
-      const response = await axios.post('http://localhost:3001/api/signup', {
-        username,
-        password,
-        email,
-        profilePicture: base64Image,
+      const response = await fetch('/api/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestBody),
       });
-      if (response.status === 201) {
-        const { user } = response.data;
-        dispatch(setUser(user));
-        console.log('User registered successfully:', response.data);
-        navigate('/profile');
+
+      if (response.status === 200) {
+        const data = await response.json();
+        console.log(data.message);
+        alert('You are all set! Please Log in now!')
+        // Redirect to login page after successful registration
+        navigate('/login')
+      } else if (response.status === 409) {
+        const data = await response.json();
+        console.log(data.message);
+        // Handle username already exists error
       } else {
-        console.error('Unexpected status code:', response.status);
-        alert('Unexpected response. Please try again.');
+        console.log(`Unexpected status code: ${response.status}`);
       }
     } catch (error) {
-      console.error('Signup error:', error.response?.data || error.message);
-      alert('Registration failed. Please try again later.');
+      console.error('Error:', error);
     }
   };
 
   return (
     <div className='wrapper'>
       <GoogleLoginButton />
-      <RiotLoginButton />
       <div className='form-container'>
         <div className='title'>Register</div>
         <form onSubmit={handleSubmit}>

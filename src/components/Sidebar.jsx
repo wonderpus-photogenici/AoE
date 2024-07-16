@@ -35,6 +35,6 @@ const SidebarComponent = () => {
   );
 }
 
-export default SidebarComponent
+export default SidebarComponent;
 
 // FLOWBITE REACT DOCS: https://flowbite-react.com/docs/components/sidebar

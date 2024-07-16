@@ -9,8 +9,6 @@ import Profile from './pages/Profile.jsx';
 import NotFound from './pages/NotFound.jsx';
 import LogIn from './pages/LogIn.jsx';
 import SignUp from './pages/SignUp.jsx';
-import RiotCallback from './components/RiotCallback.jsx';
-import SummonerInfo from './components/SummonerInfo.jsx';
 import store from './redux/store';
 import './App.scss';
 
@@ -20,12 +18,10 @@ const App = () => {
       <Router>
         <main>
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<SignUp />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/login" element={<LogIn />} />
             <Route path="/profile" element={<Profile />} />
-            <Route path="/riot-callback" element={<RiotCallback />} />
-            <Route path="/summoner" element={<SummonerInfo />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
