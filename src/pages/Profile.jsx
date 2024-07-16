@@ -6,7 +6,8 @@ import HomeLeft from '../components/HomeLeft.jsx';
 const Profile = () => {
   return (
     <div className="profile-container">
-      <HomeLeft />
+      {/* <HomeLeft /> */}
+      Profile
       {/* <ProfileTop />
       <ProfileStats /> */}
     </div>

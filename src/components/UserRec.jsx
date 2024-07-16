@@ -1,7 +1,8 @@
 import React from 'react'
 import leagueLogo from '../Assets/leagueLogo.png';
 import leagueDiamond from '../Assets/leagueDiamond.png';
-import profPicFiller from '../Assets/aoelogo2.png';
+import profPicFiller from '../Assets/aoelogo3_kyler.png';
+// import profPicFiller from '../Assets/aoelogo2.png';
 
 const UserRec = () => {
   return (
