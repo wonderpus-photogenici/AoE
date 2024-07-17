@@ -26,7 +26,7 @@ const SidebarRightComponent = () => {
   const retrieveAllUsers = async (event) => {
     // event.preventDefault();
     try {
-      console.log('in retrieveAllUsers');
+      // console.log('in retrieveAllUsers');
       let allUsers = await axios.post('http://localhost:3001/api/findAllUsers');
       // console.log('allUsers.data: ', allUsers.data);
       dispatch(setAllUsers(allUsers.data));
