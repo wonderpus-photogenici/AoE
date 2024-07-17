@@ -26,6 +26,15 @@ module.exports = {
         },
       },
       {
+        test: /\.less$/i,
+        use: [
+          // compiles Less to CSS
+          "style-loader",
+          "css-loader",
+          "less-loader",
+        ],
+      },
+      {
         test: /\.scss$/, // Transpile SCSS files to CSS
         use: [
           "style-loader", // Injects styles into DOM
