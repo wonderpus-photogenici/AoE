@@ -1,10 +1,10 @@
 // src/components/Home.jsx
 import React from 'react';
 import { Link } from 'react-router-dom';
-import HomeLeft from '../components/HomeLeft.jsx';
-import Feed from '../components/Feed.jsx';
+import HomeLeft from '../components/HomeComponents/HomeLeft.jsx';
+import Feed from '../components/HomeComponents/Feed.jsx';
 import Header from '../components/Header.jsx';
-import HomeRight from '../components/HomeRight.jsx';
+import HomeRight from '../components/HomeComponents/HomeRight.jsx';
 import '../App.scss';
 
 const Home = () => {
