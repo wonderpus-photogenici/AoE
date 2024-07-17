@@ -233,3 +233,154 @@ img {
     background-color: #505050;
     border-radius: 20px;
 }
+
+
+
+// PROFILE SCREEN ----------------------------------------------------------------
+
+.profile-container {
+    display: grid;
+    grid-template-areas: 
+        "home-left profile-top"
+        "home-left profile-stats";
+        background-color: #161616;
+    grid-template-columns: 20% 1fr; /* 20% for home-left, remaining space for profile sections */
+    grid-template-rows: 50% 1fr; /* 50% for profile-top, remaining space for profile-stats */
+    height: 100vh;
+    gap: 20px; /* Add gap between grid items */
+    padding: 20px; /* Add padding to the container to separate from edges */
+}
+
+.home-left,
+.profile-top {
+    background-color: #303030; /* Example background color */
+    border-radius: 15px; /* Rounded corners */
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: add shadow for better effect */
+}
+
+.profile-top {
+    height: 250px;
+}
+
+.valorant-rank-chart,
+.league-rank-chart {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #303030;
+    border-radius: 15px;
+    padding: 1rem;
+    margin-right: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+    color: white;
+    width: 250px;
+}
+
+.chart-cell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px 0;
+}
+
+.prof-rank-image {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.cell-title {
+    font-size: 1.2rem;
+    font-weight: bolder;
+    margin-bottom: 10px;
+}
+
+.cell-value {
+    font-size: 1rem;
+}
+
+.profile-top {
+    display: flex;
+    justify-content: center;
+}
+
+.profile-stats-container {
+    display: flex;
+    margin-bottom: 2rem;
+}
+
+.profile-top {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    // padding: 2rem;
+    background-color: #303030; /* Example background color */
+    border-radius: 15px; /* Rounded corners */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: add shadow for better effect */
+    color: white; /* Text color */
+    width: 100%;
+}
+
+.profile-top-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.home-logo {
+    width: 150px; /* Adjust image size as needed */
+    height: auto;
+    border-radius: 50%; /* Make image circular */
+}
+
+.username-addBtn-messageBtn {
+    display: flex;
+    flex-direction: column; /* Align items vertically */
+    align-items: center; /* Center items horizontally */
+    margin-left: 20px; /* Space between sections */
+}
+
+.username-addBtn-messageBtn h1 {
+    margin: 0;
+    margin-bottom: 10px; /* Space between username and buttons */
+}
+
+.profileBtn {
+    margin-top: 5px; /* Space between buttons */
+    padding: 0.5rem 1rem;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+}
+
+.location-gamelogos {
+    display: flex;
+    flex-direction: column; /* Align items vertically */
+    align-items: center; /* Center items horizontally */
+    margin-left: auto; /* Push this section to the far right */
+}
+
+.location {
+    margin-bottom: 130px; /* Space between location text and logos */
+}
+
+.game-logos {
+    display: flex;
+    justify-content: center; /* Center logos horizontally */
+}
+
+.game-logos img {
+    width: 75px; /* Adjust logo size as needed */
+    height: auto;
+    margin: 0 10px; /* Space between logos */
+}
+
+
