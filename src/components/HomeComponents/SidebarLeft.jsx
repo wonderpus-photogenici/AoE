@@ -20,8 +20,16 @@ const SideBarLeft = () => {
 
     return (
         <div className="SideBarLeftWrapper">
-            {/* <button type="button" onClick={retrieveMyPfp}>Get Image</button> */}
-            <img src={`${imgLink}`} alt="" className="testImgLink"></img>
+            {/* Loading image from database table */}
+            {/* <img src={`${imgLink}`} alt="" className="testImgLink"></img> */}
+
+            <img src={`${imgLink}`} alt="No Image Found" onError={({ currentTarget }) => {
+                currentTarget.onerror = null; // prevents looping
+                currentTarget.src = noPfp;
+            }} className="testImgLink"></img>
+
+            {/* loading image from url from database table */}
+            {/* <img src={`https://gusnjhjnuugqaqtgwhym.supabase.co/storage/v1/object/public/AoE/ad71ba30-2c74-4333-8ad6-032295731ab0/5933eb11-6e89-48e3-a818-2cea57c0fbbc`} alt="" className="testImgLink"></img> */}
 
             {/* Testing how to set a default image if a there is not user image */}
             {/* <img src='notgnawork' alt="No Image Found" onError={({ currentTarget }) => {
