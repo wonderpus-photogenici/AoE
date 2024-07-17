@@ -10,7 +10,12 @@ import NotFound from './pages/NotFound.jsx';
 import LogIn from './pages/LogIn.jsx';
 import SignUp from './pages/SignUp.jsx';
 import store from './redux/store';
+import SupabaseLogin from './pages/SupabaseLogin.jsx';
 import './App.scss';
+
+// import { Container } from 'react-bootstrap';
+// import 'bootstrap/dist/css/bootstrap.mins.css';
+
 
 const App = () => {
   return (
@@ -23,6 +28,7 @@ const App = () => {
             <Route path="/signup" element={<SignUp />} />
             <Route path="/login" element={<LogIn />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/supabaselogin" element={<SupabaseLogin />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
