@@ -30,6 +30,10 @@ app.post('/api/findAllUsers', userController.findAllUsers, (req, res) => {
   res.status(200).send(res.locals.users);
 })
 
+app.post('/api/getMyPfp', userController.getMyPfp, (req, res) => {
+  res.status(200).send(res.locals.myPfp);
+})
+
 
 // Endpoint to link Riot account
 app.post('/api/link-riot-account', async (req, res) => {

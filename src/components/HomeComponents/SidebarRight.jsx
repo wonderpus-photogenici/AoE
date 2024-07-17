@@ -1,16 +1,16 @@
 import React from "react";
-import "../App.scss";
+import "../../App.scss";
 import axios from 'axios';
 // fuzzysort used for a fuzzy search
 import fuzzysort from 'fuzzysort'
 import { useState, useEffect } from 'react'
 import FriendSearchComp from "./FriendSearchComp.jsx";
 import { useDispatch } from 'react-redux';
-import { setAllUsers } from '../redux/allUsersSlice';
-import store from '../redux/store';
+import { setAllUsers } from '../../redux/allUsersSlice.js';
+import store from '../../redux/store.js';
 
 // THIS IS A TEMPLATE FOR NOW - WE WILL FILL OUT CORRECTLY WHEN WE SET UP APP NAVIGATION FLOW
-const SidebarComponent = () => {
+const SidebarRightComponent = () => {
   const [charactersList, setCharacters] = useState([]);
 
   const dispatch = useDispatch();
@@ -26,7 +26,7 @@ const SidebarComponent = () => {
   const retrieveAllUsers = async (event) => {
     // event.preventDefault();
     try {
-      console.log('in retrieveAllUsers');
+      // console.log('in retrieveAllUsers');
       let allUsers = await axios.post('http://localhost:3001/api/findAllUsers');
       // console.log('allUsers.data: ', allUsers.data);
       dispatch(setAllUsers(allUsers.data));
@@ -78,8 +78,10 @@ const SidebarComponent = () => {
   // When you click anywhere that's not the friendsSearchInput, the
   // dropdown menu disappears
   window.onclick = function (event) {
-    if (!event.target.matches('#friendsSearchInput')) {
-      document.getElementById('friendsDropDown').style.display = 'none';
+    if (document.getElementById('friendsDropDown') !== null) {
+      if (!event.target.matches('#friendsSearchInput')) {
+        document.getElementById('friendsDropDown').style.display = 'none';
+      }
     }
   }
 
@@ -87,12 +89,12 @@ const SidebarComponent = () => {
   return (
     // Obviously later rewrite this to dynamically import
     // and fill from their friends list/ groups list/ clan list, just a placeholder for now
-    <div className="homeLeftSideBarWrapper">
-      <div className="homeLeftSideBarBreak">
-        <div className="homeLeftSideBarGroupName">
-          <span>Friends</span>
+    <div className="homeRightSideBarWrapper">
+      <div className="homeRightSideBarBreak">
+        <div className="homeRightSideBarGroupName">
+          <span>Add Friends</span>
         </div>
-        <div className="homeLeftSideBarGroupSearch dropdown">
+        <div className="homeRightSideBarGroupSearch dropdown">
           {/* It would probably be better to retrieve all users from db on page load, or */}
           {/* onClick, unless we absolutely need the latest users list immediately */}
           {/* it should be fine to only get the users list onClick */}
@@ -113,181 +115,122 @@ const SidebarComponent = () => {
           }}>Add</button>
         </div> */}
       </div>
-      <div className="homeLeftSideBar">
-        <div className="homeLeftSideBarIcon">
+      <div className="homeRightSideBarBreak">
+        <div className="homeRightSideBarGroupName">
+          <span>Friends</span>
+        </div>
+        <div className="homeRightSideBarGroupSearch dropdown">
+          {/* This input is used to search for a friend already on their friend's list */}
+          <input type="text" placeholder="Search" className="homeSearchInput" ></input>
+        </div>
+        {/* <div className="homeLeftSideBarGroupAdd">
+          <button type="button" className="homeFriendSearchAddBtn" onClick={() => {
+            // Add some redirect to the specified profile stuff here once profiles get set up
+
+          }}>Add</button>
+        </div> */}
+      </div>
+      <div className="homeRightSideBar">
+        <div className="homeRightSideBarIcon">
           PFP
         </div>
-        <div className="homeLeftSideBarContent">
+        <div className="homeRightSideBarContent">
           <span>Friend 1</span>
         </div>
       </div>
-      <div className="homeLeftSideBar">
-        <div className="homeLeftSideBarIcon">
+      <div className="homeRightSideBar">
+        <div className="homeRightSideBarIcon">
 
         </div>
-        <div className="homeLeftSideBarContent">
+        <div className="homeRightSideBarContent">
           Hello
         </div>
       </div>
-      <div className="homeLeftSideBar">
-        <div className="homeLeftSideBarIcon">
+      <div className="homeRightSideBar">
+        <div className="homeRightSideBarIcon">
 
         </div>
-        <div className="homeLeftSideBarContent">
+        <div className="homeRightSideBarContent">
           Hello
         </div>
       </div>
-      <div className="homeLeftSideBar">
-        <div className="homeLeftSideBarIcon">
+      <div className="homeRightSideBar">
+        <div className="homeRightSideBarIcon">
 
         </div>
-        <div className="homeLeftSideBarContent">
+        <div className="homeRightSideBarContent">
           Hello
         </div>
       </div>
-      <div className="homeLeftSideBar">
-        <div className="homeLeftSideBarIcon">
+      <div className="homeRightSideBar">
+        <div className="homeRightSideBarIcon">
 
         </div>
-        <div className="homeLeftSideBarContent">
+        <div className="homeRightSideBarContent">
           Hello
         </div>
       </div>
-      <div className="homeLeftSideBar">
-        <div className="homeLeftSideBarIcon">
+      <div className="homeRightSideBar">
+        <div className="homeRightSideBarIcon">
 
         </div>
-        <div className="homeLeftSideBarContent">
+        <div className="homeRightSideBarContent">
           Hello
         </div>
       </div>
-      <div className="homeLeftSideBar">
-        <div className="homeLeftSideBarIcon">
+      <div className="homeRightSideBar">
+        <div className="homeRightSideBarIcon">
 
         </div>
-        <div className="homeLeftSideBarContent">
+        <div className="homeRightSideBarContent">
           Hello
         </div>
       </div>
-      <div className="homeLeftSideBarBreak">
-        Groups
+      <div className="homeRightSideBarBreak">
+      <div className="homeRightSideBarGroupName">
+          <span>Groups</span>
+        </div>
+        <div className="homeRightSideBarGroupSearch dropdown">
+          {/* This input is used to search for a group already on their group's list */}
+          <input type="text" placeholder="Search" className="homeSearchInput" ></input>
+        </div>
       </div>
-      <div className="homeLeftSideBar">
-        <div className="homeLeftSideBarIcon">
+      <div className="homeRightSideBar">
+        <div className="homeRightSideBarIcon">
 
         </div>
-        <div className="homeLeftSideBarContent">
+        <div className="homeRightSideBarContent">
           Hello
         </div>
       </div>
-      <div className="homeLeftSideBar">
-        <div className="homeLeftSideBarIcon">
+      <div className="homeRightSideBar">
+        <div className="homeRightSideBarIcon">
 
         </div>
-        <div className="homeLeftSideBarContent">
+        <div className="homeRightSideBarContent">
           Hello
         </div>
       </div>
-      <div className="homeLeftSideBar">
-        <div className="homeLeftSideBarIcon">
+      <div className="homeRightSideBar">
+        <div className="homeRightSideBarIcon">
 
         </div>
-        <div className="homeLeftSideBarContent">
+        <div className="homeRightSideBarContent">
           Hello
         </div>
       </div>
-      <div className="homeLeftSideBar">
-        <div className="homeLeftSideBarIcon">
+      <div className="homeRightSideBar">
+        <div className="homeRightSideBarIcon">
 
         </div>
-        <div className="homeLeftSideBarContent">
-          Hello
-        </div>
-      </div>
-      <div className="homeLeftSideBarBreak">
-        Clan
-      </div>
-      <div className="homeLeftSideBar">
-        <div className="homeLeftSideBarIcon">
-
-        </div>
-        <div className="homeLeftSideBarContent">
-          Hello
-        </div>
-      </div>
-      <div className="homeLeftSideBar">
-        <div className="homeLeftSideBarIcon">
-
-        </div>
-        <div className="homeLeftSideBarContent">
-          Hello
-        </div>
-      </div>
-      <div className="homeLeftSideBar">
-        <div className="homeLeftSideBarIcon">
-
-        </div>
-        <div className="homeLeftSideBarContent">
-          Hello
-        </div>
-      </div>
-      <div className="homeLeftSideBar">
-        <div className="homeLeftSideBarIcon">
-
-        </div>
-        <div className="homeLeftSideBarContent">
-          Hello
-        </div>
-      </div>
-      <div className="homeLeftSideBar">
-        <div className="homeLeftSideBarIcon">
-
-        </div>
-        <div className="homeLeftSideBarContent">
-          Hello
-        </div>
-      </div>
-      <div className="homeLeftSideBar">
-        <div className="homeLeftSideBarIcon">
-
-        </div>
-        <div className="homeLeftSideBarContent">
+        <div className="homeRightSideBarContent">
           Hello
         </div>
       </div>
     </div>
-    // <Sidebar aria-label="Default sidebar example" className="homeLeftSideBar">
-    //   <Sidebar.Items style={{ backgroundColor: 'teal'}}>
-    //     <Sidebar.ItemGroup style={{ backgroundColor: 'orange' }}>
-    //       <Sidebar.Item href="#" icon={HiChartPie} style={{ backgroundColor: 'blue' }}>
-    //         Find Teammates
-    //       </Sidebar.Item>
-    //     </Sidebar.ItemGroup>
-    //     <Sidebar.ItemGroup>
-    //       <Sidebar.Item href="#" icon={HiViewBoards} label="Pro" labelColor="dark">
-    //         Watch Clips
-    //       </Sidebar.Item>
-    //       <Sidebar.Item href="#" icon={HiInbox} label="3">
-    //         Inbox
-    //       </Sidebar.Item>
-    //       <Sidebar.Item href="#" icon={HiUser}>
-    //         Users
-    //       </Sidebar.Item>
-    //       <Sidebar.Item href="#" icon={HiShoppingBag}>
-    //         Products
-    //       </Sidebar.Item>
-    //       <Sidebar.Item href="#" icon={HiArrowSmRight}>
-    //         Felipe = Bad at league
-    //       </Sidebar.Item>
-    //       <Sidebar.Item href="/login" icon={HiTable}>
-    //         Hi Phil
-    //       </Sidebar.Item>
-    //     </Sidebar.ItemGroup>
-    //   </Sidebar.Items>
-    // </Sidebar>
   );
 };
 
-export default SidebarComponent;
+export default SidebarRightComponent;
 
 // FLOWBITE REACT DOCS: https://flowbite-react.com/docs/components/sidebar

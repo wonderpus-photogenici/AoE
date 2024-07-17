@@ -116,10 +116,28 @@ userController.findAllUsers = async (req, res, next) => {
     for (let i = 0; i < result.rows.length; i++) {
       usersArray.push(result.rows[i].username);
     };
+    console.log('usersArray: ', usersArray);
     res.locals.users = usersArray;
     return next();
   } catch (err ){
     return next("Error in userController.findUser: " + JSON.stringify(err));
+  }
+}
+
+userController.getMyPfp = async (req, res, next) => {
+  try {
+    let username = 'kyler';
+    const text = `
+    SELECT pfp FROM users WHERE username = $1`;
+    const params = [username];
+    const result = await db.query(text, params);
+    // console.log('result: ', result);
+    let pfpBase64 = result.rows[0].pfp;
+    // console.log('pfpBase64.pfp: ', pfpBase64.pfp)
+    res.locals.myPfp = pfpBase64;
+    return next();
+  } catch (err ) {
+    return next("Error in userController.getMyPfp: " + JSON.stringify(err));
   }
 }
 

@@ -204,7 +204,7 @@ input[type="file"] {
 
 .home-logo {
     width: 150px;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
 }
 
 img {
@@ -253,7 +253,7 @@ img {
 
 .home-left,
 .profile-top {
-    background-color: #303030; /* Example background color */
+    background-color: #101010; /* Example background color */
     border-radius: 15px; /* Rounded corners */
     padding: 1rem;
     display: flex;
@@ -271,7 +271,7 @@ img {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #303030;
+    background-color: #101010;
     border-radius: 15px;
     padding: 1rem;
     margin-right: 10px;
@@ -319,7 +319,7 @@ img {
     justify-content: center;
     align-items: center;
     // padding: 2rem;
-    background-color: #303030; /* Example background color */
+    background-color: #101010; /* Example background color */
     border-radius: 15px; /* Rounded corners */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: add shadow for better effect */
     color: white; /* Text color */
