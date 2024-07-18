@@ -3,7 +3,7 @@ import { GoogleLogin } from '@react-oauth/google';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../redux/userSlice';
 import axios from 'axios';
-//import googleButton from './Assets/google_signin_buttons/web/1x/btn_google_signin_dark_pressed_web.png';
+import googleButton from '/src/Assets/btn_google_signin_dark_pressed_web.png';
 const GoogleLoginButton = () => {
 
 
@@ -12,7 +12,7 @@ const GoogleLoginButton = () => {
   }
 
   async function auth() {
-    const response = await fetch('http://localhost:8080/request',
+    const response = await fetch('http://127.0.0.1:3001/request',
     {method: 'post'});
     const data = await response.json();
     navigate(data.url);
@@ -44,7 +44,7 @@ const GoogleLoginButton = () => {
         //cookiePolicy={'single_host_origin'}
       />
       <button type = "button" onClick={() => auth()} >
-        <img src = {GoogleLogin} alt="google sign in"/>
+        <img src = {googleButton} alt="google sign in"/>
       </button>
     </div>
   );
