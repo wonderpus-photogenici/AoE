@@ -51,6 +51,8 @@ userController.addUser = async (req, res, next) => {
         res.locals.profile.id,
       ];
       const result = await db.query(text, params);
+      // inserted cookies for adding in user; 
+      // res.cookies = ('username', username)
       res.locals.user = result.rows[0];
       return next();
     } catch (err) {
