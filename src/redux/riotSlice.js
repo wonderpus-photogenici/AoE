@@ -26,7 +26,7 @@ export const { fetchSummonerDataSuccess, fetchSummonerDataFailure } =
 export const fetchSummonerData = (gameName, tagLine) => async (dispatch) => {
   try {
     const response = await axios.get(
-      `http://localhost:3001/api/summoner?gameName=${gameName}&tagLine=${tagLine}`
+      `http://localhost:3001/api/link-riot-account?gameName=${gameName}&tagLine=${tagLine}`
     );
     dispatch(fetchSummonerDataSuccess(response.data));
   } catch (error) {
