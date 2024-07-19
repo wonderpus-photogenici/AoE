@@ -21,11 +21,13 @@ router.get('/', async(req, res, next) => {
         );
         const res2 = await oAuth2Client.getToken(code);
         await oAuth2Client.setCredentials(res2.tokens);
-        console.log('Tokens acquired')
+
         const user = oAuth2Client.credentials;
-        console.log('credentials', user);
+        //console.log('credentials', user);
         await getUserData(user.access_token);
-        res.redirect('/profile')
+
+        res.redirect('http://localhost:8080/home')
+
     } catch(err) {
         console.log(err)
         console.log('Error with signing in with Google')
