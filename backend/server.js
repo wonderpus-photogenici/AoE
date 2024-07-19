@@ -29,8 +29,9 @@ app.post("/api/register", userController.addUser, (req, res) => {
 
 // authenticating users from the database
 app.post('/api/login', userController.verifyUser, (req, res) => {
+  
     console.log(req.cookies)
-     res.status(200).json({message: 'Login Success'});
+     res.status(200).json(res.locals.user.username);
 })
 
 // finding all users in database
@@ -40,6 +41,10 @@ app.post('/api/findAllUsers', userController.findAllUsers, (req, res) => {
 
 app.post('/api/getMyPfp', userController.getMyPfp, (req, res) => {
   res.status(200).send(res.locals.myPfp);
+})
+
+app.post('/api/getEmail', userController.getEmail, (req, res) => {
+  res.status(200).send(res.locals.email);
 })
 
 

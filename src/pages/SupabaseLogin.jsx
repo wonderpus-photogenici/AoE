@@ -107,7 +107,6 @@ const SupabaseLogin = () => {
     async function passWordSignUp() {
         const { data, error } = await supabase.auth.signUp({
             email: emailSignUp,
-            username: userNameSignUp,
             password: passwordSignUp,
         })
 
@@ -115,6 +114,8 @@ const SupabaseLogin = () => {
             alert("Sign up error: Error communicating with supabase, make sure to use a real email address!");
             console.log(error);
         } else {
+            // console.log('passWordSignUp Data: ', data);
+            console.log('data.user.id: ', data.user.id);
             // Supabase only allows 3 emails per hour, so I turned off verify email in supabase for now
             // alert("Check your email to Log in");
         }
@@ -199,7 +200,7 @@ const SupabaseLogin = () => {
             .from('AoE')
             // upload to user.id/{filename}
             // for our use case, it would probably be: .upload(userName + "/" + uuidv4(), file)
-            .upload("username/pfp", file) // Cooper/{randomString}
+            .upload(user.id + "/pfp", file) // Cooper/{randomString}
         // uuid, we use uuid because if someone wanted to upload two images
         // that had the same name, it wouldn't let them save the same file name twice, so we put a unique
         // id in front to make the images appear unique
@@ -234,14 +235,6 @@ const SupabaseLogin = () => {
             */}
             {user === null ?
                 <>
-                    <p style={{ color: "white" }}>Use the Choose File button below to upload an image to your gallery</p>
-                    <Form.Group style={{ maxWidth: "500px" }}>
-                        {/* Form.Control determines the types of files that can be uploaded */}
-                        {/* the onchange event occurs when someone uploads a file, the event is */}
-                        {/* coming from the file input, it's how we get access to the uploaded file */}
-                        <Form.Control type="file" accept="image/png, image/jpeg" onChange={(e) => uploadImagePfp(e)}>
-                        </Form.Control>
-                    </Form.Group>
                     <div style={{ color: "white" }}>
                         SupabaseLogin Page
                     </div>
@@ -269,11 +262,6 @@ const SupabaseLogin = () => {
                                 type="email"
                                 placeholder="Enter email"
                                 onChange={(e) => setEmailSignUp(e.target.value)}
-                            ></Form.Control>
-                            <Form.Control
-                                type="username"
-                                placeholder="Enter username"
-                                onChange={(e) => setUserNameSignUp(e.target.value)}
                             ></Form.Control>
                             <Form.Control
                                 type="password"
@@ -341,6 +329,15 @@ const SupabaseLogin = () => {
                             deleteUser();
                         }}>Delete This User</Button>
                     </Form>
+
+                    <p style={{ color: "white" }}>Use the Choose File button below to upload a PFP</p>
+                    <Form.Group style={{ maxWidth: "500px" }}>
+                        {/* Form.Control determines the types of files that can be uploaded */}
+                        {/* the onchange event occurs when someone uploads a file, the event is */}
+                        {/* coming from the file input, it's how we get access to the uploaded file */}
+                        <Form.Control type="file" accept="image/png, image/jpeg" onChange={(e) => uploadImagePfp(e)}>
+                        </Form.Control>
+                    </Form.Group>
 
                     <p>Use the Choose File button below to upload an image to your gallery</p>
                     <Form.Group style={{ maxWidth: "500px" }}>
