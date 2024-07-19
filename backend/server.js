@@ -22,10 +22,13 @@ app.post("/api/register", userController.addUser, (req, res) => {
   res.status(200).json({ message: "Successful Registration" });
 });
 
-// Authenticating users from the database
-app.post("/api/login", userController.verifyUser, (req, res) => {
-  res.status(200).json({ message: "Login Success" });
-});
+
+// authenticating users from the database
+app.post('/api/login', userController.verifyUser, (req, res) => {
+  
+    console.log(req.cookies)
+     res.status(200).json(res.locals.user.username);
+})
 
 // Finding all users in the database
 app.post("/api/findAllUsers", userController.findAllUsers, (req, res) => {
@@ -34,7 +37,13 @@ app.post("/api/findAllUsers", userController.findAllUsers, (req, res) => {
 
 app.post("/api/getMyPfp", userController.getMyPfp, (req, res) => {
   res.status(200).send(res.locals.myPfp);
-});
+})
+
+app.post('/api/getEmail', userController.getEmail, (req, res) => {
+  res.status(200).send(res.locals.email);
+})
+
+
 
 // Endpoint to link Riot account
 app.post("/api/link-riot-account", async (req, res) => {

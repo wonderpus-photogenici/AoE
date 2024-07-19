@@ -6,6 +6,7 @@ import { setUser } from '../redux/userSlice';
 import GoogleLoginButton from '../components/GoogleLogin.jsx';
 import convertFileToBase64 from '../../utils/fileUtils';
 import '../App.scss';
+import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
 
 const SignUp = () => {
   const [username, setUsername] = useState('');
@@ -14,6 +15,8 @@ const SignUp = () => {
   const [profilePicture, setProfilePicture] = useState(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const supabase = useSupabaseClient();
 
   const handleInputChange = (event) => {
     const { name, value, files } = event.target;
@@ -26,16 +29,57 @@ const SignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    let base64ProfilePicture = '';
-    if (profilePicture) {
-      base64ProfilePicture = await convertFileToBase64(profilePicture);
+    // let base64ProfilePicture = '';
+    // if (profilePicture) {
+    //   base64ProfilePicture = await convertFileToBase64(profilePicture);
+    // }
+
+    const { data, error } = await supabase.auth.signUp({
+      email: email,
+      password: password,
+    })
+
+    if (error) {
+      alert("Sign up error: Error communicating with supabase, make sure to use a real email address!");
+      console.log(error);
+    } else {
+      // console.log('passWordSignUp Data: ', data);
+      console.log('data.user.id: ', data.user.id);
+      // Supabase only allows 3 emails per hour, so I turned off verify email in supabase for now
+      // alert("Check your email to Log in");
     }
+
+    // async function uploadImagePfp(e) {
+      let file = profilePicture;
+      // const usernameTest = "usernameTest"
+
+      const supabaseUploadPfpResponse = await supabase
+        .storage
+        .from('AoE')
+        // upload to user.id/{filename}
+        // for our use case, it would probably be: .upload(userName + "/" + uuidv4(), file)
+        .upload(data.user.id + "/pfp", file) // Cooper/{randomString}
+      // uuid, we use uuid because if someone wanted to upload two images
+      // that had the same name, it wouldn't let them save the same file name twice, so we put a unique
+      // id in front to make the images appear unique
+
+
+      if (supabaseUploadPfpResponse.data) {
+        // getImages to load them, it takes the images from the user's folder and sets them to that
+        // users state
+        // getImages();
+        console.log('supabaseUploadPfpResponse.data: ', supabaseUploadPfpResponse.data);
+      } else {
+        console.log(supabaseUploadPfpResponse.error);
+      }
+    // }
 
     const requestBody = {
       username,
       password,
       email,
-      pfp: base64ProfilePicture,
+      pfp: supabaseUploadPfpResponse.data.path,
+      supabase_id: data.user.id,
     };
 
     try {

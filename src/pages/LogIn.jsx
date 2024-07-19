@@ -4,14 +4,19 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../redux/userSlice';
 import GoogleLoginButton from '../components/GoogleLogin.jsx';
-
 import '../App.scss';
+import store from '../redux/store'
+import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
+
+
 
 const LogIn = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const supabase = useSupabaseClient();
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -27,8 +32,26 @@ const LogIn = () => {
         password,
       });
 
+      const email = await axios.post('http://localhost:3001/api/getEmail', {
+        username,
+      });
+
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: email.data,
+        password: password,
+      })
+
+      if (error) {
+        alert("Sign in error: Error communicating with supabase, make sure to use a real email address!");
+        console.log(error);
+      } else {
+        // Supabase only allows 3 emails per hour, so I turned off verify email in supabase for now
+        // alert("Check your email to Log in");
+      }
+
       if (response.status === 200) {
-        const { user } = response.data;
+        // console.log('response: ', response);
+        const user = response.data;
         dispatch(setUser(user));
         console.log('Login successful:', user);
         navigate('/home');
