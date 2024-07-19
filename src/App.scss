@@ -120,6 +120,7 @@ input[type="file"] {
 //     box-shadow: 0 8px 8px rgba(0, 0, 0, 0.2);
 // }
 
+
 .home-wrapper h1 {
      font-size: 2rem; 
      margin-bottom: 1rem; 
@@ -157,7 +158,8 @@ input[type="file"] {
     flex-direction: column;
     border-left: 1px solid black;
     border-right: 1px solid black;
-    background-color: #101010; /* Example background color */
+    border-radius: 15px;
+    background-color: #0c0c0c; /* Example background color */
     padding: 1rem;
     justify-content: baseline;
     align-items: center;
@@ -167,7 +169,8 @@ input[type="file"] {
     grid-area: home-right;
     display: flex;
     flex-direction: column;
-    background-color: #101010; /* Example background color */
+    border-radius: 15px;
+    background-color: #0c0c0c; /* Example background color */
     padding: 1rem;
 }
 
@@ -220,6 +223,76 @@ img {
     border-radius: 15px;
 }
 
+.userRec-prof-pic {
+    height: 100px;
+    width: auto;
+    padding-top: 25px;
+}
+
+.userRec-userInfo {
+    padding-top: 22px;
+    padding-left: 10px;
+}
+
+.userRec-buttons {
+    display: flex;
+    padding-top: 5px;
+    padding-left: 30px;
+}
+
+.userRec-Button {
+    height: 40px;
+    margin-top: 50px;
+    background-color: #0c0c0c;
+    border: 1.2px solid #505050;
+    border-radius: 15px;
+    color: #ffffff; 
+    padding: 10px 20px;
+    font-size: 16px;
+    font-family: 'Arial', sans-serif;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.userRec-Button:hover {
+    background-color: #161616;
+    transform: scale(1.05);
+}
+
+.userRec-Button:active {
+    transform: scale(0.95);
+}
+
+.userRec-rank {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-left: 15px;
+}
+
+.userRec-game-rank-Container {
+    display: flex;
+    padding-top: 30px;
+    padding-left: 60px;
+}
+
+.userRec-gameLogo {
+    height: 75px;
+    width: auto;
+}
+
+.userRec-gameRank {
+    height: 85px;
+    width: auto;
+    margin-bottom: 0;
+}
+
+.userRec-rankName {
+    margin-bottom: 5px;
+    margin-top: 0;
+}
+
+
 // .friendSearchSingleWrapper {
 //     width: 50px;
 //     height: 50px;
@@ -253,7 +326,7 @@ img {
 
 .home-left,
 .profile-top {
-    background-color: #101010; /* Example background color */
+    background-color: #0c0c0c; /* Example background color */
     border-radius: 15px; /* Rounded corners */
     padding: 1rem;
     display: flex;
@@ -271,7 +344,7 @@ img {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #101010;
+    background-color: #0c0c0c;
     border-radius: 15px;
     padding: 1rem;
     margin-right: 10px;
@@ -319,7 +392,7 @@ img {
     justify-content: center;
     align-items: center;
     // padding: 2rem;
-    background-color: #101010; /* Example background color */
+    background-color: #0c0c0c; /* Example background color */
     border-radius: 15px; /* Rounded corners */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: add shadow for better effect */
     color: white; /* Text color */

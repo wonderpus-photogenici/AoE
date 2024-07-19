@@ -4,7 +4,6 @@ import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/
 import { getFirestore, collection, query, orderBy, limit, addDoc, serverTimestamp } from 'firebase/firestore';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
-import './Chat.scss';
 
 const firebaseConfig = {
   apiKey: "AIzaSyA8sCco43Znz3RPYvLGSa1jcLR37mOk2Hg",

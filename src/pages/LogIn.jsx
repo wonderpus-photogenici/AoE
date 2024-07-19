@@ -31,7 +31,7 @@ const LogIn = () => {
         const { user } = response.data;
         dispatch(setUser(user));
         console.log('Login successful:', user);
-        navigate('/profile');
+        navigate('/home');
       } else {
         console.error('Unexpected status code:', response.status);
         alert('Invalid username or password');
