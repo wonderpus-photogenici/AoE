@@ -17,7 +17,7 @@ const createErr = (errInfo) => {
 };
 
 userController.addUser = async (req, res, next) => {
-  const { username, password, email, pfp } = req.body;
+  const { username, password, email, pfp, supabase_id } = req.body;
 
   // First checking if the username already exists
   const text = `SELECT id, username, password FROM users WHERE username = $1`;
@@ -40,8 +40,8 @@ userController.addUser = async (req, res, next) => {
       // Creating user
       const hashedPassword = await pass.hashPassword(password);
       const text = `
-            INSERT INTO users ( username, password, email, pfp, profile_id )
-            VALUES ($1, $2, $3, $4, $5)
+            INSERT INTO users ( username, password, email, pfp, profile_id, supabase_id )
+            VALUES ($1, $2, $3, $4, $5, $6)
             RETURNING *`;
       const params = [
         username,
@@ -49,6 +49,7 @@ userController.addUser = async (req, res, next) => {
         email,
         pfp,
         res.locals.profile.id,
+        supabase_id,
       ];
       const result = await db.query(text, params);
       // inserted cookies for adding in user; 
@@ -101,6 +102,7 @@ userController.verifyUser = async (req, res, next) => {
         .status(401)
         .json({ message: "Username or password does not match" });
     } else {
+      // console.log('user in verify user: ', user);
       res.locals.user = user;
       return next();
     }
@@ -118,7 +120,7 @@ userController.findAllUsers = async (req, res, next) => {
     for (let i = 0; i < result.rows.length; i++) {
       usersArray.push(result.rows[i].username);
     };
-    console.log('usersArray: ', usersArray);
+    // console.log('usersArray: ', usersArray);
     res.locals.users = usersArray;
     return next();
   } catch (err ){
@@ -140,6 +142,21 @@ userController.getMyPfp = async (req, res, next) => {
     return next();
   } catch (err ) {
     return next("Error in userController.getMyPfp: " + JSON.stringify(err));
+  }
+}
+
+userController.getEmail = async (req, res, next) => {
+  const { username } = req.body;
+  try {
+    const text = `
+    SELECT email FROM users WHERE username = $1`;
+    const params = [username];
+    const result = await db.query(text, params);
+    // console.log('result.rows[0].email in getEmail: ', result.rows[0].email);
+    res.locals.email = result.rows[0].email;
+    return next();
+  } catch (err) {
+    return next("Error in userController.getEmail: " + JSON.stringify(err));
   }
 }
 

@@ -7,43 +7,25 @@ import profPicFiller from '../../Assets/aoelogo3_kyler.png';
 const UserRec = () => {
   return (
     <div className="userRec-wrapper">
-      <div className="userRec-prof-pic">
-        <img src={profPicFiller} alt="" />
-      </div>
 
+        <img className="userRec-prof-pic" src={profPicFiller} alt="" />
+    
       <div className="userRec-userInfo">
-        <div className="userRec-username">
-          FelValencia
-        </div>
-        <div className="userRec-hours">
-          1.2k hr
-        </div>
+        <h2 className="userRec-username">FelValencia</h2>
+        <h4 className="userRec-hours">1.2k Hours</h4>
       </div>
 
       <div className="userRec-buttons">
-        <div className="userRec-addButton">
-          Add
-        </div>
-        <div className="userRec-messageBtn">
-          Message
-        </div>
+        <button className="userRec-Button">Add</button>
+        <button className="userRec-Button">Message</button>
       </div>
 
-      <div className="userRec-gameContainer">
-        <div className="userRec-gameLogo">
-          <img src={leagueLogo} alt="League" />
-        </div>
-        <div className="userRec-game">
-          League Of Legends
-        </div>
-      </div>
+      <div className="userRec-game-rank-Container">
 
-      <div className="userRec-rankContainer">
-        <div className="userRec-rankLogo">
-          <img src={leagueDiamond} alt="League" />
-        </div>
+          <img className="userRec-gameLogo" src={leagueLogo} alt="League" />
         <div className="userRec-rank">
-          Diamond
+          <img className="userRec-gameRank" src={leagueDiamond} alt="League" />
+          <h5 className="userRec-rankName">Diamond</h5>
         </div>
       </div>
 

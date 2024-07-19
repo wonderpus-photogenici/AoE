@@ -8,6 +8,7 @@ import FriendSearchComp from "./FriendSearchComp.jsx";
 import { useDispatch } from 'react-redux';
 import { setAllUsers } from '../../redux/allUsersSlice.js';
 import store from '../../redux/store.js';
+import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
 
 // THIS IS A TEMPLATE FOR NOW - WE WILL FILL OUT CORRECTLY WHEN WE SET UP APP NAVIGATION FLOW
 const SidebarRightComponent = () => {
