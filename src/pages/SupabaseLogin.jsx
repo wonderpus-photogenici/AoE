@@ -25,6 +25,7 @@ const SupabaseLogin = () => {
     const [images, setImages] = useState([]);
     const [emailML, setEmailML] = useState("");
     const [emailSignUp, setEmailSignUp] = useState("");
+    const [userNameSignUp, setUserNameSignUp] = useState("");
     const [passwordSignUp, setPasswordSignUp] = useState("");
     const user = useUser();
     const supabase = useSupabaseClient();
@@ -33,8 +34,8 @@ const SupabaseLogin = () => {
         console.log('user: ', user);
         dispatch(setSupabaseUser(user));
 
-        const store = store.getState();
-        console.log('store: ', store);
+        // const store = store.getState();
+        // console.log('store: ', store);
 
         // const store = useSelector((state => state.supabaseUser));
         // console.log('store: ', store);
@@ -106,6 +107,7 @@ const SupabaseLogin = () => {
     async function passWordSignUp() {
         const { data, error } = await supabase.auth.signUp({
             email: emailSignUp,
+            username: userNameSignUp,
             password: passwordSignUp,
         })
 
@@ -188,6 +190,30 @@ const SupabaseLogin = () => {
         }
     }
 
+    async function uploadImagePfp(e) {
+        let file = e.target.files[0];
+        // const usernameTest = "usernameTest"
+
+        const { data, error } = await supabase
+            .storage
+            .from('AoE')
+            // upload to user.id/{filename}
+            // for our use case, it would probably be: .upload(userName + "/" + uuidv4(), file)
+            .upload("username/pfp", file) // Cooper/{randomString}
+        // uuid, we use uuid because if someone wanted to upload two images
+        // that had the same name, it wouldn't let them save the same file name twice, so we put a unique
+        // id in front to make the images appear unique
+
+        if (data) {
+            // getImages to load them, it takes the images from the user's folder and sets them to that
+            // users state
+            // getImages();
+            console.log('data: ', data);
+        } else {
+            console.log(error);
+        }
+    }
+
     async function deleteImage(imageName) {
         const { error } = await supabase
             .storage
@@ -208,6 +234,14 @@ const SupabaseLogin = () => {
             */}
             {user === null ?
                 <>
+                    <p style={{ color: "white" }}>Use the Choose File button below to upload an image to your gallery</p>
+                    <Form.Group style={{ maxWidth: "500px" }}>
+                        {/* Form.Control determines the types of files that can be uploaded */}
+                        {/* the onchange event occurs when someone uploads a file, the event is */}
+                        {/* coming from the file input, it's how we get access to the uploaded file */}
+                        <Form.Control type="file" accept="image/png, image/jpeg" onChange={(e) => uploadImagePfp(e)}>
+                        </Form.Control>
+                    </Form.Group>
                     <div style={{ color: "white" }}>
                         SupabaseLogin Page
                     </div>
@@ -229,12 +263,17 @@ const SupabaseLogin = () => {
 
                     <Form>
                         <Form.Group style={{ maxWidth: "500px", color: "white" }}>
-                            <Form.Label>Enter an email and password to sign up</Form.Label>
+                            <Form.Label>Enter an email, username, and password to sign up</Form.Label>
                             {/* Form.Control is our text input */}
                             <Form.Control
                                 type="email"
                                 placeholder="Enter email"
                                 onChange={(e) => setEmailSignUp(e.target.value)}
+                            ></Form.Control>
+                            <Form.Control
+                                type="username"
+                                placeholder="Enter username"
+                                onChange={(e) => setUserNameSignUp(e.target.value)}
                             ></Form.Control>
                             <Form.Control
                                 type="password"
@@ -246,7 +285,7 @@ const SupabaseLogin = () => {
                         <Button variant="primary" onClick={() => {
                             // magicLinkLogin();
                             passWordSignUp();
-                        }}>Get Magic Link</Button>
+                        }}>Sign Up</Button>
                     </Form>
 
                     <Form>

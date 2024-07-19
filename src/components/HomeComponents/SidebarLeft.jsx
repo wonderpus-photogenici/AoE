@@ -7,6 +7,7 @@ import { useContext } from 'react';
 import { ReactReduxContext } from 'react-redux'
 import { useSelector } from 'react-redux'
 import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
+// import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
 
 const SideBarLeft = () => {
     // Just testing loading an image from the supabase database
@@ -21,6 +22,8 @@ const SideBarLeft = () => {
     // const store = useSelector((state => state.supabaseUser));
     // console.log('store: ', store);
 
+    const supabase = useSupabaseClient();
+
     const [imgLink, setImgLink] = useState([]);
 
     const character = async () => {
@@ -28,9 +31,15 @@ const SideBarLeft = () => {
         setImgLink(result.data);
     };
 
+    const getUser = async () => {
+        const { data: { user } } = await supabase.auth.getUser();
+        console.log('user: ',user);
+    }
+
 
     useEffect(() => {
-        character()
+        character();
+        getUser();
     }, []);
 
     return (
