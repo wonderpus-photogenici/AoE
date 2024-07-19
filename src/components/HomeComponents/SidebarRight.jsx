@@ -28,7 +28,8 @@ const SidebarRightComponent = () => {
     // event.preventDefault();
     try {
       // console.log('in retrieveAllUsers');
-      let allUsers = await axios.post('http://localhost:3001/api/findAllUsers');
+      let allUsers = await axios.post('http://localhost:3001/api/findAllUsersPfp');
+      // console.log('allUsers: ',allUsers)
       // console.log('allUsers.data: ', allUsers.data);
       dispatch(setAllUsers(allUsers.data));
     } catch (err) {
@@ -49,7 +50,11 @@ const SidebarRightComponent = () => {
       // matches = fuzzysort.go(value, response.data);
 
       // so when the search bar is clicked on, it'll send the 
-      matches = fuzzysort.go(value, store.getState().allUsers.allUsers);
+      // console.log('store.getState().allUsers.allUsers: ', store.getState().allUsers.allUsers);
+      let allUsersPfp = store.getState().allUsers.allUsers;
+      matches = fuzzysort.go(value, Object.keys(allUsersPfp)); // matching username
+      // console.log('matches: ', matches);
+
       let testArray = [];
 
       if (matches.total !== 0) {
@@ -61,9 +66,14 @@ const SidebarRightComponent = () => {
       for (let i = 0; i < 5; i++) {
         if (matches[i] === undefined) {
         } else {
-          testArray.push(matches[i].target);
+          let objTest = {};
+          objTest[matches[i].target] = allUsersPfp[matches[i].target]
+          testArray.push(objTest);
+          // testArray.push({})
         }
       }
+
+      // console.log('testArray:', testArray);
 
       const characters = async () => {
         setCharacters(testArray);
@@ -75,6 +85,12 @@ const SidebarRightComponent = () => {
       alert('An error occurred during login');
     }
   };
+
+  useEffect(() => {
+    // character();
+    retrieveAllUsers();
+    // dispatch(setUser('kyler'));
+}, []);
 
   // When you click anywhere that's not the friendsSearchInput, the
   // dropdown menu disappears
@@ -102,7 +118,7 @@ const SidebarRightComponent = () => {
           {/* decided to use onFocus instead of onClick, since someone could shift into */}
           {/* the input field or some other way of bringing it into focus */}
           <input type="text" placeholder="Search" id="friendsSearchInput" className="homeSearchInput" onInput={handleFriendSearch} onFocus={() => {
-            retrieveAllUsers();
+            // retrieveAllUsers();
             document.getElementById('friendsDropDown').style.display = 'block';
           }}></input>
           <FriendSearchComp
@@ -188,7 +204,7 @@ const SidebarRightComponent = () => {
         </div>
       </div>
       <div className="homeRightSideBarBreak">
-      <div className="homeRightSideBarGroupName">
+        <div className="homeRightSideBarGroupName">
           <span>Groups</span>
         </div>
         <div className="homeRightSideBarGroupSearch dropdown">

@@ -31,7 +31,8 @@ app.post('/api/login', userController.verifyUser, (req, res) => {
 })
 
 // Finding all users in the database
-app.post("/api/findAllUsers", userController.findAllUsers, (req, res) => {
+app.post("/api/findAllUsersPfp", userController.findAllUsersPfp, (req, res) => {
+  // console.log('res.locals.users: ', res.locals.users);
   res.status(200).send(res.locals.users);
 });
 

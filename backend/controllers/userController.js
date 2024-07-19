@@ -102,7 +102,6 @@ userController.verifyUser = async (req, res, next) => {
         .status(401)
         .json({ message: "Username or password does not match" });
     } else {
-      // console.log('user in verify user: ', user);
       res.locals.user = user;
       return next();
     }
@@ -111,17 +110,16 @@ userController.verifyUser = async (req, res, next) => {
   }
 };
 
-userController.findAllUsers = async (req, res, next) => {
+userController.findAllUsersPfp = async (req, res, next) => {
   try {
-    let usersArray = [];
+    let usersObj = {};
     const text = `
-    SELECT username FROM users`;
+    SELECT username, pfp FROM users`;
     const result = await db.query(text);
     for (let i = 0; i < result.rows.length; i++) {
-      usersArray.push(result.rows[i].username);
+      usersObj[result.rows[i].username] = result.rows[i].pfp;
     };
-    // console.log('usersArray: ', usersArray);
-    res.locals.users = usersArray;
+    res.locals.users = usersObj;
     return next();
   } catch (err ){
     return next("Error in userController.findUser: " + JSON.stringify(err));
@@ -135,12 +133,8 @@ userController.getMyPfp = async (req, res, next) => {
     SELECT pfp FROM users WHERE username = $1`;
     const params = [username];
     const result = await db.query(text, params);
-    console.log('in uC.getMyPfp 2');
-    // console.log('result: ', result);
     let pfpBase64 = result.rows[0].pfp;
-    // console.log('pfpBase64.pfp: ', pfpBase64.pfp)
     res.locals.myPfp = pfpBase64;
-    console.log('in uC.getMyPfp 3');
     return next();
   } catch (err ) {
     return next("Error in userController.getMyPfp: " + JSON.stringify(err));
@@ -154,7 +148,6 @@ userController.getEmail = async (req, res, next) => {
     SELECT email FROM users WHERE username = $1`;
     const params = [username];
     const result = await db.query(text, params);
-    // console.log('result.rows[0].email in getEmail: ', result.rows[0].email);
     res.locals.email = result.rows[0].email;
     return next();
   } catch (err) {

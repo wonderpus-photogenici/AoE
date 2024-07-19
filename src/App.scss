@@ -208,11 +208,6 @@ input[type="file"] {
     width: 100%; /* Ensure the container takes the full width */
 }
 
-.home-logo {
-    width: 150px;
-    margin-bottom: 0.5rem;
-}
-
 img {
     width: 70px;
 }
@@ -320,7 +315,7 @@ img {
         "home-left profile-top"
         "home-left profile-stats";
         background-color: #161616;
-    grid-template-columns: 20% 1fr; /* 20% for home-left, remaining space for profile sections */
+    grid-template-columns: minmax(300px, 20%) minmax(960px, 1fr); /* 20% for home-left, remaining space for profile sections */
     grid-template-rows: 50% 1fr; /* 50% for profile-top, remaining space for profile-stats */
     height: 100vh;
     gap: 20px; /* Add gap between grid items */
@@ -403,23 +398,28 @@ img {
 }
 
 .profile-top-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: 150px minmax(160px,1fr) 1fr 1fr;
+    grid-template-rows: 100%;
 }
 
 .home-logo {
+    grid-column: 1;
+    grid-row: 1;
     width: 150px; /* Adjust image size as needed */
-    height: auto;
+    // height: auto;
     border-radius: 50%; /* Make image circular */
 }
 
 .username-addBtn-messageBtn {
+    grid-column: 2;
+    grid-row: 1;
     display: flex;
     flex-direction: column; /* Align items vertically */
     align-items: center; /* Center items horizontally */
-    margin-left: 20px; /* Space between sections */
 }
 
 .username-addBtn-messageBtn h1 {
@@ -438,17 +438,86 @@ img {
 }
 
 .location-gamelogos {
+    grid-column: 4;
+    grid-row: 1;
     display: flex;
     flex-direction: column; /* Align items vertically */
-    align-items: center; /* Center items horizontally */
-    margin-left: auto; /* Push this section to the far right */
+    align-items: left; /* Center items horizontally */
+    display: grid;
+    grid-template-columns: 10px 1fr 10px;
+    grid-template-rows: 20px 35px 35px 40px 1fr;
+}
+
+.profileTopBio {
+    grid-column: 3;
+    grid-row: 1;
+    width: 300px;
+    height: 150px;
+    background-color: rgba(0, 0, 0, 0.1);
+    resize: none;
+    color: #b9cac2;
+    border-radius: 10px;
+    padding-left: 10px;
+    padding-right: 5px;
+    padding-top: 5px;
+}
+
+.profileTopHomeBtn {
+    grid-column: 2;
+}
+
+.profileTopLogBtn {
+    grid-column: 4;
+}
+
+.profileTopNavBtns {
+    grid-column: 2;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 10px 1fr 10px 1fr 10px;
 }
 
 .location {
-    margin-bottom: 130px; /* Space between location text and logos */
+    // margin-top: 10px;
+    grid-column: 2;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 100%;
+    align-items: center;
+}
+
+.contactInfo {
+    grid-column: 2;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    grid-template-rows: 100%;
+    align-items: center;
+}
+
+.profileLocationInput {
+    width: 100%;
+    height: 80%;
+    box-sizing: border-box;
+    background-color: rgba(0, 0, 0, 0.1);
+    color: white;
+}
+
+.languages {
+    grid-column: 2;
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    grid-template-rows: 100%;
+    align-items: center;
 }
 
 .game-logos {
+    grid-column: 2;
     display: flex;
     justify-content: center; /* Center logos horizontally */
 }
