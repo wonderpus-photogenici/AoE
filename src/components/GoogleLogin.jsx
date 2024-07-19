@@ -47,7 +47,7 @@ const GoogleLoginButton = () => {
       {/* <button type = "button" onClick={() => auth()} >
         <img src = {googleButton} alt="google sign in"/>
       </button> */}
-      />
+      {/* /> */}
       <button type = "button" onClick={() => auth()} >
         <img src = {googleButton} alt="google sign in"/>
       </button>
