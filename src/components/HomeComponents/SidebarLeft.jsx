@@ -30,10 +30,12 @@ const SideBarLeft = () => {
 
     const [imgLink, setImgLink] = useState([]);
 
-    const character = async () => {
-        let result = await axios.post('http://localhost:3001/api/getMyPfp');
-        setImgLink(result.data);
-    };
+    // const character = async () => {
+    //     // console.log('in character() in SideBarLeft.jsx');
+    //     // let result = await axios.post('http://localhost:3001/api/getMyPfp');
+    //     // console.log('in character() in SideBarLeft.jsx 2');
+    //     // setImgLink(result.data);
+    // };
 
     const getUser = async () => {
         const { data: { user } } = await supabase.auth.getUser();
@@ -42,7 +44,7 @@ const SideBarLeft = () => {
 
 
     useEffect(() => {
-        character();
+        // character();
         getUser();
         // dispatch(setUser('kyler'));
     }, []);

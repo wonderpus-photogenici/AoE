@@ -5,6 +5,7 @@ dotenv.config();
 const {OAuth2Client} = require('google-auth-library');
 
 async function getUserData(access_token){
+    console.log('in oauth.js');
     const response = await fetch(`https://www.googleapis.com/oauth2/v3/userinfo?access_token${access_token}`);
     const data = await response.json();
     //console.log('data', data);
@@ -13,6 +14,7 @@ async function getUserData(access_token){
 router.get('/', async(req, res, next) => {
     const code = req.query.code;
     try {
+        console.log('in oauth.js');
         const redirectURL = 'http://127.0.0.1:3001/oauth';
         const oAuth2Client = new OAuth2Client(
             process.env.CLIENT_ID,

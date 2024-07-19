@@ -17,6 +17,7 @@ const createErr = (errInfo) => {
 };
 
 userController.addUser = async (req, res, next) => {
+  console.log('in uC.addUser');
   const { username, password, email, pfp, supabase_id } = req.body;
 
   // First checking if the username already exists
@@ -72,6 +73,7 @@ userController.addUser = async (req, res, next) => {
 
 
 userController.verifyUser = async (req, res, next) => {
+  console.log('in uC.verifyUser');
   const { username, password } = req.body;
 
   if (!username || !password) {
@@ -112,6 +114,7 @@ userController.verifyUser = async (req, res, next) => {
 };
 
 userController.findAllUsers = async (req, res, next) => {
+  console.log('in uC.findAllUsers');
   try {
     let usersArray = [];
     const text = `
@@ -129,16 +132,19 @@ userController.findAllUsers = async (req, res, next) => {
 }
 
 userController.getMyPfp = async (req, res, next) => {
+  console.log('in uC.getMyPfp');
   try {
     let username = 'kyler';
     const text = `
     SELECT pfp FROM users WHERE username = $1`;
     const params = [username];
     const result = await db.query(text, params);
+    console.log('in uC.getMyPfp 2');
     // console.log('result: ', result);
     let pfpBase64 = result.rows[0].pfp;
     // console.log('pfpBase64.pfp: ', pfpBase64.pfp)
     res.locals.myPfp = pfpBase64;
+    console.log('in uC.getMyPfp 3');
     return next();
   } catch (err ) {
     return next("Error in userController.getMyPfp: " + JSON.stringify(err));
@@ -146,6 +152,7 @@ userController.getMyPfp = async (req, res, next) => {
 }
 
 userController.getEmail = async (req, res, next) => {
+  console.log('in uC.getEmail');
   const { username } = req.body;
   try {
     const text = `
@@ -161,6 +168,7 @@ userController.getEmail = async (req, res, next) => {
 }
 
 userController.saveRiotAccountData = async (userId, riotData) => {
+  console.log('in uC.saveRiotAccountData');
   try {
     const text = `UPDATE users SET riot_account = $1 WHERE id = $2 RETURNING *;`;
     const params = [riotData, userId];
@@ -173,6 +181,7 @@ userController.saveRiotAccountData = async (userId, riotData) => {
 };
 
 userController.fetchUserById = async (userId) => {
+  console.log('in uC.fetchUserById');
   try {
     const text = `SELECT * FROM users WHERE id = $1;`;
     const params = [userId];
