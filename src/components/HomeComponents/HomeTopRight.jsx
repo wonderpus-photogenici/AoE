@@ -14,12 +14,12 @@ const HomeTopRight = () => {
 
     const getUser = async () => {
         const { data: { user } } = await supabase.auth.getUser();
-        console.log('user: ', user);
+        // console.log('user: ', user);
     }
 
     useEffect(() => {
         getUser();
-        console.log('store.getState(): ', store.getState());
+        // console.log('store.getState(): ', store.getState());
     }, []);
 
     async function signOut() {

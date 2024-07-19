@@ -40,7 +40,7 @@ const SignUp = () => {
     })
 
     if (error) {
-      alert("Sign up error: Error communicating with supabase, make sure to use a real email address!");
+      alert("Make sure password is at least 6 characters long");
       console.log(error);
     } else {
       // console.log('passWordSignUp Data: ', data);
@@ -48,7 +48,9 @@ const SignUp = () => {
       // Supabase only allows 3 emails per hour, so I turned off verify email in supabase for now
       // alert("Check your email to Log in");
     }
-
+    if (data.user === null ) {
+      return
+    }
     // async function uploadImagePfp(e) {
       let file = profilePicture;
       // const usernameTest = "usernameTest"
@@ -139,13 +141,16 @@ const SignUp = () => {
             <input
               type="email"
               name="email"
-              placeholder='Email (optional):'
+              placeholder='Email:'
               value={email}
               onChange={handleInputChange}
+              required
             />
           </div>
           <div className='field'>
+            <label for="signupPfp">Profile Picture:</label>
             <input
+              id = "signupPfp"
               type="file"
               name="profilePicture"
               onChange={handleInputChange}

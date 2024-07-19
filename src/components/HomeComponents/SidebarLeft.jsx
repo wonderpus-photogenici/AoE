@@ -39,7 +39,6 @@ const SideBarLeft = () => {
 
     const getUser = async () => {
         const { data: { user } } = await supabase.auth.getUser();
-        // console.log('user: ', user);
     }
 
 
