@@ -1,18 +1,23 @@
-import React from 'react'
-import ValorantRankChart from './ValorantRankChart.jsx';
-import LeagueRankChart from './LeagueRankChart.jsx';
+import React from 'react';
+import { useSelector } from 'react-redux';
 
 const ProfileStats = () => {
-  return (
-    <div className="profile-stats-container">
-      <ValorantRankChart />
-      <LeagueRankChart />
-    </div>
-  )
-}
+    const summonerData = useSelector((state) => state.riot.summonerData);
+
+    return (
+        <div>
+            <h3>Profile Stats</h3>
+            {summonerData ? (
+                <div>
+                    <p>Summoner Name: {summonerData.name}</p>
+                    <p>Level: {summonerData.summonerLevel}</p>
+                    {/* Add more fields as needed */}
+                </div>
+            ) : (
+                <p>No summoner data available.</p>
+            )}
+        </div>
+    );
+};
+
 export default ProfileStats;
-
-
-
-
-
