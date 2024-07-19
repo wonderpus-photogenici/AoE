@@ -37,11 +37,16 @@ const GoogleLoginButton = () => {
   // };
 
   return (
-    <div id="signInButton">
-      <GoogleLogin
+    <div id="signInButton" onClick={() => auth()}>
+       <img className ='oauthBtton' src = {googleButton} alt="google sign in"/>
+      {/* <GoogleLogin
         //onSuccess={onSuccess}
         //onFailure={onFailure}
         //cookiePolicy={'single_host_origin'}
+      /> */}
+      {/* <button type = "button" onClick={() => auth()} >
+        <img src = {googleButton} alt="google sign in"/>
+      </button> */}
       />
       <button type = "button" onClick={() => auth()} >
         <img src = {googleButton} alt="google sign in"/>
@@ -49,5 +54,4 @@ const GoogleLoginButton = () => {
     </div>
   );
 };
-
 export default GoogleLoginButton;
