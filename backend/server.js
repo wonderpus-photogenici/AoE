@@ -99,7 +99,7 @@ app.post("/api/link-riot-account", async (req, res) => {
 
 // Serve your built React application
 app.get("*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "./dist/index.html"));
+  res.sendFile(path.resolve(__dirname, "../dist/index.html"));
 });
 
 // Unknown route error handler

@@ -135,10 +135,12 @@ userController.getMyPfp = async (req, res, next) => {
     SELECT pfp FROM users WHERE username = $1`;
     const params = [username];
     const result = await db.query(text, params);
+    console.log('in uC.getMyPfp 2');
     // console.log('result: ', result);
     let pfpBase64 = result.rows[0].pfp;
     // console.log('pfpBase64.pfp: ', pfpBase64.pfp)
     res.locals.myPfp = pfpBase64;
+    console.log('in uC.getMyPfp 3');
     return next();
   } catch (err ) {
     return next("Error in userController.getMyPfp: " + JSON.stringify(err));
