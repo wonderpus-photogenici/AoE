@@ -30,10 +30,10 @@ userController.addUser = async (req, res, next) => {
     try {
       // Creating blank profile
       const textProfile = `
-      INSERT INTO profile ( bio, pfp, location, server, languages, fav4games, contact_info, friends )
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+      INSERT INTO profile ( bio, pfp, location, server, languages, fav4games, contact_info, friends, allgames )
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
       RETURNING *`;
-      const paramsProfile = ["", "", "", "", "", ["", "", "", ""], "", []];
+      const paramsProfile = ["", "", "", "", "", ["", "", "", ""], "", [], []];
       const resultProfile = await db.query(textProfile, paramsProfile);
       res.locals.profile = resultProfile.rows[0];
 
