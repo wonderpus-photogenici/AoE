@@ -275,7 +275,7 @@ img {
     border-radius: 20px;
 }
 
-// PROFILE SCREEN ----------------------------------------------------------------
+// PROFILE SCREEN 
 .profile-container {
     display: grid;
     grid-template-areas:
@@ -502,15 +502,12 @@ img {
     grid-column: 2;
     display: flex;
     justify-content: center;
-    /* Center logos horizontally */
 }
 
 .game-logos img {
     width: 75px;
-    /* Adjust logo size as needed */
     height: auto;
     margin: 0 10px;
-    /* Space between logos */
 }
 
 .oauthButton {
@@ -518,7 +515,6 @@ img {
     width: auto;
 }
 
-/* New styles for rank data display */
 .rank-data-container {
     margin-top: 20px;
 }
@@ -551,16 +547,13 @@ img {
 .spinner {
     border: 4px solid rgba(0, 0, 0, 0.1);
     border-left-color: #007bff;
-    /* Change this color to match your theme */
     border-radius: 50%;
     width: 40px;
     height: 40px;
     animation: spin 1s linear infinite;
     margin: 1rem auto;
-    /* Center the spinner and add some spacing */
 }
 
-/* Keyframes for spinning animation */
 @keyframes spin {
     0% {
         transform: rotate(0deg);
