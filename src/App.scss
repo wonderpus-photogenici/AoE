@@ -1,6 +1,5 @@
 @import './styles/home.scss';
 
-
 html {
     margin: 0;
     padding: 0;
@@ -13,7 +12,6 @@ html {
     align-items: center;
 }
 
-
 .wrapper {
     display: flex;
     justify-content: center;
@@ -23,7 +21,6 @@ html {
     background-size: cover;
     background-position: center;
 }
-
 
 .form-container {
     opacity: 0.6;
@@ -98,7 +95,6 @@ input[type="file"] {
     background-color: #ea4335;
 }
 
-
 .oauth-btn:hover {
     opacity: 0.7;
 }
@@ -117,51 +113,25 @@ input[type="file"] {
     text-decoration: underline;
 }
 
-// .home-left,
-// .feed-wrapper, 
-// .homeright-wrapper {
-//     background-color: #555555; /* Example background color */
-//     border-radius: 15px; /* Rounded corners */
-//     padding: 1rem;
-//     display: flex;
-//     flex-direction: column;
-//     align-items: center;
-//     box-shadow: 0 8px 8px rgba(0, 0, 0, 0.2);
-// }
-
-
 .home-wrapper h1 {
-     font-size: 2rem; 
-     margin-bottom: 1rem; 
+    font-size: 2rem;
+    margin-bottom: 1rem;
 }
 
 .home-wrapper p {
     font-size: 1.125rem;
 }
 
-
-
 .home-left-container {
     background-color: #161616;
     border-radius: 15px;
     padding: 1rem;
-    width: 80%; /* Ensure the container takes the full width */
+    width: 80%;
     display: flex;
     flex-direction: column;
-    align-items: center; /* Center align items horizontally */
-    justify-content: center; /* Center align items vertically */
+    align-items: center;
+    justify-content: center;
 }
-
-// .header-wrapper {
-//     /* grid-area: header; */
-//     /* width: 100%; */
-//     /* display: flex; */
-//     /* justify-content: center; */
-//     /* align-items: center; */
-//     /* background-color: #303030; */
-//     /* border: 1px solid black; */
-//     /* padding: 1rem; */
-// }
 
 .feed-wrapper {
     grid-area: feed;
@@ -170,7 +140,7 @@ input[type="file"] {
     border-left: 1px solid black;
     border-right: 1px solid black;
     border-radius: 15px;
-    background-color: #0c0c0c; /* Example background color */
+    background-color: #0c0c0c;
     padding: 1rem;
     justify-content: baseline;
     align-items: center;
@@ -181,7 +151,7 @@ input[type="file"] {
     display: flex;
     flex-direction: column;
     border-radius: 15px;
-    background-color: #0c0c0c; /* Example background color */
+    background-color: #0c0c0c;
     padding: 1rem;
 }
 
@@ -197,23 +167,22 @@ input[type="file"] {
 }
 
 .sidebar-item a {
-    width: auto; /* Change from 100% to auto */
-    text-align: center; 
-    color: inherit; 
-    text-decoration: none; 
+    width: auto;
+    text-align: center;
+    color: inherit;
+    text-decoration: none;
 }
 
 .sidebar-item a:hover {
-    color: #727272; 
+    color: #727272;
     font-size: 19px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     border-radius: 15px;
     margin: 1px;
-    
 }
 
 .sidebar-item-container {
-    width: 100%; /* Ensure the container takes the full width */
+    width: 100%;
 }
 
 img {
@@ -252,7 +221,7 @@ img {
     background-color: #0c0c0c;
     border: 1.2px solid #505050;
     border-radius: 15px;
-    color: #ffffff; 
+    color: #ffffff;
     padding: 10px 20px;
     font-size: 16px;
     font-family: 'Arial', sans-serif;
@@ -298,13 +267,6 @@ img {
     margin-top: 0;
 }
 
-
-// .friendSearchSingleWrapper {
-//     width: 50px;
-//     height: 50px;
-//     background-color: pink;
-// }
-
 .homeFriendSearchAddBtn {
     width: 100%;
     height: 100%;
@@ -313,32 +275,41 @@ img {
     border-radius: 20px;
 }
 
-
-
-// PROFILE SCREEN ----------------------------------------------------------------
-
+// PROFILE SCREEN 
 .profile-container {
     display: grid;
-    grid-template-areas: 
+    grid-template-areas:
         "home-left profile-top"
-        "home-left profile-stats";
-        background-color: #161616;
-    grid-template-columns: minmax(300px, 20%) minmax(960px, 1fr); /* 20% for home-left, remaining space for profile sections */
-    grid-template-rows: 50% 1fr; /* 50% for profile-top, remaining space for profile-stats */
+        "home-left profile-stats"
+        "home-left riot-account-input";
+    grid-template-columns: minmax(300px, 20%) minmax(960px, 1fr);
+    grid-template-rows: auto auto auto;
     height: 100vh;
-    gap: 20px; /* Add gap between grid items */
-    padding: 20px; /* Add padding to the container to separate from edges */
+    gap: 10px;
+    padding: 20px;
+    margin-bottom: -100px;
+}
+
+.riot-account-input {
+    grid-area: riot-account-input;
+    background-color: #0c0c0c;
+    border-radius: 15px;
+    padding: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-top: -16rem;
+    color: white;
 }
 
 .home-left,
 .profile-top {
-    background-color: #0c0c0c; /* Example background color */
-    border-radius: 15px; /* Rounded corners */
+    background-color: #0c0c0c;
+    border-radius: 15px;
     padding: 1rem;
     display: flex;
     flex-direction: column;
     align-items: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: add shadow for better effect */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: -12rem;
 }
 
 .profile-top {
@@ -354,7 +325,7 @@ img {
     border-radius: 15px;
     padding: 1rem;
     margin-right: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     color: white;
     width: 250px;
 }
@@ -397,11 +368,10 @@ img {
     display: flex;
     justify-content: center;
     align-items: center;
-    // padding: 2rem;
-    background-color: #0c0c0c; /* Example background color */
-    border-radius: 15px; /* Rounded corners */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: add shadow for better effect */
-    color: white; /* Text color */
+    background-color: #0c0c0c;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    color: white;
     width: 100%;
 }
 
@@ -410,33 +380,32 @@ img {
     height: 100%;
     box-sizing: border-box;
     display: grid;
-    grid-template-columns: 150px minmax(160px,1fr) 1fr 1fr;
+    grid-template-columns: 150px minmax(160px, 1fr) 1fr 1fr;
     grid-template-rows: 100%;
 }
 
 .home-logo {
     grid-column: 1;
     grid-row: 1;
-    width: 150px; /* Adjust image size as needed */
-    // height: auto;
-    border-radius: 50%; /* Make image circular */
+    width: 150px;
+    border-radius: 50%;
 }
 
 .username-addBtn-messageBtn {
     grid-column: 2;
     grid-row: 1;
     display: flex;
-    flex-direction: column; /* Align items vertically */
-    align-items: center; /* Center items horizontally */
+    flex-direction: column;
+    align-items: center;
 }
 
 .username-addBtn-messageBtn h1 {
     margin: 0;
-    margin-bottom: 10px; /* Space between username and buttons */
+    margin-bottom: 10px;
 }
 
 .profileBtn {
-    margin-top: 5px; /* Space between buttons */
+    margin-top: 5px;
     padding: 0.5rem 1rem;
     background-color: #007bff;
     border: none;
@@ -448,12 +417,10 @@ img {
 .location-gamelogos {
     grid-column: 4;
     grid-row: 1;
-    display: flex;
-    flex-direction: column; /* Align items vertically */
-    align-items: left; /* Center items horizontally */
     display: grid;
     grid-template-columns: 10px 1fr 10px;
-    grid-template-rows: 20px 35px 35px 40px 1fr;
+    grid-template-rows: auto auto auto auto 1fr;
+    gap: 10px;
 }
 
 .profileTopBio {
@@ -486,58 +453,113 @@ img {
 }
 
 .location {
-    // margin-top: 10px;
-    grid-column: 2;
+    grid-column: 2 / span 2;
     width: 100%;
     height: 100%;
     box-sizing: border-box;
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 100%;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto;
     align-items: center;
 }
 
 .contactInfo {
-    grid-column: 2;
+    grid-column: 2 / span 2;
     width: 100%;
     height: 100%;
     box-sizing: border-box;
     display: grid;
-    grid-template-columns: 60px 1fr;
-    grid-template-rows: 100%;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto;
     align-items: center;
-}
-
-.profileLocationInput {
-    width: 100%;
-    height: 80%;
-    box-sizing: border-box;
-    background-color: rgba(0, 0, 0, 0.1);
-    color: white;
 }
 
 .languages {
-    grid-column: 2;
+    grid-column: 2 / span 2;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
     display: grid;
-    grid-template-columns: 60px 1fr;
-    grid-template-rows: 100%;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto;
     align-items: center;
+}
+
+.profileInput {
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: rgba(0, 0, 0, 0.1);
+    color: white;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
 }
 
 .game-logos {
     grid-column: 2;
     display: flex;
-    justify-content: center; /* Center logos horizontally */
+    justify-content: center;
 }
 
 .game-logos img {
-    width: 75px; /* Adjust logo size as needed */
+    width: 75px;
     height: auto;
-    margin: 0 10px; /* Space between logos */
+    margin: 0 10px;
 }
 
-
-.oauthBtton {
-    height: 3rem;
+.oauthButton {
+    height: 6rem;
     width: auto;
+}
+
+.rank-data-container {
+    margin-top: 20px;
+}
+
+.rank-card {
+    background-color: #161616;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 10px;
+    color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.rank-card h5 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+.rank-card p {
+    font-size: 1rem;
+    margin: 2px 0;
+}
+
+.rank-card span {
+    font-weight: bold;
+    color: #007bff;
+}
+
+.spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-left-color: #007bff;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 1rem auto;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }

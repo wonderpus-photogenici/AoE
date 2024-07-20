@@ -10,7 +10,6 @@ const Profile = () => {
             <HomeLeft />
             <ProfileTop />
             <RiotAccountInput />
-            <ProfileStats />
         </div>
     );
 };
