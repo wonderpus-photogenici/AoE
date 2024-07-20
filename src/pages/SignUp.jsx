@@ -7,6 +7,7 @@ import GoogleLoginButton from '../components/GoogleLogin.jsx';
 import convertFileToBase64 from '../../utils/fileUtils';
 import '../App.scss';
 import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
+import leagueBackground from '../Assets/LeagueWallpaper.png'
 
 const SignUp = () => {
   const [username, setUsername] = useState('');
@@ -112,7 +113,7 @@ const SignUp = () => {
   };
 
   return (
-    <div className='wrapper'>
+    <div className='wrapper' style={{backgroundImage: "url(" + leagueBackground + ")"}} >
       <GoogleLoginButton />
       <div className='form-container'>
         <div className='title'>Register</div>
