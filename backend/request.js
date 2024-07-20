@@ -8,6 +8,7 @@ const {OAuth2Client} = require('google-auth-library');
 
 // Google requesting page
 router.post('/', async(req, res) => {
+    console.log('in request.js');
     res.header('Acess-Control-Allow-Origin', 'http://localhost:8080');
     res.header('Referrer-Policy','no-referrer-when-downgrade');
 
