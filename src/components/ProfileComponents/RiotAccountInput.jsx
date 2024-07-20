@@ -6,16 +6,20 @@ const RiotAccountInput = () => {
   const [tagLine, setTagLine] = useState('');
   const [rankData, setRankData] = useState(null);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
+    setLoading(true); // Start loading
     try {
       const response = await axios.post('http://localhost:3001/api/link-riot-account', { gameName, tagLine });
       setRankData(response.data.ranks);
     } catch (error) {
       console.error('Error linking Riot account:', error);
       setError(error.response ? error.response.data.error : 'An error occurred');
+    } finally {
+      setLoading(false); // Stop loading
     }
   };
 
@@ -33,7 +37,11 @@ const RiotAccountInput = () => {
         </label>
         <button type="submit">Link Account</button>
       </form>
+
+      {loading && <div className="spinner"></div>} {/* Spinner during loading */}
+
       {error && <p style={{ color: 'red' }}>Error: {error}</p>}
+
       {rankData && (
         <div className="rank-data-container">
           <h4>Rank Data</h4>
