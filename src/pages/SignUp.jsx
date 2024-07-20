@@ -37,10 +37,16 @@ const SignUp = () => {
     // }
 
     const { data, error } = await supabase.auth.signUp({
-      email: email,
-      password: password,
-    })
+        email: email,
+        password: password,
+        options: {
+            data: {
+                username: username, // Include username in user_metadata
+            }
+        }
+    });
 
+     console.log('Sign Up Response:', data); // Log the sign-up response data
     if (error) {
       alert("Make sure password is at least 6 characters long");
       console.log(error);

@@ -76,7 +76,7 @@ app.post("/api/link-riot-account", async (req, res) => {
       gameName
     )}/${encodeURIComponent(tagLine)}`;
     const accountResponse = await axios.get(accountUrl, {
-      headers: { "X-Riot-Token": "RGAPI-0407f298-655a-43f5-ad4e-ab572c954b1d" },
+      headers: { "X-Riot-Token": "RGAPI-d26b2775-02f2-4843-a9ce-0987a6a42710" },
     });
 
     const puuid = accountResponse.data.puuid;
@@ -84,7 +84,7 @@ app.post("/api/link-riot-account", async (req, res) => {
     // Get Summoner data (only rank)
     const summonerUrl = `https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-puuid/${puuid}`;
     const summonerResponse = await axios.get(summonerUrl, {
-      headers: { "X-Riot-Token": "RGAPI-0407f298-655a-43f5-ad4e-ab572c954b1d" },
+      headers: { "X-Riot-Token": "RGAPI-d26b2775-02f2-4843-a9ce-0987a6a42710" },
     });
 
     const summonerId = summonerResponse.data.id;
@@ -92,7 +92,7 @@ app.post("/api/link-riot-account", async (req, res) => {
     // Fetch the rank data
     const rankUrl = `https://na1.api.riotgames.com/lol/league/v4/entries/by-summoner/${summonerId}`;
     const rankResponse = await axios.get(rankUrl, {
-      headers: { "X-Riot-Token": "RGAPI-0407f298-655a-43f5-ad4e-ab572c954b1d" },
+      headers: { "X-Riot-Token": "RGAPI-d26b2775-02f2-4843-a9ce-0987a6a42710" },
     });
 
     return res.status(200).json({
