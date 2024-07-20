@@ -61,11 +61,11 @@ const HomeGameSearch = (props) => {
     return (
             <div className="allgames">
                 <div className="allgamesWrapper">
-                    {/* <div>
+                    <div>
                         Filter By Game:
-                    </div> */}
+                    </div>
                     <div className="profGamesDropdown">
-                        {/* <button onClick={myFunction} className="profGamesDropdown" id="profGamesDropBtn2">Search Games</button> */}
+                        <button onClick={myFunction} className="profGamesDropdown" id="profGamesDropBtn2">Search Games</button>
                         <div id="profGamesDrop2" className="profGamesDrop">
                             <input type="text" placeholder="Search.." id="profGamesInput2" onKeyUp={profGamesFilter}></input>
                             {/* Just hard coding options for now since short on time */}

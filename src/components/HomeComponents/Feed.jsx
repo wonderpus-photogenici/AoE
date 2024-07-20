@@ -60,7 +60,7 @@ const Feed = () => {
 
   return (
     <div className="feed-wrapper">
-      <HomeGameSearch feedData={feedData} />
+      {/* <HomeGameSearch feedData={feedData} /> */}
       <div className="filter-container">
         <div className="filter-input">
           <label>Filter by Username:</label>

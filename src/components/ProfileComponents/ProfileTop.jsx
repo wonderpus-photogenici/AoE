@@ -11,6 +11,7 @@ const ProfileTop = () => {
   const user = useUser();
   const supabase = useSupabaseClient();
   const [images, setImages] = useState([]);
+  const [location, setLocation] = useState('');
 
   const CDNURL = "https://gusnjhjnuugqaqtgwhym.supabase.co/storage/v1/object/public/AoE/";
   // CDNURL + user.id + "/" + image.name
@@ -133,6 +134,8 @@ const ProfileTop = () => {
     }
   }
 
+
+
   // console.log('user: ', user)
   const navigate = useNavigate();
 
@@ -225,7 +228,7 @@ const ProfileTop = () => {
           </div>
           <div className="location">
             <h3>Location: </h3>
-            <input type="text" name="profileLocationInput" id="profileLocationInput" className="profileInput"></input>
+            <input type="text" name="profileLocationInput" id="profileLocationInput" className="profileInput" defaultValue={location}></input>
           </div>
           <div className="contactInfo">
             <h3>Email: </h3>
