@@ -59,10 +59,10 @@ const SideBarLeft = () => {
                 </> : <>
                     {/* If there's a user logged in */}
                     <p style={{ color: "white" }}>Current user: {user.email}</p>
-                    <button type="Button" onClick = {() => {
+                    {/* <button type="Button" onClick = {() => {
                         console.log(store.getState().feedData.feedData);
                         // console.log(useSelector((state) => state.feedData));
-                    }}>store.getState().feedData.feedData</button>
+                    }}>store.getState().feedData.feedData</button> */}
                 </>
             }
 

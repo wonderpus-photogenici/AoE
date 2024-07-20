@@ -83,4 +83,4 @@ const Feed = () => {
   );
 };
 
-export default Feed;git 
+export default Feed; 

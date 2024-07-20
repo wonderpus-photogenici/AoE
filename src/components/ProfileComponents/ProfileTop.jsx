@@ -65,9 +65,18 @@ const ProfileTop = () => {
     }
   }, []);
 
+  const setBio = async () => {
+    const response = await axios.post('http://localhost:3001/api/getBio', {
+      username: user.user_metadata.username,
+    })
+
+    document.getElementById('profileTopBio').value = response.data.bio;
+  }
+
   if (user) {
     setGames();
     getUserName();
+    setBio();
   };
 
   const locationsArray = ['United States', 'Canada', 'Mexico', 'Brazil', 'Argentina'];
@@ -113,6 +122,17 @@ const ProfileTop = () => {
     }
   };
 
+  const saveBio = async (e) => {
+    // console.log(e.target.value);
+    if (user) {
+      // console.log(user.user_metadata.username);
+      const response = await axios.post('http://localhost:3001/api/saveBio', {
+        bio: e.target.value,
+        username: user.user_metadata.username,
+      })
+    }
+  }
+
   // console.log('user: ', user)
   const navigate = useNavigate();
 
@@ -135,7 +155,10 @@ const ProfileTop = () => {
             <img src={leagueLogo} alt="League Logo" />
           </div>
         </div>
-        <textarea className="profileTopBio" placeholder="Describe yourself here..."></textarea>
+        <textarea id="profileTopBio" className="profileTopBio" placeholder="Describe yourself here..." onChange={(e) => {
+          saveBio(e)
+        }
+        }></textarea>
         <div className="allgames">
           <div className="allgamesWrapper">
             <div>
