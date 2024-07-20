@@ -62,7 +62,7 @@ const HomeGameSearch = (props) => {
             <div className="allgames">
                 <div className="allgamesWrapper">
                     <div>
-                        Select Games Played:
+                        Filter By Game:
                     </div>
                     <div className="profGamesDropdown">
                         <button onClick={myFunction} className="profGamesDropdown" id="profGamesDropBtn2">Search Games</button>
