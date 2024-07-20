@@ -197,12 +197,14 @@ userController.saveBio = async (req, res, next) => {
     SELECT profile_id FROM users WHERE username = $1`;
     const params = [username];
     const result = await db.query(text, params);
-    console.log('result.rows[0].profile_id: ', result.rows[0].profile_id);
+    // console.log('result.rows[0].profile_id: ', result.rows[0].profile_id);
 
 
-    // const text = `UPDATE profile SET bio = $1 WHERE username = $2 RETURNING *;`;
-    // const params = [bio, username];
-    // const result = await db.query(text, params);
+    const text2 = `UPDATE profile SET bio = $1 WHERE id = $2 RETURNING bio;`;
+    const params2 = [bio, result.rows[0].profile_id];
+    const result2 = await db.query(text2, params2);
+
+    // console.log('result2.rows[0].bio: ', result2.rows[0].bio);
     // const text = `UPDATE profile SET riot_account = $1 WHERE id = $2 RETURNING *;`;
     // const params = [riotData, userId];
     // const result = await db.query(text, params);
@@ -211,6 +213,25 @@ userController.saveBio = async (req, res, next) => {
     return next('Error in userController.saveBio: ' + JSON.stringify(err));
   }
 };
+
+userController.getBio = async (req, res, next) => {
+  const { username } = req.body;
+  try {
+    const text = `
+    SELECT profile_id FROM users WHERE username = $1`;
+    const params = [username];
+    const result = await db.query(text, params);
+
+    const text2 = `SELECT bio FROm profile WHERE id = $1`;
+    const params2 = [result.rows[0].profile_id];
+    const result2 = await db.query(text2, params2);
+    // console.log('result2.rows[0]: ', result2.rows[0]);
+    res.locals.bio = result2.rows[0];
+    return next()
+  } catch (err) {
+    return next('Error in userController.getBio: ' + JSON.stringify(err));
+  }
+}
 
 userController.getFeedData = async (req, res, next) => {
   try {

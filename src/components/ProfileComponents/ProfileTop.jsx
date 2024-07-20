@@ -65,9 +65,18 @@ const ProfileTop = () => {
     }
   }, []);
 
+  const setBio = async () => {
+    const response = await axios.post('http://localhost:3001/api/getBio', {
+      username: user.user_metadata.username,
+    })
+
+    document.getElementById('profileTopBio').value = response.data.bio;
+  }
+
   if (user) {
     setGames();
     getUserName();
+    setBio();
   };
 
   const locationsArray = ['United States', 'Canada', 'Mexico', 'Brazil', 'Argentina'];
@@ -146,7 +155,7 @@ const ProfileTop = () => {
             <img src={leagueLogo} alt="League Logo" />
           </div>
         </div>
-        <textarea className="profileTopBio" placeholder="Describe yourself here..." onChange={(e) => {
+        <textarea id="profileTopBio" className="profileTopBio" placeholder="Describe yourself here..." onChange={(e) => {
           saveBio(e)
         }
         }></textarea>
