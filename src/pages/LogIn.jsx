@@ -7,6 +7,7 @@ import GoogleLoginButton from '../components/GoogleLogin.jsx';
 import '../App.scss';
 import store from '../redux/store'
 import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
+import leagueBackground from '../Assets/LeagueWallpaper.png'
 
 
 
@@ -66,7 +67,7 @@ const LogIn = () => {
   };
 
   return (
-    <div className='wrapper'>
+    <div className='wrapper'style={{backgroundImage: "url(" + leagueBackground + ")"}} >
       <GoogleLoginButton />
       <div className='animate_animated animate__fadeInLeft'>
         <div className='form-container'>
