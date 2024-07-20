@@ -200,16 +200,18 @@ const ProfileTop = () => {
               navigate('/')
             }}>Logout</button>
           </div>
-          <div className="location">
-            <h3>Location: </h3>
-          </div>
-          <div className="contactInfo">
-            <h3>Email: </h3>
-            <input type="text" name="profileLocationInput" id="profileLocationInput" className="profileLocationInput"></input>
-          </div>
-          <div className="languages">
-            <h3>Languages:</h3>
-          </div>
+<div className="location">
+<h3>Location: </h3>
+<input type="text" name="profileLocationInput" id="profileLocationInput" className="profileInput"></input>
+</div>
+<div className="contactInfo">
+<h3>Email: </h3>
+<input type="text" name="profileEmailInput" id="profileEmailInput" className="profileInput"></input>
+</div>
+<div className="languages">
+<h3>Languages:</h3>
+<input type="text" name="profileLanguagesInput" id="profileLanguagesInput" className="profileInput"></input>
+</div>
           <div className="gamesplayedList">
             <h3>Games:</h3>
             <div id="gamesplayedListAdd" className="gamesplayedListAdd"></div>
