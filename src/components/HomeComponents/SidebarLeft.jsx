@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux'
 import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { setUser } from '../../redux/userSlice';
 import { useDispatch } from 'react-redux';
+import store from '../../redux/store';
 // import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
 
 const SideBarLeft = () => {
@@ -58,6 +59,10 @@ const SideBarLeft = () => {
                 </> : <>
                     {/* If there's a user logged in */}
                     <p style={{ color: "white" }}>Current user: {user.email}</p>
+                    <button type="Button" onClick = {() => {
+                        console.log(store.getState().feedData.feedData);
+                        // console.log(useSelector((state) => state.feedData));
+                    }}>store.getState().feedData.feedData</button>
                 </>
             }
 

@@ -5,6 +5,7 @@ import valorantLogo from "../../Assets/valorantLogo.png";
 import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const ProfileTop = () => {
   const user = useUser();
@@ -18,13 +19,14 @@ const ProfileTop = () => {
 
   async function signOut() {
     const { error } = await supabase.auth.signOut();
-  }
+  };
 
   const getUser = async () => {
     const { data: { user } } = await supabase.auth.getUser();
-  }
+  };
 
   async function getImages() {
+    // console.log('in getImages');
     const { data, error } = await supabase
       .storage
       .from('AoE')
@@ -39,16 +41,77 @@ const ProfileTop = () => {
       alert("Error loading images")
       console.log(error);
     }
-  }
+  };
+
+  async function setGames() {
+    const response = await axios.post('http://localhost:3001/api/getUserGames', {
+      userId: user.id,
+    })
+    document.getElementById('gamesplayedListAdd').innerHTML = response.data;
+  };
+
+  async function getUserName() {
+    const response = await axios.post('http://localhost:3001/api/getUserName', {
+      userId: user.id,
+    })
+    document.getElementById('profile-username').innerHTML = response.data;
+  };
 
   useEffect(() => {
     getUser();
     if (user) {
       getImages();
+      // setGames();
     }
   }, []);
 
-  const locationsArray = ['United States', 'Canada', 'Mexico', 'Brazil', 'Argentina']
+  if (user) {
+    setGames();
+    getUserName();
+  };
+
+  const locationsArray = ['United States', 'Canada', 'Mexico', 'Brazil', 'Argentina'];
+  const gamesArray = ["League of Legends", "Minecraft", "Valorant", "Baldur's Gate 3", "Elden Ring", "Overwatch", "Fortnite", "Apex Legends"]
+
+  const myFunction = () => {
+    document.getElementById('profGamesDrop').style.display = 'block';
+  };
+
+  window.onclick = function (event) {
+    if (document.getElementById('profGamesDropBtn') !== null) {
+      if (!event.target.matches('.profGamesDropdown') && !event.target.matches('#profGamesDropBtn') && !event.target.matches('#profGamesInput') && !event.target.matches('#profGamesDrop')) {
+        document.getElementById('profGamesDrop').style.display = 'none';
+      }
+    }
+  };
+
+  const profGamesFilter = () => {
+    var input, filter, ul, li, adiv, i;
+    input = document.getElementById("profGamesInput");
+    filter = input.value.toUpperCase();
+    let div = document.getElementById("profGamesDrop");
+    adiv = div.getElementsByTagName("div");
+    for (i = 0; i < adiv.length; i++) {
+      let txtValue = adiv[i].textContent || adiv[i].innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        adiv[i].style.display = "";
+      } else {
+        adiv[i].style.display = "none";
+      }
+    }
+  };
+
+  const addGame = async (game) => {
+    if (user) {
+      const response = await axios.post('http://localhost:3001/api/addGame', {
+        userId: user.id,
+        game: game,
+      });
+      if (response.data) {
+        document.getElementById("gamesplayedListAdd").innerHTML = response.data;
+      }
+    }
+  };
 
   // console.log('user: ', user)
   const navigate = useNavigate();
@@ -64,7 +127,7 @@ const ProfileTop = () => {
           </>
         }
         <div className="username-addBtn-messageBtn">
-          <h1 className="profile-username">Username</h1>
+          <h1 id="profile-username" className="profile-username">Username</h1>
           <button className="profileBtn">Add</button>
           <button className="profileBtn">Message</button>
           <div className="game-logos">
@@ -73,6 +136,60 @@ const ProfileTop = () => {
           </div>
         </div>
         <textarea className="profileTopBio" placeholder="Describe yourself here..."></textarea>
+        <div className="allgames">
+          <div className="allgamesWrapper">
+            <div>
+              Select Games Played:
+            </div>
+            <div className="profGamesDropdown">
+              <button onClick={myFunction} className="profGamesDropdown" id="profGamesDropBtn">Search Games</button>
+              <div id="profGamesDrop" className="profGamesDrop">
+                <input type="text" placeholder="Search.." id="profGamesInput" onKeyUp={profGamesFilter}></input>
+                {/* Just hard coding options for now since short on time */}
+                <div onClick={(e) => {
+                  addGame(e.target.innerHTML);
+                }}>
+                  League of Legends
+                </div>
+                <div onClick={(e) => {
+                  addGame(e.target.innerHTML);
+                }}>
+                  Minecraft
+                </div>
+                <div onClick={(e) => {
+                  addGame(e.target.innerHTML);
+                }}>
+                  Valorant
+                </div>
+                <div onClick={(e) => {
+                  addGame(e.target.innerHTML);
+                }}>
+                  Baldur's Gate 3
+                </div>
+                <div onClick={(e) => {
+                  addGame(e.target.innerHTML);
+                }}>
+                  Elden Ring
+                </div>
+                <div onClick={(e) => {
+                  addGame(e.target.innerHTML);
+                }}>
+                  Overwatch
+                </div>
+                <div onClick={(e) => {
+                  addGame(e.target.innerHTML);
+                }}>
+                  Fortnite
+                </div>
+                <div onClick={(e) => {
+                  addGame(e.target.innerHTML);
+                }}>
+                  Apex Legends
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         <div className="location-gamelogos">
           <div className="profileTopNavBtns">
             <button type='button' className="HomeTopRightMessages profileTopHomeBtn" onClick={() => {
@@ -88,13 +205,19 @@ const ProfileTop = () => {
           </div>
           <div className="contactInfo">
             <h3>Email: </h3>
-            <input type="text" name="profileLocationInput" id = "profileLocationInput" className="profileLocationInput"></input>
+            <input type="text" name="profileLocationInput" id="profileLocationInput" className="profileLocationInput"></input>
           </div>
           <div className="languages">
             <h3>Languages:</h3>
           </div>
+          <div className="gamesplayedList">
+            <h3>Games:</h3>
+            <div id="gamesplayedListAdd" className="gamesplayedListAdd"></div>
+          </div>
         </div>
       </div>
+
+
     </div>
   );
 };

@@ -8,6 +8,8 @@ import convertFileToBase64 from '../../utils/fileUtils';
 import '../App.scss';
 import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
 
+import leagueBackground from '../Assets/LeagueWallpaper.png'
+
 const SignUp = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -112,7 +114,7 @@ const SignUp = () => {
   };
 
   return (
-    <div className='wrapper'>
+    <div className='wrapper' style={{backgroundImage: "url(" + leagueBackground + ")"}}>
       <GoogleLoginButton />
       <div className='form-container'>
         <div className='title'>Register</div>
@@ -148,7 +150,7 @@ const SignUp = () => {
             />
           </div>
           <div className='field'>
-            <label for="signupPfp">Profile Picture:</label>
+            <label htmlFor="signupPfp">Profile Picture:</label>
             <input
               id = "signupPfp"
               type="file"

@@ -44,6 +44,22 @@ app.post('/api/getEmail', userController.getEmail, (req, res) => {
   res.status(200).send(res.locals.email);
 })
 
+app.post('/api/addGame', userController.addGame, (req, res) => {
+  res.status(200).send(res.locals.allgames);
+})
+
+app.post('/api/getUserGames', userController.getUserGames, (req, res) => {
+  res.status(200).send(res.locals.userGames);
+})
+
+app.post('/api/getUserName', userController.getUserName, (req, res) => {
+  res.status(200).send(res.locals.username);
+})
+
+app.post('/api/getFeedData', userController.getFeedData, (req, res) => {
+  res.status(200).send(res.locals.feedData);
+})
+
 
 
 // Endpoint to link Riot account
