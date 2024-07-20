@@ -14,6 +14,7 @@ import store from './redux/store';
 import SupabaseLogin from './pages/SupabaseLogin.jsx';
 import './App.scss';
 
+
 const App = () => {
   return (
     <Provider store={store}>
