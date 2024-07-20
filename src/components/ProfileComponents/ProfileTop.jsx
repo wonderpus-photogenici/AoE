@@ -213,7 +213,7 @@ const ProfileTop = () => {
             <input type="text" name="profileLanguagesInput" id="profileLanguagesInput" className="profileInput"></input>
           </div>
           <div className="gamesplayedList">
-            <h3>Games:</h3>
+            <div className="h3Mimic">Games:</div>
             <div id="gamesplayedListAdd" className="gamesplayedListAdd"></div>
           </div>
         </div>
