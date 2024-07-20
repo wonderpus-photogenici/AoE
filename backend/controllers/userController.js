@@ -74,8 +74,6 @@ userController.addGame = async (req, res, next) => {
   console.log('userId: ', userId);
   console.log('game: ', game);
   try {
-
-
     // first I need to retrieve the list of current games played
     const text = `
     SELECT profile_id FROM users WHERE supabase_id = $1`;
@@ -100,9 +98,8 @@ userController.addGame = async (req, res, next) => {
     // SELECT id, allgames FROM profile WHERE users
     // `
 
-
-    // Then I'll need to push the new game to the array, later also implement logic that if the game is 
-    // already in the array then don't push it 
+    // Then I'll need to push the new game to the array, later also implement logic that if the game is
+    // already in the array then don't push it
 
     const text3 = `UPDATE profile SET allgames = $1 WHERE id = $2 RETURNING allgames`;
     const params3 = [result2.rows[0].allgames, result.rows[0].profile_id];
@@ -190,13 +187,35 @@ userController.getUserName = async (req, res, next) => {
   } catch (err) {
     return next('Error in userController.getUserName: ' + JSON.stringify(err));
   }
-}
+};
+
+userController.saveBio = async (req, res, next) => {
+  const { bio, username } = req.body;
+
+  try {
+    const text = `
+    SELECT profile_id FROM users WHERE username = $1`;
+    const params = [username];
+    const result = await db.query(text, params);
+    console.log('result.rows[0].profile_id: ', result.rows[0].profile_id);
+
+
+    // const text = `UPDATE profile SET bio = $1 WHERE username = $2 RETURNING *;`;
+    // const params = [bio, username];
+    // const result = await db.query(text, params);
+    // const text = `UPDATE profile SET riot_account = $1 WHERE id = $2 RETURNING *;`;
+    // const params = [riotData, userId];
+    // const result = await db.query(text, params);
+    return next();
+  } catch (err) {
+    return next('Error in userController.saveBio: ' + JSON.stringify(err));
+  }
+};
 
 userController.getFeedData = async (req, res, next) => {
   try {
-
     // Data Needed: pfp[users], username[users], allgames [profile]
-    const text3 = `SELECT users.username, users.pfp, profile.allgames FROM users JOIN profile on users.profile_id = profile.id`
+    const text3 = `SELECT users.username, users.pfp, profile.allgames FROM users JOIN profile on users.profile_id = profile.id`;
     const params3 = [];
     const result3 = await db.query(text3, params3);
 
@@ -207,7 +226,7 @@ userController.getFeedData = async (req, res, next) => {
   } catch (err) {
     return next('Error in userController.getFeedData: ' + JSON.stringify(err));
   }
-}
+};
 
 userController.findAllUsersPfp = async (req, res, next) => {
   try {

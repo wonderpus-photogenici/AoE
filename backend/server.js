@@ -60,6 +60,10 @@ app.post('/api/getFeedData', userController.getFeedData, (req, res) => {
   res.status(200).send(res.locals.feedData);
 })
 
+app.post('/api/saveBio', userController.saveBio, (req, res) => {
+  res.status(200);
+})
+
 
 
 // Endpoint to link Riot account
