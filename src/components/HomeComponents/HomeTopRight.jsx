@@ -26,6 +26,11 @@ const HomeTopRight = () => {
         const { error } = await supabase.auth.signOut();
     }
 
+    if (user) {
+        console.log('user.user_metadata.username: ', user.user_metadata.username);
+
+    }
+
 
     return (
         <div className="HomeTopRightWrapper">
@@ -42,7 +47,7 @@ const HomeTopRight = () => {
             </div>
             <div className="HomeTopRightProfileWrapper">
                 <button type="button" className="HomeTopRightMessages" onClick={() => {
-                    navigate('/profile')
+                    navigate(`/profile/${user.user_metadata.username}`)
                 }}>            
                 {user === null ?
                     // If there's not a user logged in:

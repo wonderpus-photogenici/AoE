@@ -14,7 +14,7 @@ body {
     grid-template-areas: 
         /* "header header header" */
         "home-left feed home-right";
-    grid-template-columns: minmax(300px, 20%) minmax(760px, 60%)minmax(300px, 20%);
+    grid-template-columns: minmax(300px, 20%) minmax(750px, 60%)minmax(300px, 20%);
     grid-template-rows: auto;
     height: calc(100vh - 30px);
     gap: 20px;

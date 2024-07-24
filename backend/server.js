@@ -61,11 +61,15 @@ app.post('/api/getFeedData', userController.getFeedData, (req, res) => {
 })
 
 app.post('/api/saveBio', userController.saveBio, (req, res) => {
-  res.status(200);
+  return res.status(200).send(res.locals.bio);
 })
 
 app.post('/api/getBio', userController.getBio, (req, res) => {
   res.status(200).send(res.locals.bio);
+})
+
+app.post('/api/getProfData', userController.getProfData, (req, res) => {
+  res.status(200).send(res.locals.profData);
 })
 
 
