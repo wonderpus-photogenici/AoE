@@ -6,12 +6,23 @@ import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useLocation } from 'react-router-dom';
 
 const ProfileTop = () => {
   const user = useUser();
   const supabase = useSupabaseClient();
   const [images, setImages] = useState([]);
   const [location, setLocation] = useState('');
+  const [profData, setProfData] = useState({});
+
+  const { state } = useLocation();
+  console.log('state: ', state);
+
+  // if (window.location) {
+  const currentUrl = window.location.href;
+  const username = currentUrl.substring(currentUrl.lastIndexOf('/') + 1);
+  // console.log('username: ', username);
+  // }
 
   const CDNURL = "https://gusnjhjnuugqaqtgwhym.supabase.co/storage/v1/object/public/AoE/";
   // CDNURL + user.id + "/" + image.name
@@ -44,40 +55,53 @@ const ProfileTop = () => {
     }
   };
 
-  async function setGames() {
-    const response = await axios.post('http://localhost:3001/api/getUserGames', {
-      userId: user.id,
-    })
-    document.getElementById('gamesplayedListAdd').innerHTML = response.data;
-  };
+  // async function setGames() {
+  //   const response = await axios.post('http://localhost:3001/api/getUserGames', {
+  //     userId: user.id,
+  //   })
+  //   document.getElementById('gamesplayedListAdd').innerHTML = response.data;
+  // };
 
-  async function getUserName() {
-    const response = await axios.post('http://localhost:3001/api/getUserName', {
-      userId: user.id,
+  // async function getUserName() {
+  //   const response = await axios.post('http://localhost:3001/api/getUserName', {
+  //     userId: user.id,
+  //   })
+  //   document.getElementById('profile-username').innerHTML = response.data;
+  // };
+
+  async function getProfData() {
+    const response = await axios.post('http://localhost:3001/api/getProfData', {
+      username: username,
     })
-    document.getElementById('profile-username').innerHTML = response.data;
-  };
+    // console.log('response.data: ', response.data)
+    setProfData(response.data);
+  }
+
+  if (Object.keys(profData).length !== 0) {
+    console.log('profData: ', profData);
+  }
 
   useEffect(() => {
     getUser();
+    getProfData();
     if (user) {
       getImages();
       // setGames();
     }
   }, []);
 
-  const setBio = async () => {
-    const response = await axios.post('http://localhost:3001/api/getBio', {
-      username: user.user_metadata.username,
-    })
+  // const setBio = async () => {
+  //   const response = await axios.post('http://localhost:3001/api/getBio', {
+  //     username: user.user_metadata.username,
+  //   })
 
-    document.getElementById('profileTopBio').value = response.data.bio;
-  }
+  //   document.getElementById('profileTopBio').value = response.data.bio;
+  // }
 
   if (user) {
-    setGames();
-    getUserName();
-    setBio();
+    // setGames();
+    // getUserName();
+    // setBio();
   };
 
   const locationsArray = ['United States', 'Canada', 'Mexico', 'Brazil', 'Argentina'];
@@ -124,10 +148,8 @@ const ProfileTop = () => {
   };
 
   const saveBio = async (e) => {
-    // console.log(e.target.value);
     if (user) {
-      // console.log(user.user_metadata.username);
-      const response = await axios.post('http://localhost:3001/api/saveBio', {
+      const response = await axios.post('/api/saveBio', {
         bio: e.target.value,
         username: user.user_metadata.username,
       })
@@ -142,80 +164,96 @@ const ProfileTop = () => {
   return (
     <div className="profile-top">
       <div className="profile-top-container">
-        {user !== null ?
+        {Object.keys(profData).length !== 0 ?
           <>
-            <img className="home-logo" src={CDNURL + user.id + "/pfp"} alt="profile pic" />
+            <img className="home-logo" src={CDNURL + profData.pfp} alt="profile pic" />
           </> : <>
             <img className="home-logo" src={noPfp} alt="profile pic" />
           </>
         }
         <div className="username-addBtn-messageBtn">
-          <h1 id="profile-username" className="profile-username">Username</h1>
-          <button className="profileBtn">Add</button>
-          <button className="profileBtn">Message</button>
-          <div className="game-logos">
-            <img src={valorantLogo} alt="Valorant Logo" />
-            <img src={leagueLogo} alt="League Logo" />
-          </div>
-        </div>
-        <textarea id="profileTopBio" className="profileTopBio" placeholder="Describe yourself here..." onChange={(e) => {
-          saveBio(e)
-        }
-        }></textarea>
-        <div className="allgames">
-          <div className="allgamesWrapper">
-            <div>
-              Select Games Played:
-            </div>
-            <div className="profGamesDropdown">
-              <button onClick={myFunction} className="profGamesDropdown" id="profGamesDropBtn">Search Games</button>
-              <div id="profGamesDrop" className="profGamesDrop">
-                <input type="text" placeholder="Search.." id="profGamesInput" onKeyUp={profGamesFilter}></input>
-                {/* Just hard coding options for now since short on time */}
-                <div onClick={(e) => {
-                  addGame(e.target.innerHTML);
-                }}>
-                  League of Legends
-                </div>
-                <div onClick={(e) => {
-                  addGame(e.target.innerHTML);
-                }}>
-                  Minecraft
-                </div>
-                <div onClick={(e) => {
-                  addGame(e.target.innerHTML);
-                }}>
-                  Valorant
-                </div>
-                <div onClick={(e) => {
-                  addGame(e.target.innerHTML);
-                }}>
-                  Baldur's Gate 3
-                </div>
-                <div onClick={(e) => {
-                  addGame(e.target.innerHTML);
-                }}>
-                  Elden Ring
-                </div>
-                <div onClick={(e) => {
-                  addGame(e.target.innerHTML);
-                }}>
-                  Overwatch
-                </div>
-                <div onClick={(e) => {
-                  addGame(e.target.innerHTML);
-                }}>
-                  Fortnite
-                </div>
-                <div onClick={(e) => {
-                  addGame(e.target.innerHTML);
-                }}>
-                  Apex Legends
+          <h1 id="profile-username" className="profile-username">{username}</h1>
+          {Object.keys(profData).length !== 0 && user && username === user.user_metadata.username ?
+            <>
+              <div className="allgames">
+                <div className="allgamesWrapper">
+                  <div>
+                    Select Games Played:
+                  </div>
+                  <div className="profGamesDropdown">
+                    <button onClick={myFunction} className="profGamesDropdown" id="profGamesDropBtn">Search Games</button>
+                    <div id="profGamesDrop" className="profGamesDrop">
+                      <input type="text" placeholder="Search.." id="profGamesInput" onKeyUp={profGamesFilter}></input>
+                      {/* Just hard coding options for now since short on time */}
+                      <div onClick={(e) => {
+                        addGame(e.target.innerHTML);
+                      }}>
+                        League of Legends
+                      </div>
+                      <div onClick={(e) => {
+                        addGame(e.target.innerHTML);
+                      }}>
+                        Minecraft
+                      </div>
+                      <div onClick={(e) => {
+                        addGame(e.target.innerHTML);
+                      }}>
+                        Valorant
+                      </div>
+                      <div onClick={(e) => {
+                        addGame(e.target.innerHTML);
+                      }}>
+                        Baldur's Gate 3
+                      </div>
+                      <div onClick={(e) => {
+                        addGame(e.target.innerHTML);
+                      }}>
+                        Elden Ring
+                      </div>
+                      <div onClick={(e) => {
+                        addGame(e.target.innerHTML);
+                      }}>
+                        Overwatch
+                      </div>
+                      <div onClick={(e) => {
+                        addGame(e.target.innerHTML);
+                      }}>
+                        Fortnite
+                      </div>
+                      <div onClick={(e) => {
+                        addGame(e.target.innerHTML);
+                      }}>
+                        Apex Legends
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
+            </> : <>
+              <button className="profileBtn">Add</button>
+              <button className="profileBtn">Message</button>
+            </>
+          }
+
+          {/* <div className="game-logos">
+            <img src={valorantLogo} alt="Valorant Logo" />
+            <img src={leagueLogo} alt="League Logo" />
+          </div> */}
         </div>
+
+        {/* Basically checking if the logged in user is the same as the user profile that they're */}
+        {/* visiting, if they are, then they can edit the bio, if they aren't then they can't */}
+        {Object.keys(profData).length !== 0 && user && username === user.user_metadata.username ?
+          <>
+            <textarea id="profileTopBio" className="profileTopBio" placeholder="Describe yourself here..." defaultValue={profData.bio} onInput={(e) => {
+              saveBio(e)
+            }
+            }></textarea>
+          </> : <>
+            <textarea readOnly id="profileTopBio" className="profileTopBio" placeholder="Describe yourself here..." defaultValue={profData.bio} style={{outline: 'none'}}></textarea>
+          </>
+        }
+
         <div className="location-gamelogos">
           <div className="profileTopNavBtns">
             <button type='button' className="HomeTopRightMessages profileTopHomeBtn" onClick={() => {
@@ -240,7 +278,13 @@ const ProfileTop = () => {
           </div>
           <div className="gamesplayedList">
             <div className="h3Mimic">Games:</div>
-            <div id="gamesplayedListAdd" className="gamesplayedListAdd"></div>
+            {Object.keys(profData).length !== 0 && user && username === user.user_metadata.username ?
+              <>
+                <div id="gamesplayedListAdd" className="gamesplayedListAdd">{profData.allgames}</div>
+              </> : <>
+                <div id="gamesplayedListAdd" className="gamesplayedListAdd" >{profData.allgames}</div>
+              </>
+            }
           </div>
         </div>
       </div>

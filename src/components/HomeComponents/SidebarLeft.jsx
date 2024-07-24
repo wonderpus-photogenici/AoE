@@ -58,7 +58,7 @@ const SideBarLeft = () => {
                     <p>No user Logged in</p>
                 </> : <>
                     {/* If there's a user logged in */}
-                    <p style={{ color: "white" }}>Current user: {user.email}</p>
+                    <p style={{ color: "white" }}>Current user: {user.user_metadata.username}</p>
                     {/* <button type="Button" onClick = {() => {
                         console.log(store.getState().feedData.feedData);
                         // console.log(useSelector((state) => state.feedData));

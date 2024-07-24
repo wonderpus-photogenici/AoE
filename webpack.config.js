@@ -62,6 +62,7 @@ module.exports = {
       {
         context:['/**'],
         target: 'http://localhost:3001',
+        // target: 'http://[::1]:3001',
         secure: false,
       },
     ],

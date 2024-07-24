@@ -191,6 +191,7 @@ userController.getUserName = async (req, res, next) => {
 
 userController.saveBio = async (req, res, next) => {
   const { bio, username } = req.body;
+  // console.log('bio: ', bio);
 
   try {
     const text = `
@@ -204,6 +205,7 @@ userController.saveBio = async (req, res, next) => {
     const params2 = [bio, result.rows[0].profile_id];
     const result2 = await db.query(text2, params2);
 
+    res.locals.bio = result2.rows[0].bio;
     // console.log('result2.rows[0].bio: ', result2.rows[0].bio);
     // const text = `UPDATE profile SET riot_account = $1 WHERE id = $2 RETURNING *;`;
     // const params = [riotData, userId];
@@ -213,6 +215,21 @@ userController.saveBio = async (req, res, next) => {
     return next('Error in userController.saveBio: ' + JSON.stringify(err));
   }
 };
+
+userController.getProfData = async (req, res, next) => {
+  const { username } = req.body;
+
+  try {
+    const text = `SELECT users.pfp, profile.allgames, profile.bio FROM users JOIN profile on users.profile_id = profile.id WHERE users.username = $1`;
+    const params = [username];
+    const result = await db.query(text, params);
+
+    res.locals.profData = result.rows[0];
+    return next();
+  } catch (err) {
+    return next('Error in userController.getProfData: ' + JSON.stringify(err));
+  }
+}
 
 userController.getBio = async (req, res, next) => {
   const { username } = req.body;
@@ -236,13 +253,11 @@ userController.getBio = async (req, res, next) => {
 userController.getFeedData = async (req, res, next) => {
   try {
     // Data Needed: pfp[users], username[users], allgames [profile]
-    const text3 = `SELECT users.username, users.pfp, profile.allgames FROM users JOIN profile on users.profile_id = profile.id`;
-    const params3 = [];
-    const result3 = await db.query(text3, params3);
+    const text = `SELECT users.username, users.pfp, profile.allgames, profile.bio FROM users JOIN profile on users.profile_id = profile.id`;
+    const params = [];
+    const result = await db.query(text, params);
 
-    // console.log('result3.rows: ', result3.rows);
-
-    res.locals.feedData = result3.rows;
+    res.locals.feedData = result.rows;
     return next();
   } catch (err) {
     return next('Error in userController.getFeedData: ' + JSON.stringify(err));

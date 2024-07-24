@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
 import UserRec from './UserRec.jsx';
-import HomeGameSearch from './HomeGameSearch.jsx';
 
 const Feed = () => {
   const [feedData, setFeedData] = useState([]);
@@ -14,10 +12,12 @@ const Feed = () => {
     getFeedData();
   }, []);
 
+  // When feedData changes, run extractAvailableGames();
   useEffect(() => {
     extractAvailableGames();
   }, [feedData]);
 
+  // Function to get all of the user's usernames, pfps, and games played
   const getFeedData = async () => {
     const response = await axios.post('http://localhost:3001/api/getFeedData');
     if (response.data) {
@@ -55,6 +55,7 @@ const Feed = () => {
       username={data.username}
       pfp={data.pfp}
       allgames={data.allgames}
+      bio={data.bio}
     />
   ));
 

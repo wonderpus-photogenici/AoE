@@ -25,7 +25,7 @@ const App = () => {
             <Route path="/home" element={<Home />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/login" element={<LogIn />} />
-            <Route path="/profile" element={<Profile />} />
+            <Route path="/profile/*" element={<Profile />} />
             <Route path="/chat" element={<Chat />} />
             <Route path="/supabaselogin" element={<SupabaseLogin />} />
             <Route path="*" element={<NotFound />} />
