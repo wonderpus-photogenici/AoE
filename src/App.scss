@@ -187,7 +187,7 @@ input[type="file"] {
 }
 
 // img {
-//     width: 70px;
+//     width: 70px;kyler1
 // }
 
 .userRec-wrapper {
@@ -197,8 +197,8 @@ input[type="file"] {
     background-color: #161616;
     margin-bottom: 1rem;
     border-radius: 15px;
-    grid-template-columns: 16% 23% 24% 29%;
-    grid-template-rows: 100%;
+    grid-template-columns: 18% 29% 16% 37%;
+    grid-template-rows: calc(30% - 20px) 40px calc(70% - 20px);
     // justify-content: center;
     align-items: center;
 }
@@ -206,26 +206,43 @@ input[type="file"] {
 .userRec-prof-pic {
     height: 100px;
     width: 100px;
-    // margin-left: 10px;
-    padding-left: 10px;
-    // padding-top: 25px;
-    // border-radius: 50%;
+    margin-left: 10px;
+    border-radius: 50%;
+    grid-column: 1;
+    grid-row: 1/4;
 }
 
 .userRec-userInfo {
-    padding-top: 22px;
-    padding-left: 10px;
+    grid-column: 2;
+    grid-row: 2;
+    display: grid;
+    box-sizing: border-box;
+    align-self: end;
+}
+
+.userRec-favorite-game {
+    grid-column: 3/5;
+    grid-row: 2;
+    display: grid;
+    box-sizing: border-box;
+    align-self: start;
 }
 
 .userRec-buttons {
     display: flex;
-    // padding-top: 5px;
-    padding-left: 30px;
+    grid-column: 2;
+    grid-row: 3;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    align-items: start;
+    justify-content: start;
+    // margin-top: 40px;
 }
 
 .userRec-Button {
     height: 40px;
-    margin-top: 25px;
+    // margin-top: 25px;
     background-color: #0c0c0c;
     border: 1.2px solid #505050;
     border-radius: 15px;
@@ -254,8 +271,16 @@ input[type="file"] {
 }
 
 .userRec-game-rank-Container {
-    display: flex;
-    margin-left: 60px;
+    display: grid;
+    grid-column: 3/5;
+    grid-row: 3;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    align-items: start;
+    // margin-top: 40px;
+    overflow-y: auto;
+    background-color: #007bff;
 }
 
 .userRec-gameLogo {
