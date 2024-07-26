@@ -1,5 +1,7 @@
 const express = require('express');
 const app = express();
+const port = process.env.PORT || 3001;
+
 const path = require('path');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
@@ -10,10 +12,16 @@ const authRouter = require('./oauth');
 const requestRouter = require('./request');
 const { Server } = require('socket.io');
 
-const port = process.env.PORT || 3001;
 const expressServer = app.listen(port, () =>
   console.log(`Listening on PORT ${port}`)
 );
+
+const io = new Server(expressServer, {
+  cors: {
+    origin:
+      process.env.NODE_ENV === 'product' ? false : ['http://localhost:8080'],
+  },
+});
 
 app.use(cors());
 app.use(cookieParser());
@@ -23,20 +31,34 @@ app.use(express.static(path.join(__dirname, '/dist')));
 app.use('/oauth', authRouter);
 app.use('/request', requestRouter);
 
-const io = new Server(expressServer, {
-  cors: {
-    origin: 'http://localhost:8080',
-    methods: ['GET', 'POST'],
-    credentials: true,
-  },
-});
-
 io.on('connection', (socket) => {
-  console.log(`User ${socket.id} connected`);
+  console.log('User connected with socket id: ', socket.id);
 
+  // upon connection - only to user
+  socket.emit('message', 'Welcome to the Chat!');
+
+  // upon connection - to all others except the user (broadcast)
+  socket.broadcast.emit(
+    'message',
+    `User ${socket.id.substring(0, 5)} connected`
+  );
+
+  // socket.id is a unique identifier assigned by the server to each connected client
+  // randomly generated and serves to indentify each connection
   socket.on('message', (data) => {
-    console.log(data);
+    console.log('Message Recevied in Server: ', data);
     io.emit('message', `${socket.id.substring(0, 5)}: ${data}`);
+  });
+
+  // knows if the user is disconnected
+  socket.on('disconnect', () => {
+    console.log('User disconnected with socket id: ', socket.id);
+  });
+
+  // listen for activity
+  socket.on('activity', (data) => {
+    console.log('data: ', data);
+    socket.broadcast.emit('activity', data);
   });
 });
 
