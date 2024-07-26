@@ -53,6 +53,8 @@
     "redux-thunk": "^3.1.0",
     "sass": "^1.77.8",
     "sass-loader": "^14.2.1",
+    "socket.io": "^4.7.5",
+    "socket.io-client": "^4.7.5",
     "style-loader": "^4.0.0",
     "uuid": "^10.0.0",
     "webpack": "^5.93.0",

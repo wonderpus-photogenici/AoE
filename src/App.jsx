@@ -12,6 +12,7 @@ import SignUp from './pages/SignUp.jsx';
 import Chat from './pages/Chat.jsx';
 import store from './redux/store';
 import SupabaseLogin from './pages/SupabaseLogin.jsx';
+import Messages from './pages/Messages.jsx';
 import './App.scss';
 
 
@@ -28,6 +29,7 @@ const App = () => {
             <Route path="/profile/*" element={<Profile />} />
             <Route path="/chat" element={<Chat />} />
             <Route path="/supabaselogin" element={<SupabaseLogin />} />
+            <Route path="/messages" element={<Messages />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>

@@ -58,12 +58,11 @@ module.exports = {
   devServer: {
     port: 8080, // Port for development server
     hot: true, // Enable live reload
+    open: true,
     proxy: [
       {
         context:['/**'],
         target: 'http://localhost:3001',
-        // target: 'http://[::1]:3001',
-        // test
         secure: false,
       },
     ],

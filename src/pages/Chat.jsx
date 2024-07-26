@@ -119,6 +119,7 @@ import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/
 import { getFirestore, collection, query, orderBy, limit, addDoc, serverTimestamp } from 'firebase/firestore';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
+import './Chat.css'
 
 const firebaseConfig = {
   apiKey: "AIzaSyA8sCco43Znz3RPYvLGSa1jcLR37mOk2Hg",
@@ -140,10 +141,8 @@ function Chat() {
 
   return (
     <div className="chat">
-      <header>
 
-      </header>
-
+      <h1 style={{color:'white'}}>Hello from Chatting Room</h1>
       <section>
         {user ? <ChatRoom /> : <SignIn />}
       </section>
