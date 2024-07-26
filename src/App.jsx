@@ -10,11 +10,10 @@ import NotFound from './pages/NotFound.jsx';
 import LogIn from './pages/LogIn.jsx';
 import SignUp from './pages/SignUp.jsx';
 import Chat from './pages/Chat.jsx';
+import Messages from './pages/Messages.jsx';
 import store from './redux/store';
 import SupabaseLogin from './pages/SupabaseLogin.jsx';
-import Messages from './pages/Messages.jsx';
 import './App.scss';
-
 
 const App = () => {
   return (
@@ -27,7 +26,7 @@ const App = () => {
             <Route path="/signup" element={<SignUp />} />
             <Route path="/login" element={<LogIn />} />
             <Route path="/profile/*" element={<Profile />} />
-            <Route path="/chat" element={<Chat />} />
+            {/* <Route path="/chat" element={<Chat />} /> */}
             <Route path="/supabaselogin" element={<SupabaseLogin />} />
             <Route path="/messages" element={<Messages />} />
             <Route path="*" element={<NotFound />} />
@@ -37,6 +36,5 @@ const App = () => {
     </Provider>
   );
 };
-
 
 export default App;

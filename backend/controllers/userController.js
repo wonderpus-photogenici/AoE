@@ -200,7 +200,6 @@ userController.saveBio = async (req, res, next) => {
     const result = await db.query(text, params);
     // console.log('result.rows[0].profile_id: ', result.rows[0].profile_id);
 
-
     const text2 = `UPDATE profile SET bio = $1 WHERE id = $2 RETURNING bio;`;
     const params2 = [bio, result.rows[0].profile_id];
     const result2 = await db.query(text2, params2);
@@ -229,7 +228,7 @@ userController.getProfData = async (req, res, next) => {
   } catch (err) {
     return next('Error in userController.getProfData: ' + JSON.stringify(err));
   }
-}
+};
 
 userController.getBio = async (req, res, next) => {
   const { username } = req.body;
@@ -244,11 +243,11 @@ userController.getBio = async (req, res, next) => {
     const result2 = await db.query(text2, params2);
     // console.log('result2.rows[0]: ', result2.rows[0]);
     res.locals.bio = result2.rows[0];
-    return next()
+    return next();
   } catch (err) {
     return next('Error in userController.getBio: ' + JSON.stringify(err));
   }
-}
+};
 
 userController.getFeedData = async (req, res, next) => {
   try {
