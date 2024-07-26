@@ -10,11 +10,8 @@ const HomeTopRight = () => {
     const user = useUser();
     const supabase = useSupabaseClient();
 
-    // console.log('store: ', store);
-
     const getUser = async () => {
         const { data: { user } } = await supabase.auth.getUser();
-        // console.log('user: ', user);
     }
 
     useEffect(() => {
@@ -24,11 +21,6 @@ const HomeTopRight = () => {
 
     async function signOut() {
         const { error } = await supabase.auth.signOut();
-    }
-
-    if (user) {
-        console.log('user.user_metadata.username: ', user.user_metadata.username);
-
     }
 
 

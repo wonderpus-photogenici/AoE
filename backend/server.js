@@ -73,7 +73,14 @@ app.post('/api/getProfData', userController.getProfData, (req, res) => {
   res.status(200).send(res.locals.profData);
 })
 
+app.post('/api/updatePfp', userController.updatePfp, (req, res) => {
+  // console.log('at end of /api/updatePfp');
+  res.status(200).send(res.locals.pfp);
+})
 
+// My API Key: Group Finder
+// Limited to 20 requests every 1 second, 100 requests every 2 minutes
+const riotAPIkey = 'RGAPI-03459f39-07a6-4438-a4c3-7d36c3122aec';
 
 // Endpoint to link Riot account
 app.post("/api/link-riot-account", async (req, res) => {
@@ -89,7 +96,7 @@ app.post("/api/link-riot-account", async (req, res) => {
       gameName
     )}/${encodeURIComponent(tagLine)}`;
     const accountResponse = await axios.get(accountUrl, {
-      headers: { "X-Riot-Token": "RGAPI-d26b2775-02f2-4843-a9ce-0987a6a42710" },
+      headers: { "X-Riot-Token": riotAPIkey },
     });
 
     const puuid = accountResponse.data.puuid;
@@ -97,7 +104,7 @@ app.post("/api/link-riot-account", async (req, res) => {
     // Get Summoner data (only rank)
     const summonerUrl = `https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-puuid/${puuid}`;
     const summonerResponse = await axios.get(summonerUrl, {
-      headers: { "X-Riot-Token": "RGAPI-d26b2775-02f2-4843-a9ce-0987a6a42710" },
+      headers: { "X-Riot-Token": riotAPIkey },
     });
 
     const summonerId = summonerResponse.data.id;
@@ -105,7 +112,7 @@ app.post("/api/link-riot-account", async (req, res) => {
     // Fetch the rank data
     const rankUrl = `https://na1.api.riotgames.com/lol/league/v4/entries/by-summoner/${summonerId}`;
     const rankResponse = await axios.get(rankUrl, {
-      headers: { "X-Riot-Token": "RGAPI-d26b2775-02f2-4843-a9ce-0987a6a42710" },
+      headers: { "X-Riot-Token": riotAPIkey },
     });
 
     return res.status(200).json({

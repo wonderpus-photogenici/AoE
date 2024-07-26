@@ -38,16 +38,16 @@ const SideBarLeft = () => {
     //     // setImgLink(result.data);
     // };
 
-    const getUser = async () => {
-        const { data: { user } } = await supabase.auth.getUser();
-    }
+    // const getUser = async () => {
+    //     const { data: { user } } = await supabase.auth.getUser();
+    // }
 
 
-    useEffect(() => {
-        // character();
-        getUser();
-        // dispatch(setUser('kyler'));
-    }, []);
+    // useEffect(() => {
+    //     // character();
+    //     // getUser();
+    //     // dispatch(setUser('kyler'));
+    // }, []);
 
     return (
         <div className="SideBarLeftWrapper">
