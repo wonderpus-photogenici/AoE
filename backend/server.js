@@ -23,7 +23,6 @@ const io = new Server(expressServer, {
   },
 });
 
-
 app.use(cors());
 app.use(cookieParser());
 app.use(express.json({ limit: '10mb' }));
@@ -115,6 +114,15 @@ app.post('/api/getBio', userController.getBio, (req, res) => {
 app.post('/api/getProfData', userController.getProfData, (req, res) => {
   res.status(200).send(res.locals.profData);
 });
+
+app.post(
+  '/api/getFriendsList',
+  userController.getUserId,
+  // userController.getFriends,
+  (req, res) => {
+    res.status(200).json(res.locals.userId);
+  }
+);
 
 // Endpoint to link Riot account
 app.post('/api/link-riot-account', async (req, res) => {

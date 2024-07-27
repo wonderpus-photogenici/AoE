@@ -1,15 +1,26 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { io } from 'socket.io-client';
 import FriendsList from '../components/FriendsList.jsx';
+import { useSupabaseClient } from '@supabase/auth-helpers-react';
+import ChatHistory from '../components/ChatHistory.jsx';
 
 const Messages = () => {
   const [messages, setMessages] = useState([]);
+  const [user, setUser] = useState(null);
   const inputRef = useRef(null);
   const socketRef = useRef(null);
   const activityRef = useRef(null);
   const typingTimeoutRef = useRef(null);
+  const supabase = useSupabaseClient();
 
   useEffect(() => {
+    // get current user data from supabase
+    const getUser = async () => {
+      const { data } = await supabase.auth.getUser();
+      setUser(data.user);
+    };
+    getUser();
+
     const socket = io('http://localhost:3001');
     socketRef.current = socket;
 
@@ -64,6 +75,7 @@ const Messages = () => {
     <div
       style={{ color: 'white', fontSize: '1rem', display: 'flex', gap: '5rem' }}
     >
+      {/* <FriendsList user={user} /> */}
       <FriendsList />
       <div>
         <h1>WebSocket Connection Test</h1>
@@ -84,6 +96,7 @@ const Messages = () => {
           ></p>
         </div>
       </div>
+      <ChatHistory user={user} />
     </div>
   );
 

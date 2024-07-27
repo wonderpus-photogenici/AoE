@@ -332,4 +332,46 @@ userController.fetchUserById = async (userId) => {
   }
 };
 
+// get user ID and use the ID to find friends
+userController.getUserId = async (req, res, next) => {
+  const { username } = req.body;
+  try {
+    const text = `SELECT id FROM users WHERE username = $1`;
+    const params = [username];
+    const result = await db.query(text, params);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'User not found.' });
+    }
+
+    const userId = result.rows[0].id;
+    console.log('User ID: ', userId);
+    res.locals.userId = userId;
+    return next();
+  } catch (err) {
+    console.error('Error in getUserId middleware: ', err);
+    return next(err);
+  }
+};
+
+// use user ID to look up friends
+// userController.getFriends = async (req, res, next) => {
+//   const { id } = req.body;
+//   try {
+//     const text = `SELECT username FROM users INNER JOIN friends
+//     ON friends.friend_id = users.id WHERE friends.user_id = $1`;
+//     const params = [id];
+//     const result = await db.query(text, params);
+//     const friendsList = result.rows[0];
+//     console.log(friendsList);
+//     return next();
+//   } catch (err) {
+//     console.error('Error in getFriends middleware: ', err);
+//     return next(err);
+//   }
+// };
+
+// use user ID to look up chat history
+userController.getChatHistory = async (req, res, next) => {};
+
 module.exports = userController;
