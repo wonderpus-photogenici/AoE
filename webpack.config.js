@@ -60,17 +60,25 @@ module.exports = {
     port: 8080, // Port for development server
     hot: true, // Enable live reload
     open: true,
+<<<<<<< HEAD
+=======
+    // historyApiFallback: true, 
+>>>>>>> origin/lia/message
     proxy: [
       {
         context:['/**'],
         target: 'http://localhost:3001',
         secure: false,
+        changeOrigin: true
       },
     ],
     static: {
       directory: path.resolve(__dirname, 'dist'),
       publicPath: '/',
     },
+  },
+  resolve: {
+    extensions: ['.js', '.jsx']
   },
   plugins: [
     new HtmlWebpackPlugin({
