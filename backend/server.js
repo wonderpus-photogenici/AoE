@@ -78,6 +78,11 @@ app.post('/api/updatePfp', userController.updatePfp, (req, res) => {
   res.status(200).send(res.locals.pfp);
 })
 
+app.post('/api/getPfpPath', userController.getPfpPath, (req, res) => {
+  // console.log('at end of /api/updatePfp');
+  res.status(200).send(res.locals.pfp);
+})
+
 // My API Key: Group Finder
 // Limited to 20 requests every 1 second, 100 requests every 2 minutes
 const riotAPIkey = 'RGAPI-03459f39-07a6-4438-a4c3-7d36c3122aec';

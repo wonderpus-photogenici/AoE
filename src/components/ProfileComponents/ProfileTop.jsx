@@ -59,15 +59,15 @@ const ProfileTop = () => {
   }, []);
 
   useEffect(() => {
-     (async () => {
-      const {data, error} = await axios.post('http://localhost:3001/api/getProfData', {
+    (async () => {
+      const { data, error } = await axios.post('http://localhost:3001/api/getProfData', {
         username: username,
       });
       // data;
       console.log('data: ', data);
       setPfpUrl(CDNURL + data.pfp);
     })();
-  
+
     // const pfp = makeRequest();
     // console.log('pfp: ', pfp);
     // setPfpUrl(pfp.pfp);
@@ -139,45 +139,35 @@ const ProfileTop = () => {
 
   const handleSubmit = async (e) => {
     // e.preventDefault();
-    console.log('start of handleSubmit');
-
-    console.log('handleSubmit check 1');
-    // console.log('data', )
-
-    // console.log('user: ', user);
 
     if (user === null) {
       return
     }
 
-    console.log('handleSubmit check 2');
-    // async function uploadImagePfp(e) {
     let file = profilePicture;
-    // const usernameTest = "usernameTest"
 
+    const pfpPath = await axios.post('http://localhost:3001/api/getPfpPath', {
+      username: username,
+    })
+
+    const uniq = pfpPath.data.substring(pfpPath.data.lastIndexOf("/") + 1);
     // Deleting the old pfp
     const { data, error } = await supabase
       .storage
       .from('AoE')
-      .remove([user.id + "/pfp"])
+      .remove([user.id + "/" + uniq]);
+
+    let supabaseUploadPfpResponse;
 
     // Uploading the new pfp
-    const supabaseUploadPfpResponse = await supabase
+    supabaseUploadPfpResponse = await supabase
       .storage
       .from('AoE')
-      .upload(user.id + "/pfp", file)
-
+      .upload(user.id + "/pfp" + Date.now(), file)
 
     if (supabaseUploadPfpResponse.data) {
-      // getImages to load them, it takes the images from the user's folder and sets them to that
-      // users state
-      // getImages();
-      console.log('supabaseUploadPfpResponse.data: ', supabaseUploadPfpResponse.data);
-    } else {
-      console.log(supabaseUploadPfpResponse.error);
+      setPfpUrl(CDNURL + supabaseUploadPfpResponse.data.path);
     }
-    // }
-    console.log('handleSubmit check 3');
 
     const requestBody = {
       username: username,
@@ -193,18 +183,10 @@ const ProfileTop = () => {
         body: JSON.stringify(requestBody),
       });
 
-      console.log('handleSubmit check 4');
-
       if (response.status === 200) {
-        // const data = await response.json();
-        // console.log(data.message);
-        // alert('You are all set! Please Log in now!')
-        // Redirect to login page after successful registration
-        // navigate('/login')
       } else if (response.status === 409) {
         const data = await response.json();
         console.log(data.message);
-        // Handle username already exists error
       } else {
         console.log(`Unexpected status code: ${response.status}`);
       }
@@ -214,19 +196,11 @@ const ProfileTop = () => {
   };
 
   if (profilePicture) {
-    // console.log('in if');
-    // console.log('profilePicture: ', profilePicture);
     handleSubmit();
     setProfilePicture(null);
   }
 
-  // console.log('user: ', user)
   const navigate = useNavigate();
-
-  if (Object.keys(profData).length !== 0) {
-    // console.log('profData: ', profData);
-    console.log('img url: ', CDNURL + profData.pfp);
-  }
 
   return (
     <div className="profile-top">
@@ -252,7 +226,7 @@ const ProfileTop = () => {
                     handleInputChange(e);
                   }}
                 ></input>
-                <img className="home-logo home-logo-ownProfile" src={CDNURL + profData.pfp} alt="profile pic"
+                <img className="home-logo home-logo-ownProfile" src={pfpUrl} alt="profile pic"
                   onError={() => {
                     console.log('error in img');
                   }}
@@ -262,7 +236,6 @@ const ProfileTop = () => {
                 {/* <div className="pfpTextEdit" id="pfpTextEdit">Edit</div> */}
               </label>
               <div className="pfpTextEdit" id="pfpTextEdit">Edit</div>
-              <img src={pfpUrl} alt="profile pic"></img>
             </div>
           </> : <>
             <div className="pfpContainer">
@@ -278,9 +251,6 @@ const ProfileTop = () => {
                 <div className="allgamesWrapper">
                   <div>
                     Select Games Played:
-                    {/* {} */}
-                    <p>{profData&&profData.pfp}</p>
-                    <p>{profData&&CDNURL + profData.pfp}</p>
                   </div>
                   <div className="profGamesDropdown">
                     <button onClick={myFunction} className="profGamesDropdown" id="profGamesDropBtn">Search Games</button>

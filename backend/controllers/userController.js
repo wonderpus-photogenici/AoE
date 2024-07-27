@@ -84,10 +84,25 @@ userController.updatePfp = async (req, res, next) => {
 
     res.locals.pfp = result.rows[0].pfp;
 
-    console.log('res.locals.pfp: ', res.locals.pfp);
+    // console.log('res.locals.pfp: ', res.locals.pfp);
     return next();
   } catch (err) {
     return next('Error in userController.updatePfp: ' + JSON.stringify(err));
+  }
+}
+
+userController.getPfpPath = async (req, res, next) => {
+  const { username } = req.body;
+
+  try {
+    const text = `SELECT pfp FROM users WHERE username = $1`;
+    const params = [username];
+    const result = await db.query(text, params);
+    res.locals.pfp = result.rows[0].pfp;
+
+    return next();
+  } catch (err) {
+    return next('Error in userController.getPfpPath: ' + JSON.stringify(err));
   }
 }
 
@@ -248,7 +263,7 @@ userController.getProfData = async (req, res, next) => {
 
     res.locals.profData = result.rows[0];
 
-    console.log('res.locals.profData: ', res.locals.profData);
+    // console.log('res.locals.profData: ', res.locals.profData);
     return next();
   } catch (err) {
     return next('Error in userController.getProfData: ' + JSON.stringify(err));
