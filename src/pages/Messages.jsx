@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { io } from 'socket.io-client';
 import FriendsList from '../components/FriendsList.jsx';
+// import '../components/message.css'
 
 const Messages = () => {
   const [messages, setMessages] = useState([]);
@@ -8,6 +9,15 @@ const Messages = () => {
   const socketRef = useRef(null);
   const activityRef = useRef(null);
   const typingTimeoutRef = useRef(null);
+  
+  
+
+  // using axios.get request to get the friend list. 
+  useEffect(() => {
+    // logic for getting current friendlist 
+
+
+  })
 
   useEffect(() => {
     const socket = io('http://localhost:3001');
@@ -61,17 +71,14 @@ const Messages = () => {
   };
 
   return (
-    <div
-      style={{ color: 'white', fontSize: '1rem', display: 'flex', gap: '5rem' }}
+    <div className = "message-page"
+      style={{ color: 'white', fontSize: '1rem', display: 'flex', gap: '5rem', height: "100vh" }}
     >
-      <FriendsList />
-      <div>
-        <h1>WebSocket Connection Test</h1>
-        <form onSubmit={sendMessage}>
-          <input type="text" ref={inputRef} onChange={handleInputChange} />
-          <button type="submit">Send</button>
-        </form>
-        <div className="message-container">
+      <FriendsList className = "friend-list" style = {{ width: "100px", padding:"10px"}} />
+      <div className = "chatBox">
+        <h1>Game Tonight</h1>
+        
+        <div className="message-container" style = {{ flex: "5.5", gap:"5px"}}>
           <ul>
             {messages.map((msg, index) => (
               <li key={index}>{msg}</li>
@@ -82,10 +89,23 @@ const Messages = () => {
             ref={activityRef}
             style={{ color: 'red' }}
           ></p>
-        </div>
+
+          <form onSubmit={sendMessage}>
+          <input type="text" ref={inputRef} onChange={handleInputChange} />
+          <button type="submit">Send</button>
+        </form>
+        </div>``
+      </div>
+      <div className = "chat-online" style = {{ flex: "3.5", gap:"5px"}}>
+            Online Friends
       </div>
     </div>
   );
+
+
+// disconnection is not displaying (no sign)
+
+
 
   //   <div
   //     style={{
