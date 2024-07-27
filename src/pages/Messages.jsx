@@ -11,6 +11,8 @@ const Messages = () => {
   const socketRef = useRef(null);
   const activityRef = useRef(null);
   const typingTimeoutRef = useRef(null);
+
+  // Use the useSupabaseClient hook to get the Supabase client
   const supabase = useSupabaseClient();
 
   useEffect(() => {
@@ -53,7 +55,7 @@ const Messages = () => {
       clearTimeout(typingTimeoutRef.current);
       console.log('Socket disconnected');
     };
-  }, []);
+  }, [supabase]);
 
   // the 'keypress' event
   const handleInputChange = () => {
@@ -73,17 +75,22 @@ const Messages = () => {
 
   return (
     <div
-      style={{ color: 'white', fontSize: '1rem', display: 'flex', gap: '5rem' }}
+      className="message-page"
+      style={{
+        color: 'white',
+        fontSize: '1rem',
+        display: 'flex',
+        gap: '5rem',
+        height: '100vh',
+      }}
     >
-      {/* <FriendsList user={user} /> */}
-      <FriendsList />
-      <div>
-        <h1>WebSocket Connection Test</h1>
-        <form onSubmit={sendMessage}>
-          <input type="text" ref={inputRef} onChange={handleInputChange} />
-          <button type="submit">Send</button>
-        </form>
-        <div className="message-container">
+      <FriendsList
+        className="friend-list"
+        style={{ width: '100px', padding: '10px' }}
+      />
+      <div className="chatBox">
+        <h1>Game Tonight</h1>
+        <div className="message-container" style={{ flex: '5.5', gap: '5px' }}>
           <ul>
             {messages.map((msg, index) => (
               <li key={index}>{msg}</li>
@@ -94,43 +101,19 @@ const Messages = () => {
             ref={activityRef}
             style={{ color: 'red' }}
           ></p>
+
+          <form onSubmit={sendMessage}>
+            <input type="text" ref={inputRef} onChange={handleInputChange} />
+            <button type="submit">Send</button>
+          </form>
         </div>
+      </div>
+      <div className="chat-online" style={{ flex: '3.5', gap: '5px' }}>
+        Online Friends
       </div>
       <ChatHistory user={user} />
     </div>
   );
-
-  //   <div
-  //     style={{
-  //       display: 'flex',
-  //       color: 'white',
-  //       padding: '5rem 10rem',
-  //       gap: '5rem',
-  //     }}
-  //   >
-  //     <FriendsList />
-  //     <div>
-  //       Messages
-  //       <main>
-  //         <ul
-  //           class="chat-display"
-  //           style={{ height: '30rem', width: '30rem', backgroundColor: 'grey' }}
-  //         ></ul>
-
-  //         <p class="activity"></p>
-
-  //         <form class="form-msg">
-  //           <input
-  //             type="text"
-  //             id="message"
-  //             placeholder="Your message"
-  //             required
-  //           />
-  //           <button type="submit">Send</button>
-  //         </form>
-  //       </main>
-  //     </div>
-  //   </div>
 };
 
 export default Messages;
