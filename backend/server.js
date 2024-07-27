@@ -32,10 +32,11 @@ app.use(express.static(path.join(__dirname, '/dist')));
 app.use('/oauth', authRouter);
 app.use('/request', requestRouter);
 
+// listening to connection of user
 io.on('connection', (socket) => {
   console.log('User connected with socket id: ', socket.id);
 
-  // upon connection - only to user
+  // upon connection - send the message to only to user
   socket.emit('message', 'Welcome to the Chat!');
 
   // upon connection - to all others except the user (broadcast)
@@ -51,9 +52,11 @@ io.on('connection', (socket) => {
     io.emit('message', `${socket.id.substring(0, 5)}: ${data}`);
   });
 
+
   // knows if the user is disconnected
   socket.on('disconnect', () => {
     console.log('User disconnected with socket id: ', socket.id);
+    socket.broadcast.emit('message', `User ${socket.id.substring(0, 5)} disconnected` )
   });
 
   // listen for activity
