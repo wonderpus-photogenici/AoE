@@ -69,6 +69,43 @@ userController.addUser = async (req, res, next) => {
   }
 };
 
+userController.updatePfp = async (req, res, next) => {
+  const { pfp, username } = req.body;
+  // console.log('in uC.updatePfp');
+  // console.log('pfp: ', pfp);
+  // console.log('username: ', username);
+
+  try {
+    const text = `UPDATE users SET pfp = $1 WHERE username = $2 RETURNING pfp`;
+    const params = [pfp, username];
+    const result = await db.query(text, params);
+
+    // console.log('in uC.updatePfp 2');
+
+    res.locals.pfp = result.rows[0].pfp;
+
+    // console.log('res.locals.pfp: ', res.locals.pfp);
+    return next();
+  } catch (err) {
+    return next('Error in userController.updatePfp: ' + JSON.stringify(err));
+  }
+}
+
+userController.getPfpPath = async (req, res, next) => {
+  const { username } = req.body;
+
+  try {
+    const text = `SELECT pfp FROM users WHERE username = $1`;
+    const params = [username];
+    const result = await db.query(text, params);
+    res.locals.pfp = result.rows[0].pfp;
+
+    return next();
+  } catch (err) {
+    return next('Error in userController.getPfpPath: ' + JSON.stringify(err));
+  }
+}
+
 userController.addGame = async (req, res, next) => {
   const { userId, game } = req.body;
   console.log('userId: ', userId);
@@ -224,6 +261,8 @@ userController.getProfData = async (req, res, next) => {
     const result = await db.query(text, params);
 
     res.locals.profData = result.rows[0];
+
+    // console.log('res.locals.profData: ', res.locals.profData);
     return next();
   } catch (err) {
     return next('Error in userController.getProfData: ' + JSON.stringify(err));
@@ -331,5 +370,8 @@ userController.fetchUserById = async (userId) => {
     throw err;
   }
 };
+
+
+
 
 module.exports = userController;

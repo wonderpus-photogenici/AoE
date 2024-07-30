@@ -27,12 +27,18 @@ module.exports = {
       },
       {
         test: /\.less$/i,
-        // test: /.(css|scss)$/,
         use: [
           // compiles Less to CSS
           "style-loader",
           "css-loader",
           "less-loader",
+        ],
+      },
+      {
+        test: /\.css$/i, // Add rule for CSS files
+        use: [
+          "style-loader", // Injects styles into the DOM
+          "css-loader",   // Interprets @import and url() like import/require()
         ],
       },
       {
@@ -59,17 +65,13 @@ module.exports = {
   devServer: {
     port: 8080, // Port for development server
     hot: true, // Enable live reload
-    open: true,
-<<<<<<< HEAD
-=======
-    // historyApiFallback: true, 
->>>>>>> origin/lia/message
     proxy: [
       {
         context:['/**'],
         target: 'http://localhost:3001',
+        // target: 'http://[::1]:3001',
+        // test
         secure: false,
-        changeOrigin: true
       },
     ],
     static: {
@@ -77,13 +79,9 @@ module.exports = {
       publicPath: '/',
     },
   },
-  resolve: {
-    extensions: ['.js', '.jsx']
-  },
   plugins: [
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, "src/index.html"),
     }),
   ],
 };
-

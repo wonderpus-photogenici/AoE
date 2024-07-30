@@ -11,9 +11,7 @@ const FriendsList = () => {
 
 
   return (
-    <>
-
-    
+    <>    
       <div className ="conversation" style={{width: "400px", display:"flex", flexDirection:"column", justifyContent:"top", padding: "10px", }}>
        <h1>Freinds List</h1>
        <div className="searchBar">

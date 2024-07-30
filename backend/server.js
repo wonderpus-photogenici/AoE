@@ -32,37 +32,70 @@ app.use(express.static(path.join(__dirname, '/dist')));
 app.use('/oauth', authRouter);
 app.use('/request', requestRouter);
 
+// let users = [];
+//Store connected users
+const users = {}; // { userId: { id: socketId, name: username }}
+
+// able to add User to the chatting page
+// const addUser = (userId, username,  socketId) => {
+//   !users.some((user)=> user.userId === userId) && 
+//   users.push({ userId, username, socketId });
+// }
+
 // listening to connection of user
 io.on('connection', (socket) => {
   console.log('User connected with socket id: ', socket.id);
+  // broadcast user has been join to the room
+  // io.broadcast.emit(`User ${} is joined the room`)
 
+  // Handling adding a user
+  socket.on("addUser", (user) => {
+    if (user.id) {
+      users[user.id] = { id: socket.id, name: user.username};
+    io.emit("getUsers",  Object.values(users)); // Broadcast updated users list to all client
+    }
+  })
   // upon connection - send the message to only to user
-  socket.emit('message', 'Welcome to the Chat!');
+ socket.emit('message', 'Welcome to the Chat!');
 
   // upon connection - to all others except the user (broadcast)
-  socket.broadcast.emit(
-    'message',
-    `User ${socket.id.substring(0, 5)} connected`
-  );
+  // socket.broadcast.emit(
+  //   'message',
+  //   `User ${username} connected`
+  // );
 
   // socket.id is a unique identifier assigned by the server to each connected client
   // randomly generated and serves to indentify each connection
-  socket.on('message', (data) => {
-    console.log('Message Recevied in Server: ', data);
-    io.emit('message', `${socket.id.substring(0, 5)}: ${data}`);
+
+  // handling incoming messages
+  socket.on('message', (message) => {
+    const timestamp = new Date().toLocaleString(); // Get current timestamp
+    const messageWithDetails = {
+      text: message.text,
+      username: message.username, 
+      timestamp: timestamp
+    }
+    io.emit('message', messageWithDetails? messageWithDetails : 'Welcome to the Chat'); // Broadcast message to all client
   });
 
 
   // knows if the user is disconnected
   socket.on('disconnect', () => {
-    console.log('User disconnected with socket id: ', socket.id);
-    socket.broadcast.emit('message', `User ${socket.id.substring(0, 5)} disconnected` )
+    console.log('User disconnected: ', socket.id);
+    for (const [userId, user] of Object.entries(users)) {
+      if (user.id === socket.id) {
+        delete user[userId];
+        io.emit('getUsers', Object.values(users)); // Broadcast Updated users list to all 
+        break;
+      }
+    }
+    // socket.broadcast.emit('message', `User ${socket.id.substring(0, 5)} disconnected` )
   });
 
   // listen for activity
-  socket.on('activity', (data) => {
-    console.log('data: ', data);
-    socket.broadcast.emit('activity', data);
+  socket.on('activity', (username) => {
+    console.log('username: ', username);
+    socket.broadcast.emit('activity', username);
   });
 });
 
@@ -117,7 +150,21 @@ app.post('/api/getBio', userController.getBio, (req, res) => {
 
 app.post('/api/getProfData', userController.getProfData, (req, res) => {
   res.status(200).send(res.locals.profData);
-});
+})
+
+app.post('/api/updatePfp', userController.updatePfp, (req, res) => {
+  // console.log('at end of /api/updatePfp');
+  res.status(200).send(res.locals.pfp);
+})
+
+app.post('/api/getPfpPath', userController.getPfpPath, (req, res) => {
+  // console.log('at end of /api/updatePfp');
+  res.status(200).send(res.locals.pfp);
+})
+
+// My API Key: Group Finder
+// Limited to 20 requests every 1 second, 100 requests every 2 minutes
+const riotAPIkey = 'RGAPI-03459f39-07a6-4438-a4c3-7d36c3122aec';
 
 // Endpoint to link Riot account
 app.post('/api/link-riot-account', async (req, res) => {
@@ -133,7 +180,7 @@ app.post('/api/link-riot-account', async (req, res) => {
       gameName
     )}/${encodeURIComponent(tagLine)}`;
     const accountResponse = await axios.get(accountUrl, {
-      headers: { 'X-Riot-Token': 'RGAPI-d26b2775-02f2-4843-a9ce-0987a6a42710' },
+      headers: { "X-Riot-Token": riotAPIkey },
     });
 
     const puuid = accountResponse.data.puuid;
@@ -141,7 +188,7 @@ app.post('/api/link-riot-account', async (req, res) => {
     // Get Summoner data (only rank)
     const summonerUrl = `https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-puuid/${puuid}`;
     const summonerResponse = await axios.get(summonerUrl, {
-      headers: { 'X-Riot-Token': 'RGAPI-d26b2775-02f2-4843-a9ce-0987a6a42710' },
+      headers: { "X-Riot-Token": riotAPIkey },
     });
 
     const summonerId = summonerResponse.data.id;
@@ -149,7 +196,7 @@ app.post('/api/link-riot-account', async (req, res) => {
     // Fetch the rank data
     const rankUrl = `https://na1.api.riotgames.com/lol/league/v4/entries/by-summoner/${summonerId}`;
     const rankResponse = await axios.get(rankUrl, {
-      headers: { 'X-Riot-Token': 'RGAPI-d26b2775-02f2-4843-a9ce-0987a6a42710' },
+      headers: { "X-Riot-Token": riotAPIkey },
     });
 
     return res.status(200).json({
