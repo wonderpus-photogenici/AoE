@@ -425,7 +425,66 @@ userController.fetchUserById = async (userId) => {
   }
 };
 
+// get user ID and use the ID to find friends
+userController.getUserId = async (req, res, next) => {
+  const { username } = req.body;
+  try {
+    const text = `SELECT id FROM users WHERE username = $1`;
+    const params = [username];
+    const result = await db.query(text, params);
 
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'User not found.' });
+    }
 
+    const userId = result.rows[0].id;
+    // console.log('User ID from backend: ', userId);
+    res.locals.userId = userId;
+    return next();
+  } catch (err) {
+    console.error('Error in getUserId middleware: ', err);
+    return res.status(500).send('Internal server error.');
+  }
+};
+
+// use user ID to look up friends
+userController.getFriends = async (req, res, next) => {
+  const { userId } = req.body;
+  try {
+    const text = `SELECT users.username FROM users 
+    INNER JOIN friends ON friends.friend_id = users.id 
+    WHERE friends.user_id = $1`;
+    const params = [userId];
+    const result = await db.query(text, params);
+    // console.log('result: ', result.rows);
+    res.locals.friendsList = result.rows;
+    return next();
+  } catch (err) {
+    console.error('Error in getFriends middleware: ', err);
+    return res.status(500).send('Internal server error.');
+  }
+};
+
+// use user ID to look up chat history
+userController.getChatHistory = async (req, res, next) => {
+  const { userId, selectedFriendId } = req.body;
+  try {
+    const text = `SELECT u1.username AS sender, u2.username AS receiver, m.message, m.date_time
+    FROM messages m
+    INNER JOIN users u1 ON m.sender_id = u1.id
+    INNER JOIN users u2 ON m.receiver_id = u2.id
+    WHERE (m.sender_id = $1 AND m.receiver_id = $2) OR 
+    (m.sender_id = $2 AND m.receiver_id = $1)
+    ORDER BY m.date_time`;
+    const params = [userId, selectedFriendId];
+    const result = await db.query(text, params);
+    console.log('Query result: ', result.rows);
+    res.locals.chatHistory = result.rows;
+    return next();
+  } catch (err) {
+    console.error('Error in getChatHistory middleware: ', err);
+    return res.status(500).send('Internal server error.');
+  }
+};
 
 module.exports = userController;
