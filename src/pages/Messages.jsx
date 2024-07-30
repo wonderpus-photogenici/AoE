@@ -4,7 +4,6 @@ import FriendsList from '../components/FriendsList.jsx';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import axios from 'axios';
 import './Chat.css';
-
 // import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
 
 const Messages = () => {
@@ -176,10 +175,6 @@ const Messages = () => {
   const sendMessage = (e) => {
     e.preventDefault();
 
-    // const message = inputRef.current.value;
-    // if (message) {
-    //   socketRef.current.emit('message', message); // Emit the message
-
     const messageText = inputRef.current.value;
     if (messageText && socketRef.current) {
       const message = {
@@ -216,17 +211,6 @@ const Messages = () => {
       console.error('Error in fetching chat history: ', err);
     }
   };
-
-  // useEffect(() => {
-  //   if (userId && selectedFriendId) {
-  //     getChatHistory(userId, selectedFriendId);
-  //   }
-  // }, [userId, selectedFriendId]);
-
-  // get friend's name
-  // const getName = (friendId) => {
-
-  // }
 
   // start chat with another friend
   const handleFriendSelect = (friendId, friendName) => {

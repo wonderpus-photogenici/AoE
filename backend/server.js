@@ -32,7 +32,6 @@ app.use(express.static(path.join(__dirname, '/dist')));
 app.use('/oauth', authRouter);
 app.use('/request', requestRouter);
 
-// let users = [];
 //Store connected users
 const users = {}; // { userId: { id: socketId, name: username }}
 
@@ -45,8 +44,6 @@ const users = {}; // { userId: { id: socketId, name: username }}
 // listening to connection of user
 io.on('connection', (socket) => {
   console.log('User connected with socket id: ', socket.id);
-  // broadcast user has been join to the room
-  // io.broadcast.emit(`User ${} is joined the room`)
 
   // Handling adding a user
   socket.on('addUser', (user) => {
@@ -55,14 +52,6 @@ io.on('connection', (socket) => {
       io.emit('getUsers', Object.values(users)); // Broadcast updated users list to all client
     }
   });
-  // upon connection - send the message to only to user
-  // socket.emit('message', 'Welcome to the Chat!');
-
-  // upon connection - to all others except the user (broadcast)
-  // socket.broadcast.emit(
-  //   'message',
-  //   `User ${username} connected`
-  // );
 
   // socket.id is a unique identifier assigned by the server to each connected client
   // randomly generated and serves to indentify each connection
@@ -91,7 +80,7 @@ io.on('connection', (socket) => {
       await db.query(text, params);
       console.log('Message saved to database');
 
-      io.emit('message', messageWithDetails); // Broadcast message to all client
+      io.emit('message', messageWithDetails);
     } catch (err) {
       console.error('Error saving message to database: ', err);
     }
@@ -103,11 +92,10 @@ io.on('connection', (socket) => {
     for (const [userId, user] of Object.entries(users)) {
       if (user.id === socket.id) {
         delete user[userId];
-        io.emit('getUsers', Object.values(users)); // Broadcast Updated users list to all
+        io.emit('getUsers', Object.values(users));
         break;
       }
     }
-    // socket.broadcast.emit('message', `User ${socket.id.substring(0, 5)} disconnected` )
   });
 
   // listen for activity
