@@ -22,6 +22,7 @@ const SignUp = () => {
 
   const handleInputChange = (event) => {
     const { name, value, files } = event.target;
+    console.log( 'what is value of handleInputChange', event.target)
     if (name === 'username') setUsername(value);
     if (name === 'password') setPassword(value);
     if (name === 'email') setEmail(value);

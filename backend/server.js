@@ -32,34 +32,70 @@ app.use(express.static(path.join(__dirname, '/dist')));
 app.use('/oauth', authRouter);
 app.use('/request', requestRouter);
 
+// let users = [];
+//Store connected users
+const users = {}; // { userId: { id: socketId, name: username }}
+
+// able to add User to the chatting page
+// const addUser = (userId, username,  socketId) => {
+//   !users.some((user)=> user.userId === userId) && 
+//   users.push({ userId, username, socketId });
+// }
+
+// listening to connection of user
 io.on('connection', (socket) => {
   console.log('User connected with socket id: ', socket.id);
+  // broadcast user has been join to the room
+  // io.broadcast.emit(`User ${} is joined the room`)
 
-  // upon connection - only to user
-  socket.emit('message', 'Welcome to the Chat!');
+  // Handling adding a user
+  socket.on("addUser", (user) => {
+    if (user.id) {
+      users[user.id] = { id: socket.id, name: user.username};
+    io.emit("getUsers",  Object.values(users)); // Broadcast updated users list to all client
+    }
+  })
+  // upon connection - send the message to only to user
+ socket.emit('message', 'Welcome to the Chat!');
 
   // upon connection - to all others except the user (broadcast)
-  socket.broadcast.emit(
-    'message',
-    `User ${socket.id.substring(0, 5)} connected`
-  );
+  // socket.broadcast.emit(
+  //   'message',
+  //   `User ${username} connected`
+  // );
 
   // socket.id is a unique identifier assigned by the server to each connected client
   // randomly generated and serves to indentify each connection
-  socket.on('message', (data) => {
-    console.log('Message Recevied in Server: ', data);
-    io.emit('message', `${socket.id.substring(0, 5)}: ${data}`);
+
+  // handling incoming messages
+  socket.on('message', (message) => {
+    const timestamp = new Date().toLocaleString(); // Get current timestamp
+    const messageWithDetails = {
+      text: message.text,
+      username: message.username, 
+      timestamp: timestamp
+    }
+    io.emit('message', messageWithDetails? messageWithDetails : 'Welcome to the Chat'); // Broadcast message to all client
   });
+
 
   // knows if the user is disconnected
   socket.on('disconnect', () => {
-    console.log('User disconnected with socket id: ', socket.id);
+    console.log('User disconnected: ', socket.id);
+    for (const [userId, user] of Object.entries(users)) {
+      if (user.id === socket.id) {
+        delete user[userId];
+        io.emit('getUsers', Object.values(users)); // Broadcast Updated users list to all 
+        break;
+      }
+    }
+    // socket.broadcast.emit('message', `User ${socket.id.substring(0, 5)} disconnected` )
   });
 
   // listen for activity
-  socket.on('activity', (data) => {
-    console.log('data: ', data);
-    socket.broadcast.emit('activity', data);
+  socket.on('activity', (username) => {
+    console.log('username: ', username);
+    socket.broadcast.emit('activity', username);
   });
 });
 

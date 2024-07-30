@@ -35,6 +35,13 @@ module.exports = {
         ],
       },
       {
+        test: /\.css$/i, // Add rule for CSS files
+        use: [
+          "style-loader", // Injects styles into the DOM
+          "css-loader",   // Interprets @import and url() like import/require()
+        ],
+      },
+      {
         test: /\.scss$/, // Transpile SCSS files to CSS
         use: [
           "style-loader", // Injects styles into DOM
@@ -78,4 +85,3 @@ module.exports = {
     }),
   ],
 };
-
