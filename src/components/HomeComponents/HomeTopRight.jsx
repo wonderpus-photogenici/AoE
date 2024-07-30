@@ -7,17 +7,12 @@ import store from '../../redux/store';
 const HomeTopRight = () => {
   const navigate = useNavigate();
 
-  const user = useUser();
-  const supabase = useSupabaseClient();
+    const user = useUser();
+    const supabase = useSupabaseClient();
 
-  // console.log('store: ', store);
-
-  //   const getUser = async () => {
-  //     const {
-  //       data: { user },
-  //     } = await supabase.auth.getUser();
-  //     // console.log('user: ', user);
-  //   };
+    const getUser = async () => {
+        const { data: { user } } = await supabase.auth.getUser();
+    }
 
   //   useEffect(() => {
   //     getUser();
@@ -28,10 +23,6 @@ const HomeTopRight = () => {
     const { error } = await supabase.auth.signOut();
   }
 
-  //   if (user) {
-  //   console.log('user.user_metadata.username: ', user.user_metadata.username);
-  //     console.log('user: ', user);
-  //   }
 
   return (
     <div className="HomeTopRightWrapper">

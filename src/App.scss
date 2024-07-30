@@ -55,7 +55,7 @@ input[type='file'] {
   padding: 0.5rem;
   font-size: 1rem;
   border: 1px solid #ddd;
-  border-radius: 4px;
+  // border-radius: 4px;
 }
 
 .register-btn,
@@ -403,10 +403,9 @@ input[type='file'] {
   display: grid;
   grid-template-areas:
     'home-left profile-top'
-    'home-left profile-stats'
     'home-left riot-account-input';
   grid-template-columns: minmax(300px, 20%) minmax(960px, 1fr);
-  grid-template-rows: auto auto auto;
+  grid-template-rows: 282px auto;
   height: 100vh;
   gap: 10px;
   padding: 20px;
@@ -444,7 +443,6 @@ input[type='file'] {
   border-radius: 15px;
   padding: 1rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  margin-top: -16rem;
   color: white;
 }
 
@@ -519,8 +517,8 @@ input[type='file'] {
   background-color: #0c0c0c;
   border-radius: 15px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  color: white;
-  width: 100%;
+  color: rgb(244, 244, 244);
+  // width: 100%;
 }
 
 .profile-top-container {
@@ -532,11 +530,107 @@ input[type='file'] {
   grid-template-rows: 100%;
 }
 
+.GamesSingle {
+  width: 100%;
+  // height: fit-content;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 19px 8px 1fr;
+  grid-template-rows: fit-content;
+  box-sizing: border-box;
+  padding-top: 5px;
+  padding-right: 5px;
+  // margin-right: 5px;
+  background-color: #2d2d2d;
+}
+
+.profGamesDropAvailList {
+  height: fit-content;
+  max-height: 300px;
+  width: 100%;
+  display: grid;
+  overflow-y: auto;
+  // padding-right: 10px;
+
+    /* width */
+    &::-webkit-scrollbar {
+      width: 10px;
+    }
+  
+    /* Track */
+    &::-webkit-scrollbar-track {
+      background: #262626;
+    }
+  
+    /* Handle */
+    &::-webkit-scrollbar-thumb {
+      background: #3c3c3c;
+    }
+  
+    /* Handle on hover */
+    &::-webkit-scrollbar-thumb:hover {
+      background: #1b1b1b;
+    }
+}
+
+.playsGameCheck {
+  margin: 0px;
+  box-sizing: border-box;
+  grid-column: 1;
+  grid-row: 1;
+  // background-color: red;
+  width: 100%;
+  height: 100%;
+}
+
+.gameCheck {
+  box-sizing: border-box;
+  grid-column: 3;
+  grid-row: 1;
+  // background-color: yellow;
+}
+
+.playsGameCheckImg {
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.home-logo-ownProfile:hover {
+  border: 1.2px solid #5a5a5a;
+}
+
 .home-logo {
   grid-column: 1;
   grid-row: 1;
   width: 150px;
+  height: 150px;
   border-radius: 50%;
+  box-sizing: border-box;
+}
+
+.pfpContainer {
+  grid-column: 1;
+  grid-row: 1;
+  display: grid;
+  grid-template-columns: 150px;
+  grid-template-rows: 150px 1fr;
+}
+
+.pfpTextEdit {
+  grid-column: 1;
+  grid-row: 1;
+  color: white;
+  justify-self: center;
+  align-self: center;
+  width: 34px;
+  height: 20px;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 5px;
+  display: none;
+  pointer-events: none;
+  // justif
 }
 
 .username-addBtn-messageBtn {
@@ -567,7 +661,7 @@ input[type='file'] {
   grid-row: 1;
   display: grid;
   grid-template-columns: 10px 1fr 10px;
-  grid-template-rows: 20px 45px 45px 45px 40px;
+  grid-template-rows: 20px 40px 40px 40px 40px;
   // gap: 10px;
 }
 
@@ -635,14 +729,15 @@ input[type='file'] {
 
 .profileInput {
   width: 100%;
-  padding: 0.5rem;
+  height: 70%;
+  // padding: 0.5rem;
   font-size: 1rem;
   border: 1px solid #ddd;
-  border-radius: 4px;
+  // border-radius: 20px;
   background-color: rgba(0, 0, 0, 0.1);
   color: white;
-  margin-top: 5px;
-  margin-bottom: 10px;
+  // margin-top: 5px;
+  // margin-bottom: 10px;
   box-sizing: border-box;
 }
 
@@ -673,6 +768,10 @@ input[type='file'] {
   align-items: end;
 }
 
+.noFocusHighlight:focus {
+  outline: none;
+}
+
 .allgamesWrapper {
   position: relative;
   display: inline-block;
@@ -695,16 +794,15 @@ input[type='file'] {
 //     display: block;
 //   }
 
-.profGamesDrop div {
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-}
+// .profGamesDrop div {
+  // color: black;
+  // padding: 12px 16px;
+  // text-decoration: none;
+  // display: block;
+// }
 
-//   .profGamesDrop a:hover {background-color: #f1f1f1}
 .profGamesDrop div:hover {
-  background-color: #f1f1f1;
+  background-color: #535353;
 }
 
 .gamesplayedList {
@@ -715,7 +813,7 @@ input[type='file'] {
 .gamesplayedListAdd {
   background-color: rgb(32, 32, 32);
   width: 100%;
-  height: 60px;
+  height: 75px;
   overflow-y: auto;
 
   /* width */

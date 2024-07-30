@@ -117,7 +117,7 @@ const SidebarRightComponent = () => {
           {/* it should be fine to only get the users list onClick */}
           {/* decided to use onFocus instead of onClick, since someone could shift into */}
           {/* the input field or some other way of bringing it into focus */}
-          <input type="text" placeholder="Search" id="friendsSearchInput" className="homeSearchInput" onInput={handleFriendSearch} onFocus={() => {
+          <input type="text" placeholder="Search" id="friendsSearchInput" className="homeSearchInput" style={{borderRadius:'4px'}} onInput={handleFriendSearch} onFocus={() => {
             // retrieveAllUsers();
             document.getElementById('friendsDropDown').style.display = 'block';
           }}></input>
@@ -138,7 +138,7 @@ const SidebarRightComponent = () => {
         </div>
         <div className="homeRightSideBarGroupSearch dropdown">
           {/* This input is used to search for a friend already on their friend's list */}
-          <input type="text" placeholder="Search" className="homeSearchInput" ></input>
+          <input type="text" placeholder="Search" className="homeSearchInput" style={{borderRadius:'4px'}}></input>
         </div>
         {/* <div className="homeLeftSideBarGroupAdd">
           <button type="button" className="homeFriendSearchAddBtn" onClick={() => {
@@ -209,7 +209,7 @@ const SidebarRightComponent = () => {
         </div>
         <div className="homeRightSideBarGroupSearch dropdown">
           {/* This input is used to search for a group already on their group's list */}
-          <input type="text" placeholder="Search" className="homeSearchInput" ></input>
+          <input type="text" placeholder="Search" className="homeSearchInput" style={{borderRadius:'4px'}}></input>
         </div>
       </div>
       <div className="homeRightSideBar">

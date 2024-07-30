@@ -4,10 +4,8 @@ import profPicFiller from '../../Assets/aoelogo3_kyler.png';
 import { useNavigate, Link } from 'react-router-dom';
 
 const UserRec = (props) => {
-  const { username, pfp, allgames, bio } = props;
+  const { username, pfp, bio } = props;
   const navigate = useNavigate();
-  // console.log('username: ', username);
-  // console.log('allgames: ', allgames);
   const CDNURL = "https://gusnjhjnuugqaqtgwhym.supabase.co/storage/v1/object/public/AoE/";
   return (
     <div className="userRec-wrapper">
@@ -16,16 +14,7 @@ const UserRec = (props) => {
 
       <div className="userRec-userInfo">
         <span className="userRec-username" onClick={(e)=>{
-          navigate(`/profile/${username}`,
-            {
-              state: {
-                username: username,
-                bio: bio,
-                allgames: allgames,
-                pfp: pfp,
-              }
-            }
-          );
+          navigate(`/profile/${username}`);
         }}>{username}</span>
       </div>
 
