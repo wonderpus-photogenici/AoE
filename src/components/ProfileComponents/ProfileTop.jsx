@@ -9,17 +9,23 @@ import axios from 'axios';
 import { useLocation } from 'react-router-dom';
 import ProfGamesList from "./ProfGamesList.jsx";
 import GamesSingle from './GamesSingle.jsx';
+import store from "../../redux/store.js";
+import { useDispatch } from 'react-redux';
+import { setProfile } from '../../redux/profileSlice';
+import { useSelector } from 'react-redux';
+import Email from "./Email.jsx";
+import Location from "./Location.jsx";
+import Languages from "./Languages.jsx";
 
 const ProfileTop = () => {
   const user = useUser();
   const supabase = useSupabaseClient();
-  // const [images, setImages] = useState([]);
   const [location, setLocation] = useState('');
   const [profData, setProfData] = useState({});
-  const [gamesList, setGamesList] = useState([]);
   const [profilePicture, setProfilePicture] = useState(null);
   const [pfpUrl, setPfpUrl] = useState(null);
-  const [profGames, setProfGames] = useState([]);
+  const [profile, setProfile] = useState()
+  const dispatch = useDispatch();
 
   const currentUrl = window.location.href;
   const username = currentUrl.substring(currentUrl.lastIndexOf('/') + 1);
@@ -39,19 +45,7 @@ const ProfileTop = () => {
     const response = await axios.post('http://localhost:3001/api/getProfData', {
       username: username,
     })
-    // console.log('response.data: ', response.data);
     setProfData(response.data);
-    // if (Object.keys(profData).length !== 0) {
-    //   let gamesListArray = [];
-    //   for (let i = 0; i < profData.allgames.length; i++) {
-    //     console.log('profData.allgames[i]: ', profData.allgames[i]);
-    //     gamesListArray.push(
-    //     <ProfGamesList
-    //     game = {profData.allgames[i]}
-    //     />)
-    //   }
-    //   setGamesList(gamesListArray);
-    // }
   }
 
 
@@ -65,15 +59,24 @@ const ProfileTop = () => {
       const { data, error } = await axios.post('http://localhost:3001/api/getProfData', {
         username: username,
       });
-      console.log('data: ', data);
       setPfpUrl(CDNURL + data.pfp);
-      // console.log('profGamesArray: ', profGamesArray);
     })();
-
-    // const pfp = makeRequest();
-    // console.log('pfp: ', pfp);
-    // setPfpUrl(pfp.pfp);
   }, [])
+
+
+  // listening for changes to state.profile
+  const updatedGames = useSelector((state) => state.profile);
+  // console.log('updatedGames: ', updatedGames);
+
+  // If there is a change to state.profile then:
+  useEffect(() => {
+    if (profData && updatedGames.profile) {
+      setProfData({
+        ...profData,
+        allgames: updatedGames.profile,
+      })
+    }
+  }, [updatedGames])
 
   const locationsArray = ['United States', 'Canada', 'Mexico', 'Brazil', 'Argentina'];
 
@@ -180,28 +183,20 @@ const ProfileTop = () => {
 
   const navigate = useNavigate();
 
-  // if (Object.keys(profData).length !== 0) {
-  //   let profGamesArray = [];
-  //   for (let i = 0; i < profData.allgames; i++) {
-  //     profGamesArray.push(<ProfGamesList 
-  //       key={`ProfGamesList#${i}`}
-  //       game= {profData.allgames[i]}
-  //     />)
-  //   }
-  // }
-
   let profGamesArray = [];
   let availableGames = [];
   if (Object.keys(profData).length !== 0) {
+
     for (let i = 0; i < profData.allgames.length; i++) {
       profGamesArray.push(<ProfGamesList
         key={`ProfGamesList#${i}`}
         game={profData.allgames[i]}
+        i={i}
       />)
     }
 
     // All available games to pick from
-    const gamesArray = ["League of Legends", "Minecraft", "Valorant", "Baldur's Gate 3", "Elden Ring", "Overwatch", "Fortnite", "Apex Legends", "Borderlands 2", "Divinity: Original Sin 2", "FinalFantasy VII", "Assassin's Creed IV: Black Flag", "Fallout 2", "Animal Crossing: New Horizons", "Titanfall 2", "Monster Hunter: World", "Resident Evil 2", "System Shock 2"];
+    const gamesArray = ["League of Legends", "Minecraft", "Valorant", "Baldur's Gate 3", "Elden Ring", "Overwatch", "Fortnite", "Apex Legends", "Borderlands 2", "Divinity: Original Sin 2", "FinalFantasy VII", "Assassin's Creed IV: Black Flag", "Fallout 2", "Animal Crossing: New Horizons", "Titanfall 2", "Monster Hunter: World", "Resident Evil 2", "System Shock 2", "Mortal Kombat 11", "Persona 5 Royal", "Dark Souls", "Fable 2", "GoldenEye 007", "Super Smash Bros. Ultimate", "Spelunky", "Return of the Obra Dinn", "Dota 2", "Mario Kart 8 Deluxe", "Donkey Kong", "The Sims 3", "Splinter Cell: Chaos Theory", "Super Mario World 2: Yoshi's Island", "Silent Hill", "Grand Theft Auto: San Andreas", "XCOM 2", "Control", "Call of Duty 4: Modern Warfare", "Rise of the Tomb Raider", "Batman: Arkham City", "Dishonored 2", "The Witness", "Journey", "Uncharted 2: Among Thieves", "Overwatch", "Apex Legends", "Hollow Knight", "Ms. Pac-Man", "Counter-Strike 1.6", "Left 4 Dead 2", "EarthBound", "Diablo II", "StarCraft", "World of WarCraft", "Star Wars: Knights of the Old Republic", "Fallout: New Vegas", "Final Fantasy VI", "Pokémon Yellow", "Metroid Prime", "The Elder Scrolls V: Skyrim", "Resident Evil 4", "Shadow of the Colossus", "The Last of Us Part 2", "Red Dead Redemption", "Metal Gear Solid", "Sid Meier's Civilization IV", "The Legend of Zelda: Ocarina of Time", "Minecraft", "Halo: Combat Evolved", "Half-Life", "Final Fantasy XIV", "Doom", "Tetris", "Metal Gear Solid 3: Snake Eater", "Half-Life: Alyx", "God of War", "Chrono Trigger", "Portal", "Street Fighter II", "Super Mario Bros.", "Undertale", "Bloodborne", "BioShock", "The Last of Us", "The Witcher 3: Wild Hunt", "Halo 2", "Castlevania: Symphony of the Night", "Hades", "Grand Theft Auto V", "Super Mario Bros. 3", "Disco Elysium", "Half-Life 2", "Red Dead Redemption 2", "Super Mario 64", "Mass Effect 2", "Super Metroid", "The Legend of Zelda: A Link to the Past", "Portal 2", "Super Mario World", "The Legend of Zelda: Breath of the Wild"];
 
     for (let i = 0; i < gamesArray.length; i++) {
       if (profData.allgames.includes(gamesArray[i])) {
@@ -219,7 +214,6 @@ const ProfileTop = () => {
       }
     };
   }
-
 
   if (user && user.user_metadata.username === username && Object.keys(profData).length !== 0) {
     window.onclick = function (event) {
@@ -301,18 +295,13 @@ const ProfileTop = () => {
               navigate('/')
             }}>Logout</button>
           </div>
-          <div className="location">
-            <h3>Location: </h3>
-            <input type="text" name="profileLocationInput" id="profileLocationInput" className="profileInput" defaultValue={location}></input>
-          </div>
-          <div className="contactInfo">
-            <h3>Email: </h3>
-            <input type="text" name="profileEmailInput" id="profileEmailInput" className="profileInput"></input>
-          </div>
-          <div className="languages">
-            <h3>Languages:</h3>
-            <input type="text" name="profileLanguagesInput" id="profileLanguagesInput" className="profileInput"></input>
-          </div>
+          <Location />
+          <Email
+            email={profData.contact_info}
+            user={user}
+            username={username}
+          />
+          <Languages />
           <div className="gamesplayedList">
             <div className="h3Mimic">Games:</div>
             {Object.keys(profData).length !== 0 && user && username === user.user_metadata.username ?

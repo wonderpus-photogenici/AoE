@@ -92,6 +92,10 @@ app.post('/api/addGame', userController.addGame, (req, res) => {
   res.status(200).send(res.locals.allgames);
 });
 
+app.post('/api/removeGame', userController.removeGame, (req, res) => {
+  res.status(200).send(res.locals.allgames);
+});
+
 app.post('/api/getUserGames', userController.getUserGames, (req, res) => {
   res.status(200).send(res.locals.userGames);
 });
@@ -106,6 +110,10 @@ app.post('/api/getFeedData', userController.getFeedData, (req, res) => {
 
 app.post('/api/saveBio', userController.saveBio, (req, res) => {
   return res.status(200).send(res.locals.bio);
+});
+
+app.post('/api/saveEmail', userController.saveEmail, (req, res) => {
+  return res.status(200).send(res.locals.email);
 });
 
 app.post('/api/getBio', userController.getBio, (req, res) => {
