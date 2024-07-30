@@ -3,6 +3,7 @@ import axios from 'axios';
 
 const FriendsList = ({ friends, onSelectFriend }) => {
   // get friend's id, then pass back to Message.jsx to get Chat Hist
+
   const handleClick = async (name) => {
     try {
       console.log('clicked: ', name);
@@ -11,7 +12,7 @@ const FriendsList = ({ friends, onSelectFriend }) => {
       });
       // setFriendId(data);
       console.log('Friend ID from frontend: ', data);
-      onSelectFriend(data);
+      onSelectFriend(data, name);
     } catch (err) {
       console.error("Error getting friend's ID: ", err);
     }

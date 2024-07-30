@@ -11,6 +11,7 @@ const userController = require('./controllers/userController');
 const authRouter = require('./oauth');
 const requestRouter = require('./request');
 const { Server } = require('socket.io');
+const db = require('./models/dbModels');
 
 const expressServer = app.listen(port, () =>
   console.log(`Listening on PORT ${port}`)
@@ -55,7 +56,7 @@ io.on('connection', (socket) => {
     }
   });
   // upon connection - send the message to only to user
-  socket.emit('message', 'Welcome to the Chat!');
+  // socket.emit('message', 'Welcome to the Chat!');
 
   // upon connection - to all others except the user (broadcast)
   // socket.broadcast.emit(
@@ -67,17 +68,33 @@ io.on('connection', (socket) => {
   // randomly generated and serves to indentify each connection
 
   // handling incoming messages
-  socket.on('message', (message) => {
+  socket.on('message', async (message) => {
     const timestamp = new Date().toLocaleString(); // Get current timestamp
     const messageWithDetails = {
-      text: message.text,
-      username: message.username,
-      timestamp: timestamp,
+      sender_id: message.userId,
+      receiver_id: message.selectedFriendId,
+      message: message.text,
+      date_time: timestamp,
     };
-    io.emit(
-      'message',
-      messageWithDetails ? messageWithDetails : 'Welcome to the Chat'
-    ); // Broadcast message to all client
+
+    try {
+      // save message to database
+      const text = `INSERT INTO messages (sender_id, receiver_id, message, date_time)
+      VALUES ($1, $2, $3, $4);`;
+      const params = [
+        message.userId,
+        message.selectedFriendId,
+        message.text,
+        timestamp,
+      ];
+
+      await db.query(text, params);
+      console.log('Message saved to database');
+
+      io.emit('message', messageWithDetails); // Broadcast message to all client
+    } catch (err) {
+      console.error('Error saving message to database: ', err);
+    }
   });
 
   // knows if the user is disconnected

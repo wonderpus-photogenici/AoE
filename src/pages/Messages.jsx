@@ -16,6 +16,7 @@ const Messages = () => {
   const [friends, setFriends] = useState([]);
   const [userId, setUserId] = useState(null);
   const [selectedFriendId, setSelectedFriendId] = useState(null);
+  const [selectedFriend, setSelectedFriend] = useState(null);
   const [onlineUsers, setOnlineUsers] = useState([]); // to keep track of online users
 
   const inputRef = useRef(null);
@@ -30,11 +31,11 @@ const Messages = () => {
   //     console.log('username', username)
   // console.log('socketRef', socketRef)
 
-  const getUser = async () => {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-  };
+  // const getUser = async () => {
+  //   const {
+  //     data: { user },
+  //   } = await supabase.auth.getUser();
+  // };
 
   // getting current user's information with authentication
   // useEffect(() => {
@@ -131,7 +132,7 @@ const Messages = () => {
       console.log('Socket ID:', socket.id);
     });
 
-    socket.on('message', (message) => {
+    socket.on('message', async (message) => {
       clearTimeout(typingTimeoutRef.current);
       if (activityRef.current) {
         activityRef.current.textContent = '';
@@ -181,7 +182,13 @@ const Messages = () => {
 
     const messageText = inputRef.current.value;
     if (messageText && socketRef.current) {
-      const message = { text: messageText, username };
+      const message = {
+        text: messageText,
+        username,
+        userId,
+        selectedFriend,
+        selectedFriendId,
+      };
       socketRef.current.emit('message', message); // emit the message
 
       inputRef.current.value = '';
@@ -203,8 +210,8 @@ const Messages = () => {
           selectedFriendId,
         }
       );
-      // setMessages(data);
-      console.log('chat history: ', data);
+      setMessages(data);
+      console.log('chat history: ', data); // array of objects
     } catch (err) {
       console.error('Error in fetching chat history: ', err);
     }
@@ -216,9 +223,17 @@ const Messages = () => {
   //   }
   // }, [userId, selectedFriendId]);
 
+  // get friend's name
+  // const getName = (friendId) => {
+
+  // }
+
   // start chat with another friend
-  const handleFriendSelect = (friendId) => {
+  const handleFriendSelect = (friendId, friendName) => {
     setSelectedFriendId(friendId);
+    setSelectedFriend(friendName);
+    console.log('friendID', friendId);
+    console.log('selected friend', friendName);
     getChatHistory(userId, friendId);
   };
 
@@ -233,6 +248,8 @@ const Messages = () => {
       />
       <div className="chatBox">
         <h1>Game Tonight</h1>
+        {selectedFriend && <div>Chatting with: {selectedFriend}</div>}
+
         {selectedFriendId ? (
           <div
             className="message-container"
@@ -244,9 +261,9 @@ const Messages = () => {
                   key={index}
                   style={{ border: '1px, solid, white', height: '30px' }}
                 >
-                  <strong>{msg.username}</strong>:{msg.text}{' '}
+                  <strong>{msg.sender}</strong>:{msg.message}{' '}
                   <span style={{ color: 'grey', fontSize: 'small' }}>
-                    ({msg.timestamp})
+                    ({msg.date_time})
                   </span>
                 </li>
               ))}
