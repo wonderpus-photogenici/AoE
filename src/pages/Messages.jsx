@@ -10,7 +10,6 @@ const Messages = () => {
   const [friends, setFriends] = useState([]);
   const [userId, setUserId] = useState(null);
   const [selectedFriendId, setSelectedFriendId] = useState(null);
-  const [chatHistory, setChatHistory] = useState([]);
 
   const inputRef = useRef(null);
   const socketRef = useRef(null);
@@ -86,6 +85,7 @@ const Messages = () => {
         activityRef.current.textContent = '';
       }
       console.log('Message received: ', message);
+      console.log('Messages object: ', messages);
       setMessages((prevMessages) => [...prevMessages, message]);
     });
 
@@ -143,8 +143,8 @@ const Messages = () => {
           selectedFriendId,
         }
       );
-      setMessages(data);
-      console.log(data);
+      // setMessages(data);
+      console.log('chat history: ', data);
     } catch (err) {
       console.error('Error in fetching chat history: ', err);
     }

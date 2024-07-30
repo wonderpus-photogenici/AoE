@@ -69,6 +69,43 @@ userController.addUser = async (req, res, next) => {
   }
 };
 
+userController.updatePfp = async (req, res, next) => {
+  const { pfp, username } = req.body;
+  // console.log('in uC.updatePfp');
+  // console.log('pfp: ', pfp);
+  // console.log('username: ', username);
+
+  try {
+    const text = `UPDATE users SET pfp = $1 WHERE username = $2 RETURNING pfp`;
+    const params = [pfp, username];
+    const result = await db.query(text, params);
+
+    // console.log('in uC.updatePfp 2');
+
+    res.locals.pfp = result.rows[0].pfp;
+
+    // console.log('res.locals.pfp: ', res.locals.pfp);
+    return next();
+  } catch (err) {
+    return next('Error in userController.updatePfp: ' + JSON.stringify(err));
+  }
+};
+
+userController.getPfpPath = async (req, res, next) => {
+  const { username } = req.body;
+
+  try {
+    const text = `SELECT pfp FROM users WHERE username = $1`;
+    const params = [username];
+    const result = await db.query(text, params);
+    res.locals.pfp = result.rows[0].pfp;
+
+    return next();
+  } catch (err) {
+    return next('Error in userController.getPfpPath: ' + JSON.stringify(err));
+  }
+};
+
 userController.addGame = async (req, res, next) => {
   const { userId, game } = req.body;
   console.log('userId: ', userId);
@@ -110,6 +147,35 @@ userController.addGame = async (req, res, next) => {
     return next();
   } catch (err) {
     return next('Error in userController.addGame: ' + JSON.stringify(err));
+  }
+};
+
+userController.removeGame = async (req, res, next) => {
+  const { userId, game } = req.body;
+  try {
+    const text = `
+    SELECT profile_id FROM users WHERE supabase_id = $1`;
+    const params = [userId];
+    const result = await db.query(text, params);
+    // console.log('result.rows[0].profile_id: ', result.rows[0].profile_id);
+
+    const text2 = `
+    SELECT allgames FROM profile WHERE id = $1`;
+    const params2 = [result.rows[0].profile_id];
+    const result2 = await db.query(text2, params2);
+
+    // console.log('result2.rows[0].allgames: ', result2.rows[0].allgames);
+    let newArr = result2.rows[0].allgames.filter((e) => e !== game);
+    // console.log('newArr: ', newArr);
+    const text3 = `UPDATE profile SET allgames = $1 WHERE id = $2 RETURNING allgames`;
+    const params3 = [newArr, result.rows[0].profile_id];
+    const result3 = await db.query(text3, params3);
+
+    res.locals.allgames = result3.rows[0].allgames;
+
+    return next();
+  } catch (err) {
+    return next('Error in userController.removeGame: ' + JSON.stringify(err));
   }
 };
 
@@ -219,14 +285,41 @@ userController.getProfData = async (req, res, next) => {
   const { username } = req.body;
 
   try {
-    const text = `SELECT users.pfp, profile.allgames, profile.bio FROM users JOIN profile on users.profile_id = profile.id WHERE users.username = $1`;
+    const text = `SELECT users.pfp, profile.allgames, profile.bio, profile.location, profile.languages, profile.contact_info FROM users JOIN profile on users.profile_id = profile.id WHERE users.username = $1`;
     const params = [username];
     const result = await db.query(text, params);
 
     res.locals.profData = result.rows[0];
+
+    // console.log('res.locals.profData: ', res.locals.profData);
     return next();
   } catch (err) {
     return next('Error in userController.getProfData: ' + JSON.stringify(err));
+  }
+};
+
+userController.saveEmail = async (req, res, next) => {
+  const { username, email } = req.body;
+
+  try {
+    const text = `
+    SELECT profile_id FROM users WHERE username = $1`;
+    const params = [username];
+    const result = await db.query(text, params);
+    // console.log('result.rows[0].profile_id: ', result.rows[0].profile_id);
+
+    const text2 = `UPDATE profile SET contact_info = $1 WHERE id = $2 RETURNING contact_info;`;
+    const params2 = [email, result.rows[0].profile_id];
+    const result2 = await db.query(text2, params2);
+
+    res.locals.email = result2.rows[0].contact_info;
+    // console.log('result2.rows[0].bio: ', result2.rows[0].bio);
+    // const text = `UPDATE profile SET riot_account = $1 WHERE id = $2 RETURNING *;`;
+    // const params = [riotData, userId];
+    // const result = await db.query(text, params);
+    return next();
+  } catch (err) {
+    return next('Error in userController.saveEmail: ' + JSON.stringify(err));
   }
 };
 
@@ -372,6 +465,7 @@ userController.getFriends = async (req, res, next) => {
   }
 };
 
+// use user ID to look up chat history
 userController.getChatHistory = async (req, res, next) => {
   const { userId, selectedFriendId } = req.body;
   try {
@@ -392,8 +486,5 @@ userController.getChatHistory = async (req, res, next) => {
     return res.status(500).send('Internal server error.');
   }
 };
-
-// use user ID to look up chat history
-userController.getChatHistory = async (req, res, next) => {};
 
 module.exports = userController;

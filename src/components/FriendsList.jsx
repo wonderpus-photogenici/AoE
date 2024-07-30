@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import axios from 'axios';
 
-const FriendsList = ({ friends, userId, onSelectFriend }) => {
-  // const [friendId, setFriendId] = useState(null);
-  // handleClick function to retrieve history
-  // get friend's id, then get chat history
+const FriendsList = ({ friends, onSelectFriend }) => {
+  // get friend's id, then pass back to Message.jsx to get Chat Hist
   const handleClick = async (name) => {
     try {
       console.log('clicked: ', name);
@@ -26,31 +24,6 @@ const FriendsList = ({ friends, userId, onSelectFriend }) => {
       </>
     );
   }
-
-  // const [friends, setFriends] = useState([
-  //   {
-  //     id: 1,
-  //     name: 'Alice',
-  //     url: 'https://pngimg.com/uploads/snoopy/snoopy_PNG22.png',
-  //   },
-  //   {
-  //     id: 2,
-  //     name: 'Bob',
-  //     url: 'https://pngimg.com/uploads/snoopy/snoopy_PNG22.png',
-  //   },
-  //   {
-  //     id: 3,
-  //     name: 'Charlie',
-  //     url: 'https://pngimg.com/uploads/snoopy/snoopy_PNG22.png',
-  //   },
-  //   {
-  //     id: 4,
-  //     name: 'Suli',
-  //     url: 'https://pngimg.com/uploads/snoopy/snoopy_PNG22.png',
-  //   },
-  // ]);
-
-  // console.log(user);
 
   return (
     <>

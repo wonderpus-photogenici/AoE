@@ -35,7 +35,7 @@ io.on('connection', (socket) => {
   console.log('User connected with socket id: ', socket.id);
 
   // upon connection - only to user
-  socket.emit('message', 'Welcome to the Chat!');
+  // socket.emit('message', 'Welcome to the Chat!');
 
   // upon connection - to all others except the user (broadcast)
   socket.broadcast.emit(
