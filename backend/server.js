@@ -115,14 +115,18 @@ app.post('/api/getProfData', userController.getProfData, (req, res) => {
   res.status(200).send(res.locals.profData);
 });
 
-app.post(
-  '/api/getFriendsList',
-  userController.getUserId,
-  // userController.getFriends,
-  (req, res) => {
-    res.status(200).json(res.locals.userId);
-  }
-);
+app.post('/api/getUserId', userController.getUserId, (req, res) => {
+  res.status(200).json(res.locals.userId);
+});
+
+app.post('/api/getFriendsList', userController.getFriends, (req, res) => {
+  // res.status(200).json(res.locals.userId);
+  res.status(200).json(res.locals.friendsList);
+});
+
+app.post('/api/getChatHistory', userController.getChatHistory, (req, res) => {
+  res.status(200).json(res.locals.chatHistory);
+});
 
 // Endpoint to link Riot account
 app.post('/api/link-riot-account', async (req, res) => {
