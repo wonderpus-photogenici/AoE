@@ -8,16 +8,24 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
 import ProfGamesList from "./ProfGamesList.jsx";
+import GamesSingle from './GamesSingle.jsx';
+import store from "../../redux/store.js";
+import { useDispatch } from 'react-redux';
+import { setProfile } from '../../redux/profileSlice';
+import { useSelector } from 'react-redux';
+import Email from "./Email.jsx";
+import Location from "./Location.jsx";
+import Languages from "./Languages.jsx";
 
 const ProfileTop = () => {
   const user = useUser();
   const supabase = useSupabaseClient();
-  // const [images, setImages] = useState([]);
   const [location, setLocation] = useState('');
   const [profData, setProfData] = useState({});
-  const [gamesList, setGamesList] = useState([]);
   const [profilePicture, setProfilePicture] = useState(null);
   const [pfpUrl, setPfpUrl] = useState(null);
+  const [profile, setProfile] = useState()
+  const dispatch = useDispatch();
 
   const currentUrl = window.location.href;
   const username = currentUrl.substring(currentUrl.lastIndexOf('/') + 1);
@@ -37,19 +45,7 @@ const ProfileTop = () => {
     const response = await axios.post('http://localhost:3001/api/getProfData', {
       username: username,
     })
-    // console.log('response.data: ', response.data);
     setProfData(response.data);
-    // if (Object.keys(profData).length !== 0) {
-    //   let gamesListArray = [];
-    //   for (let i = 0; i < profData.allgames.length; i++) {
-    //     console.log('profData.allgames[i]: ', profData.allgames[i]);
-    //     gamesListArray.push(
-    //     <ProfGamesList
-    //     game = {profData.allgames[i]}
-    //     />)
-    //   }
-    //   setGamesList(gamesListArray);
-    // }
   }
 
 
@@ -63,29 +59,31 @@ const ProfileTop = () => {
       const { data, error } = await axios.post('http://localhost:3001/api/getProfData', {
         username: username,
       });
-      // data;
-      console.log('data: ', data);
       setPfpUrl(CDNURL + data.pfp);
     })();
-
-    // const pfp = makeRequest();
-    // console.log('pfp: ', pfp);
-    // setPfpUrl(pfp.pfp);
   }, [])
 
-  const locationsArray = ['United States', 'Canada', 'Mexico', 'Brazil', 'Argentina'];
-  const gamesArray = ["League of Legends", "Minecraft", "Valorant", "Baldur's Gate 3", "Elden Ring", "Overwatch", "Fortnite", "Apex Legends"]
 
-  const myFunction = () => {
-    document.getElementById('profGamesDrop').style.display = 'block';
-  };
+  // listening for changes to state.profile
+  const updatedGames = useSelector((state) => state.profile);
+  // console.log('updatedGames: ', updatedGames);
 
-  window.onclick = function (event) {
-    if (document.getElementById('profGamesDropBtn') !== null) {
-      if (!event.target.matches('.profGamesDropdown') && !event.target.matches('#profGamesDropBtn') && !event.target.matches('#profGamesInput') && !event.target.matches('#profGamesDrop')) {
-        document.getElementById('profGamesDrop').style.display = 'none';
-      }
+  // If there is a change to state.profile then:
+  useEffect(() => {
+    if (profData && updatedGames.profile) {
+      setProfData({
+        ...profData,
+        allgames: updatedGames.profile,
+      })
     }
+  }, [updatedGames])
+
+  const locationsArray = ['United States', 'Canada', 'Mexico', 'Brazil', 'Argentina'];
+
+
+
+  const myFunction2 = () => {
+    document.getElementById('profGamesDrop').style.display = 'block';
   };
 
   const profGamesFilter = () => {
@@ -93,25 +91,15 @@ const ProfileTop = () => {
     input = document.getElementById("profGamesInput");
     filter = input.value.toUpperCase();
     let div = document.getElementById("profGamesDrop");
+    console.log('div: ', div);
     adiv = div.getElementsByTagName("div");
+    console.log('adiv: ', adiv);
     for (i = 0; i < adiv.length; i++) {
       let txtValue = adiv[i].textContent || adiv[i].innerText;
       if (txtValue.toUpperCase().indexOf(filter) > -1) {
         adiv[i].style.display = "";
       } else {
         adiv[i].style.display = "none";
-      }
-    }
-  };
-
-  const addGame = async (game) => {
-    if (user) {
-      const response = await axios.post('http://localhost:3001/api/addGame', {
-        userId: user.id,
-        game: game,
-      });
-      if (response.data) {
-        document.getElementById("gamesplayedListAdd").innerHTML = response.data;
       }
     }
   };
@@ -126,16 +114,9 @@ const ProfileTop = () => {
   }
 
   const handleInputChange = (event) => {
-    // console.log('start of handleInputChange');
     const { files } = event.target;
-    // console.log('files[0]: ', files[0]);
-    // if (name === 'image') setProfilePicture(files[0]);
     setProfilePicture(files[0]);
-    // console.log('profilePicture: ', profilePicture);
-    // console.log('end of handleInputChange');
   };
-
-  // console.log('profilePicture: ', profilePicture);
 
   const handleSubmit = async (e) => {
     // e.preventDefault();
@@ -202,21 +183,54 @@ const ProfileTop = () => {
 
   const navigate = useNavigate();
 
+  let profGamesArray = [];
+  let availableGames = [];
+  if (Object.keys(profData).length !== 0) {
+
+    for (let i = 0; i < profData.allgames.length; i++) {
+      profGamesArray.push(<ProfGamesList
+        key={`ProfGamesList#${i}`}
+        game={profData.allgames[i]}
+        i={i}
+      />)
+    }
+
+    // All available games to pick from
+    const gamesArray = ["League of Legends", "Minecraft", "Valorant", "Baldur's Gate 3", "Elden Ring", "Overwatch", "Fortnite", "Apex Legends", "Borderlands 2", "Divinity: Original Sin 2", "FinalFantasy VII", "Assassin's Creed IV: Black Flag", "Fallout 2", "Animal Crossing: New Horizons", "Titanfall 2", "Monster Hunter: World", "Resident Evil 2", "System Shock 2", "Mortal Kombat 11", "Persona 5 Royal", "Dark Souls", "Fable 2", "GoldenEye 007", "Super Smash Bros. Ultimate", "Spelunky", "Return of the Obra Dinn", "Dota 2", "Mario Kart 8 Deluxe", "Donkey Kong", "The Sims 3", "Splinter Cell: Chaos Theory", "Super Mario World 2: Yoshi's Island", "Silent Hill", "Grand Theft Auto: San Andreas", "XCOM 2", "Control", "Call of Duty 4: Modern Warfare", "Rise of the Tomb Raider", "Batman: Arkham City", "Dishonored 2", "The Witness", "Journey", "Uncharted 2: Among Thieves", "Overwatch", "Apex Legends", "Hollow Knight", "Ms. Pac-Man", "Counter-Strike 1.6", "Left 4 Dead 2", "EarthBound", "Diablo II", "StarCraft", "World of WarCraft", "Star Wars: Knights of the Old Republic", "Fallout: New Vegas", "Final Fantasy VI", "Pokémon Yellow", "Metroid Prime", "The Elder Scrolls V: Skyrim", "Resident Evil 4", "Shadow of the Colossus", "The Last of Us Part 2", "Red Dead Redemption", "Metal Gear Solid", "Sid Meier's Civilization IV", "The Legend of Zelda: Ocarina of Time", "Minecraft", "Halo: Combat Evolved", "Half-Life", "Final Fantasy XIV", "Doom", "Tetris", "Metal Gear Solid 3: Snake Eater", "Half-Life: Alyx", "God of War", "Chrono Trigger", "Portal", "Street Fighter II", "Super Mario Bros.", "Undertale", "Bloodborne", "BioShock", "The Last of Us", "The Witcher 3: Wild Hunt", "Halo 2", "Castlevania: Symphony of the Night", "Hades", "Grand Theft Auto V", "Super Mario Bros. 3", "Disco Elysium", "Half-Life 2", "Red Dead Redemption 2", "Super Mario 64", "Mass Effect 2", "Super Metroid", "The Legend of Zelda: A Link to the Past", "Portal 2", "Super Mario World", "The Legend of Zelda: Breath of the Wild"];
+
+    for (let i = 0; i < gamesArray.length; i++) {
+      if (profData.allgames.includes(gamesArray[i])) {
+        availableGames.push(<GamesSingle
+          key={`GamesSingle#${i}`}
+          game={gamesArray[i]}
+          plays={true}
+        />);
+      } else {
+        availableGames.push(<GamesSingle
+          key={`GamesSingle#${i}`}
+          game={gamesArray[i]}
+          plays={false}
+        />);
+      }
+    };
+  }
+
+  if (user && user.user_metadata.username === username && Object.keys(profData).length !== 0) {
+    window.onclick = function (event) {
+      if (document.getElementById('gamesplayedListAdd') !== null) {
+        if (!event.target.matches('.gamesplayedListAdd') && !event.target.matches('#gamesplayedListAdd') && !event.target.matches('#profGamesInput') && !event.target.matches('#profGamesDrop') && !event.target.matches('.ProfGamesList')) {
+          document.getElementById('profGamesDrop').style.display = 'none';
+        }
+      }
+    };
+  }
+
   return (
     <div className="profile-top">
       <div className="profile-top-container">
         {Object.keys(profData).length !== 0 && user && username === user.user_metadata.username ?
           <>
             <div className="pfpContainer">
-              {/* <img className="home-logo home-logo-ownProfile" src={CDNURL + profData.pfp} alt="profile pic"
-                // basically mimicking a hover event using
-                onMouseEnter={() => { document.getElementById('pfpTextEdit').style.display = "block";}}
-                onMouseLeave={() => { document.getElementById('pfpTextEdit').style.display = "none" }}
-                onClick={() => {
-                  console.log('clicked on image');
-
-                }}
-              /> */}
               <label htmlFor="image" className="home-logo home-logo-ownProfile">
                 <input type="file"
                   name="image"
@@ -233,7 +247,6 @@ const ProfileTop = () => {
                   onMouseEnter={() => { document.getElementById('pfpTextEdit').style.display = "block"; }}
                   onMouseLeave={() => { document.getElementById('pfpTextEdit').style.display = "none" }}
                 />
-                {/* <div className="pfpTextEdit" id="pfpTextEdit">Edit</div> */}
               </label>
               <div className="pfpTextEdit" id="pfpTextEdit">Edit</div>
             </div>
@@ -249,56 +262,7 @@ const ProfileTop = () => {
             <>
               <div className="allgames">
                 <div className="allgamesWrapper">
-                  <div>
-                    Select Games Played:
-                  </div>
-                  <div className="profGamesDropdown">
-                    <button onClick={myFunction} className="profGamesDropdown" id="profGamesDropBtn">Search Games</button>
-                    <div id="profGamesDrop" className="profGamesDrop">
-                      <input type="text" placeholder="Search.." id="profGamesInput" onKeyUp={profGamesFilter}></input>
-                      {/* Just hard coding options for now since short on time */}
-                      <div onClick={(e) => {
-                        addGame(e.target.innerHTML);
-                      }}>
-                        League of Legends
-                      </div>
-                      <div onClick={(e) => {
-                        addGame(e.target.innerHTML);
-                      }}>
-                        Minecraft
-                      </div>
-                      <div onClick={(e) => {
-                        addGame(e.target.innerHTML);
-                      }}>
-                        Valorant
-                      </div>
-                      <div onClick={(e) => {
-                        addGame(e.target.innerHTML);
-                      }}>
-                        Baldur's Gate 3
-                      </div>
-                      <div onClick={(e) => {
-                        addGame(e.target.innerHTML);
-                      }}>
-                        Elden Ring
-                      </div>
-                      <div onClick={(e) => {
-                        addGame(e.target.innerHTML);
-                      }}>
-                        Overwatch
-                      </div>
-                      <div onClick={(e) => {
-                        addGame(e.target.innerHTML);
-                      }}>
-                        Fortnite
-                      </div>
-                      <div onClick={(e) => {
-                        addGame(e.target.innerHTML);
-                      }}>
-                        Apex Legends
-                      </div>
-                    </div>
-                  </div>
+
                 </div>
               </div>
             </> : <>
@@ -306,11 +270,6 @@ const ProfileTop = () => {
               <button className="profileBtn">Message</button>
             </>
           }
-
-          {/* <div className="game-logos">
-            <img src={valorantLogo} alt="Valorant Logo" />
-            <img src={leagueLogo} alt="League Logo" />
-          </div> */}
         </div>
 
         {/* Basically checking if the logged in user is the same as the user profile that they're */}
@@ -336,26 +295,29 @@ const ProfileTop = () => {
               navigate('/')
             }}>Logout</button>
           </div>
-          <div className="location">
-            <h3>Location: </h3>
-            <input type="text" name="profileLocationInput" id="profileLocationInput" className="profileInput" defaultValue={location}></input>
-          </div>
-          <div className="contactInfo">
-            <h3>Email: </h3>
-            <input type="text" name="profileEmailInput" id="profileEmailInput" className="profileInput"></input>
-          </div>
-          <div className="languages">
-            <h3>Languages:</h3>
-            <input type="text" name="profileLanguagesInput" id="profileLanguagesInput" className="profileInput"></input>
-          </div>
+          <Location />
+          <Email
+            email={profData.contact_info}
+            user={user}
+            username={username}
+          />
+          <Languages />
           <div className="gamesplayedList">
             <div className="h3Mimic">Games:</div>
             {Object.keys(profData).length !== 0 && user && username === user.user_metadata.username ?
               <>
-                <div id="gamesplayedListAdd" className="gamesplayedListAdd">{profData.allgames}</div>
-                {/* <div id="gamesplayedListAdd" className="gamesplayedListAdd">{<div>Hi</div>}</div> */}
+                <div id="gamesplayedListAdd" className="gamesplayedListAdd" onClick={() => {
+                  myFunction2();
+                }}>{profGamesArray}
+                </div>
+                <div id="profGamesDrop" className="profGamesDrop">
+                  <input type="text" placeholder="Search.." id="profGamesInput" onKeyUp={profGamesFilter}></input>
+                  <div className="profGamesDropAvailList">
+                    {availableGames}
+                  </div>
+                </div>
               </> : <>
-                <div id="gamesplayedListAdd" className="gamesplayedListAdd" >{profData.allgames}</div>
+                <div id="gamesplayedListAdd" className="gamesplayedListAdd" >{profGamesArray}</div>
               </>
             }
           </div>

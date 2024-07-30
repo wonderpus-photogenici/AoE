@@ -4,6 +4,7 @@ import riotReducer from "./riotSlice";
 import allUsersReducer from "./allUsersSlice";
 import supabaseUserReducer from "./supabaseUserSlice";
 import feedDataReducer from "./feedDataSlice";
+import profileReducer from "./profileSlice";
 
 const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
     allUsers: allUsersReducer,
     supabaseUser: supabaseUserReducer,
     feedData: feedDataReducer,
+    profile: profileReducer,
   },
 });
 

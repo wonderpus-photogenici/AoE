@@ -84,6 +84,7 @@ const LogIn = () => {
                 value={username}
                 onChange={handleInputChange}
                 required
+                style={{borderRadius:'4px'}}
               />
             </div>
             <div className="field">
@@ -94,6 +95,7 @@ const LogIn = () => {
                 value={password}
                 onChange={handleInputChange}
                 required
+                style={{borderRadius:'4px'}}
               />
             </div>
             <div className="field">

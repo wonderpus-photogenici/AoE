@@ -133,6 +133,7 @@ const SignUp = () => {
               placeholder='Username:'
               value={username}
               onChange={handleInputChange}
+              style={{borderRadius:'4px'}}
               required
             />
           </div>
@@ -143,6 +144,7 @@ const SignUp = () => {
               placeholder='Password:'
               value={password}
               onChange={handleInputChange}
+              style={{borderRadius:'4px'}}
               required
             />
           </div>
@@ -153,6 +155,7 @@ const SignUp = () => {
               placeholder='Email:'
               value={email}
               onChange={handleInputChange}
+              style={{borderRadius:'4px'}}
               required
             />
           </div>
@@ -163,6 +166,7 @@ const SignUp = () => {
               type="file"
               name="profilePicture"
               onChange={handleInputChange}
+              style={{borderRadius:'4px'}}
               required
             />
           </div>
