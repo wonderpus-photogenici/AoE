@@ -17,12 +17,14 @@ const Email = (props) => {
             <div className="h3Mimic">Email: </div>
             {user && username === user.user_metadata.username ?
                 <>
-                    <input type="text" name="profileEmailInput" id="profileEmailInput" className="profileInput" defaultValue={email} style={{border: '1px solid rgba(0, 0, 0, 0.05)'}} onInput={(e) => {
+                    <input type="text" name="profileEmailInput" id="profileEmailInput" className="profileInput" defaultValue={email} 
+                    style={{border: '1px solid rgba(255, 255, 255, 0.4)', borderTop: 'none', borderLeft: 'none', borderRight: 'none'}} onInput={(e) => {
                         saveEmail(e)
                     }
                     }></input>
                 </> : <>
-                    <input readOnly type="text" name="profileEmailInput" id="profileEmailInput" className="profileInput" defaultValue={email} style={{border: '1px solid rgba(0, 0, 0, 0.05)'}}></input>
+                    <input readOnly type="text" name="profileEmailInput" id="profileEmailInput" className="profileInput" defaultValue={email}
+                    style={{border: '1px solid rgba(255, 255, 255, 0.4)', borderTop: 'none', borderLeft: 'none', borderRight: 'none'}}></input>
                 </>
             }
         </div>

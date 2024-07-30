@@ -67,7 +67,7 @@ const Feed = () => {
       <div className="filter-container">
         <div className="filter-input">
           <label>Filter by Username:</label>
-          <input type="text" value={usernameFilter} onChange={handleUsernameFilterChange} />
+          <input type="text" value={usernameFilter} onChange={handleUsernameFilterChange} style={{borderRadius:'4px'}}/>
         </div>
         <div className="filter-input">
           <label>Filter by Game:</label>
