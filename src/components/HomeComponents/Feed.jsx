@@ -6,16 +6,16 @@ const Feed = () => {
   const [feedData, setFeedData] = useState([]);
   const [usernameFilter, setUsernameFilter] = useState('');
   const [gameFilter, setGameFilter] = useState('');
-  const [availableGames, setAvailableGames] = useState([]);
+  // const [availableGames, setAvailableGames] = useState([]);
 
   useEffect(() => {
     getFeedData();
   }, []);
 
   // When feedData changes, run extractAvailableGames();
-  useEffect(() => {
-    extractAvailableGames();
-  }, [feedData]);
+  // useEffect(() => {
+  //   extractAvailableGames();
+  // }, [feedData]);
 
   // Function to get all of the user's usernames, pfps, and games played
   const getFeedData = async () => {
@@ -25,15 +25,15 @@ const Feed = () => {
     }
   };
 
-  const extractAvailableGames = () => {
-    const gamesSet = new Set();
-    feedData.forEach(item => {
-      item.allgames.forEach(game => {
-        gamesSet.add(game);
-      });
-    });
-    setAvailableGames(Array.from(gamesSet));
-  };
+  // const extractAvailableGames = () => {
+  //   const gamesSet = new Set();
+  //   feedData.forEach(item => {
+  //     item.allgames.forEach(game => {
+  //       gamesSet.add(game);
+  //     });
+  //   });
+  //   setAvailableGames(Array.from(gamesSet));
+  // };
 
   const handleUsernameFilterChange = (e) => {
     setUsernameFilter(e.target.value);
@@ -58,6 +58,8 @@ const Feed = () => {
       bio={data.bio}
     />
   ));
+
+  const availableGames = ["League of Legends", "Minecraft", "Valorant", "Baldur's Gate 3", "Elden Ring", "Overwatch", "Fortnite", "Apex Legends"];
 
   return (
     <div className="feed-wrapper">

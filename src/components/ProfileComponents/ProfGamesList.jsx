@@ -4,7 +4,7 @@ const ProfGamesList = (props) => {
     const { game } = props; 
     console.log('game: ', game);
     return (
-        <div>
+        <div className="ProfGamesList">
             {game}
         </div>
     )
