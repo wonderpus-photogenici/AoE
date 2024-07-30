@@ -768,6 +768,10 @@ input[type='file'] {
   align-items: end;
 }
 
+.noFocusHighlight:focus {
+  outline: none;
+}
+
 .allgamesWrapper {
   position: relative;
   display: inline-block;
