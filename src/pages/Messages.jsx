@@ -136,6 +136,7 @@ const Messages = () => {
       if (activityRef.current) {
         activityRef.current.textContent = '';
       }
+
       console.log('Message received: ', message);
       console.log('Messages object: ', messages);
       setMessages((prevMessages) => [...prevMessages, message]);
@@ -176,6 +177,7 @@ const Messages = () => {
     e.preventDefault();
 
     const messageText = inputRef.current.value;
+
     if (messageText && socketRef.current) {
       const message = {
         text: messageText,
@@ -184,6 +186,7 @@ const Messages = () => {
         selectedFriend,
         selectedFriendId,
       };
+
       socketRef.current.emit('message', message); // emit the message
 
       inputRef.current.value = '';
@@ -240,17 +243,17 @@ const Messages = () => {
             style={{ flex: '5.5', gap: '5px' }}
           >
             <ul style={{ gap: '5px' }}>
-              {messages.map((msg, index) => (
-                <li
-                  key={index}
-                  style={{ border: '1px, solid, white', height: '30px' }}
-                >
-                  <strong>{msg.sender}</strong>:{msg.message}{' '}
-                  <span style={{ color: 'grey', fontSize: 'small' }}>
-                    ({msg.date_time})
-                  </span>
-                </li>
-              ))}
+                  {messages.map((msg, index) => (
+                    <li
+                      key={index}
+                      style={{ border: '1px, solid, white', height: '30px' }}
+                    >
+                      <strong>{msg.sender}</strong>:{msg.message}{' '}
+                      <span style={{ color: 'grey', fontSize: 'small' }}>
+                        ({msg.date_time})
+                      </span>
+                    </li>
+                  ))}
             </ul>
             <p
               className="activity"

@@ -58,8 +58,11 @@ io.on('connection', (socket) => {
 
   // handling incoming messages
   socket.on('message', async (message) => {
+    console.log('message in server: ', message);
+
     const timestamp = new Date().toLocaleString(); // Get current timestamp
     const messageWithDetails = {
+      sender: message.username,
       sender_id: message.userId,
       receiver_id: message.selectedFriendId,
       message: message.text,
@@ -137,6 +140,18 @@ app.post('/api/addGame', userController.addGame, (req, res) => {
 app.post('/api/removeGame', userController.removeGame, (req, res) => {
   res.status(200).send(res.locals.allgames);
 });
+
+app.post('/api/addLanguage', userController.addLanguage, (req, res) => {
+  res.status(200).send(res.locals.languages);
+});
+
+app.post('/api/removeLanguage', userController.removeLanguage, (req, res) => {
+  res.status(200).send(res.locals.languages);
+});
+
+app.post('/api/updateLocation', userController.updateLocation, (req, res) => {
+  res.status(200).send(res.locals.location);
+})
 
 app.post('/api/getUserGames', userController.getUserGames, (req, res) => {
   res.status(200).send(res.locals.userGames);
