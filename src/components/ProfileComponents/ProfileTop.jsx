@@ -66,7 +66,10 @@ const ProfileTop = () => {
 
   // listening for changes to state.profile
   const updatedGames = useSelector((state) => state.profile);
+  const updatedLanguages = useSelector((state) => state.profileLanguages);
+  const updatedLocation = useSelector((state) => state.profileLocation);
   // console.log('updatedGames: ', updatedGames);
+  // console.log('updatedLanguages: ', updatedLanguages);
 
   // If there is a change to state.profile then:
   useEffect(() => {
@@ -76,10 +79,25 @@ const ProfileTop = () => {
         allgames: updatedGames.profile,
       })
     }
-  }, [updatedGames])
+  }, [updatedGames]);
 
-  const locationsArray = ['United States', 'Canada', 'Mexico', 'Brazil', 'Argentina'];
+  useEffect(() => {
+    if (profData && updatedLanguages.profileLanguages) {
+      setProfData({
+        ...profData,
+        languages: updatedLanguages.profileLanguages,
+      })
+    }
+  }, [updatedLanguages])
 
+  useEffect(() => {
+    if (profData && updatedLocation.profileLocation) {
+      setProfData({
+        ...profData,
+        location: updatedLocation.profileLocation,
+      })
+    }
+  }, [updatedLocation])
 
 
   const myFunction2 = () => {
@@ -87,19 +105,21 @@ const ProfileTop = () => {
   };
 
   const profGamesFilter = () => {
-    var input, filter, ul, li, adiv, i;
-    input = document.getElementById("profGamesInput");
-    filter = input.value.toUpperCase();
-    let div = document.getElementById("profGamesDrop");
-    console.log('div: ', div);
-    adiv = div.getElementsByTagName("div");
-    console.log('adiv: ', adiv);
-    for (i = 0; i < adiv.length; i++) {
-      let txtValue = adiv[i].textContent || adiv[i].innerText;
-      if (txtValue.toUpperCase().indexOf(filter) > -1) {
-        adiv[i].style.display = "";
-      } else {
-        adiv[i].style.display = "none";
+    if (document.getElementById("profGamesInput") && document.getElementById("profGamesDrop")) {
+      var input, filter, ul, li, adiv, i;
+      input = document.getElementById("profGamesInput");
+      filter = input.value.toUpperCase();
+      let div = document.getElementById("profGamesDrop");
+      console.log('div: ', div);
+      adiv = div.getElementsByTagName("div");
+      console.log('adiv: ', adiv);
+      for (i = 0; i < adiv.length; i++) {
+        let txtValue = adiv[i].textContent || adiv[i].innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          adiv[i].style.display = "";
+        } else {
+          adiv[i].style.display = "none";
+        }
       }
     }
   };
@@ -185,7 +205,7 @@ const ProfileTop = () => {
 
   let profGamesArray = [];
   let availableGames = [];
-  if (Object.keys(profData).length !== 0) {
+  if (profData && Object.keys(profData).length !== 0) {
 
     for (let i = 0; i < profData.allgames.length; i++) {
       profGamesArray.push(<ProfGamesList
@@ -196,7 +216,7 @@ const ProfileTop = () => {
     }
 
     // All available games to pick from
-    const gamesArray = ["League of Legends", "Minecraft", "Valorant", "Baldur's Gate 3", "Elden Ring", "Overwatch", "Fortnite", "Apex Legends", "Borderlands 2", "Divinity: Original Sin 2", "FinalFantasy VII", "Assassin's Creed IV: Black Flag", "Fallout 2", "Animal Crossing: New Horizons", "Titanfall 2", "Monster Hunter: World", "Resident Evil 2", "System Shock 2", "Mortal Kombat 11", "Persona 5 Royal", "Dark Souls", "Fable 2", "GoldenEye 007", "Super Smash Bros. Ultimate", "Spelunky", "Return of the Obra Dinn", "Dota 2", "Mario Kart 8 Deluxe", "Donkey Kong", "The Sims 3", "Splinter Cell: Chaos Theory", "Super Mario World 2: Yoshi's Island", "Silent Hill", "Grand Theft Auto: San Andreas", "XCOM 2", "Control", "Call of Duty 4: Modern Warfare", "Rise of the Tomb Raider", "Batman: Arkham City", "Dishonored 2", "The Witness", "Journey", "Uncharted 2: Among Thieves", "Overwatch", "Apex Legends", "Hollow Knight", "Ms. Pac-Man", "Counter-Strike 1.6", "Left 4 Dead 2", "EarthBound", "Diablo II", "StarCraft", "World of WarCraft", "Star Wars: Knights of the Old Republic", "Fallout: New Vegas", "Final Fantasy VI", "Pokémon Yellow", "Metroid Prime", "The Elder Scrolls V: Skyrim", "Resident Evil 4", "Shadow of the Colossus", "The Last of Us Part 2", "Red Dead Redemption", "Metal Gear Solid", "Sid Meier's Civilization IV", "The Legend of Zelda: Ocarina of Time", "Minecraft", "Halo: Combat Evolved", "Half-Life", "Final Fantasy XIV", "Doom", "Tetris", "Metal Gear Solid 3: Snake Eater", "Half-Life: Alyx", "God of War", "Chrono Trigger", "Portal", "Street Fighter II", "Super Mario Bros.", "Undertale", "Bloodborne", "BioShock", "The Last of Us", "The Witcher 3: Wild Hunt", "Halo 2", "Castlevania: Symphony of the Night", "Hades", "Grand Theft Auto V", "Super Mario Bros. 3", "Disco Elysium", "Half-Life 2", "Red Dead Redemption 2", "Super Mario 64", "Mass Effect 2", "Super Metroid", "The Legend of Zelda: A Link to the Past", "Portal 2", "Super Mario World", "The Legend of Zelda: Breath of the Wild"];
+    const gamesArray = ["League of Legends", "Minecraft", "Valorant", "Baldur's Gate 3", "Elden Ring", "Overwatch", "Fortnite", "Apex Legends", "Borderlands 2", "Divinity: Original Sin 2", "FinalFantasy VII", "Assassin's Creed IV: Black Flag", "Fallout 2", "Animal Crossing: New Horizons", "Titanfall 2", "Monster Hunter: World", "Resident Evil 2", "System Shock 2", "Mortal Kombat 11", "Persona 5 Royal", "Dark Souls", "Fable 2", "GoldenEye 007", "Super Smash Bros. Ultimate", "Spelunky", "Return of the Obra Dinn", "Dota 2", "Mario Kart 8 Deluxe", "Donkey Kong", "The Sims 3", "Splinter Cell: Chaos Theory", "Super Mario World 2: Yoshi's Island", "Silent Hill", "Grand Theft Auto: San Andreas", "XCOM 2", "Control", "Call of Duty 4: Modern Warfare", "Rise of the Tomb Raider", "Batman: Arkham City", "Dishonored 2", "The Witness", "Journey", "Uncharted 2: Among Thieves", "Overwatch", "Apex Legends", "Hollow Knight", "Ms. Pac-Man", "Counter-Strike 1.6", "Left 4 Dead 2", "EarthBound", "Diablo II", "StarCraft", "World of WarCraft", "Star Wars: Knights of the Old Republic", "Fallout: New Vegas", "Final Fantasy VI", "Pokémon Yellow", "Metroid Prime", "The Elder Scrolls V: Skyrim", "Resident Evil 4", "Shadow of the Colossus", "The Last of Us Part 2", "Red Dead Redemption", "Metal Gear Solid", "Sid Meier's Civilization IV", "The Legend of Zelda: Ocarina of Time", "Halo: Combat Evolved", "Half-Life", "Final Fantasy XIV", "Doom", "Tetris", "Metal Gear Solid 3: Snake Eater", "Half-Life: Alyx", "God of War", "Chrono Trigger", "Portal", "Street Fighter II", "Super Mario Bros.", "Undertale", "Bloodborne", "BioShock", "The Last of Us", "The Witcher 3: Wild Hunt", "Halo 2", "Castlevania: Symphony of the Night", "Hades", "Grand Theft Auto V", "Super Mario Bros. 3", "Disco Elysium", "Half-Life 2", "Red Dead Redemption 2", "Super Mario 64", "Mass Effect 2", "Super Metroid", "The Legend of Zelda: A Link to the Past", "Portal 2", "Super Mario World", "The Legend of Zelda: Breath of the Wild"];
 
     for (let i = 0; i < gamesArray.length; i++) {
       if (profData.allgames.includes(gamesArray[i])) {
@@ -215,20 +235,10 @@ const ProfileTop = () => {
     };
   }
 
-  if (user && user.user_metadata.username === username && Object.keys(profData).length !== 0) {
-    window.onclick = function (event) {
-      if (document.getElementById('gamesplayedListAdd') !== null) {
-        if (!event.target.matches('.gamesplayedListAdd') && !event.target.matches('#gamesplayedListAdd') && !event.target.matches('#profGamesInput') && !event.target.matches('#profGamesDrop') && !event.target.matches('.ProfGamesList')) {
-          document.getElementById('profGamesDrop').style.display = 'none';
-        }
-      }
-    };
-  }
-
   return (
     <div className="profile-top">
       <div className="profile-top-container">
-        {Object.keys(profData).length !== 0 && user && username === user.user_metadata.username ?
+        {profData && Object.keys(profData).length !== 0 && user && username === user.user_metadata.username ?
           <>
             <div className="pfpContainer">
               <label htmlFor="image" className="home-logo home-logo-ownProfile">
@@ -258,12 +268,12 @@ const ProfileTop = () => {
         }
         <div className="username-addBtn-messageBtn">
           <h1 id="profile-username" className="profile-username">{username}</h1>
-          {Object.keys(profData).length !== 0 && user && username === user.user_metadata.username ?
+          {profData && Object.keys(profData).length !== 0 && user && username === user.user_metadata.username ?
             <>
               <div className="allgames">
-                <div className="allgamesWrapper">
+                {/* <div className="allgamesWrapper">
 
-                </div>
+                </div> */}
               </div>
             </> : <>
               <button className="profileBtn">Add</button>
@@ -274,7 +284,7 @@ const ProfileTop = () => {
 
         {/* Basically checking if the logged in user is the same as the user profile that they're */}
         {/* visiting, if they are, then they can edit the bio, if they aren't then they can't */}
-        {Object.keys(profData).length !== 0 && user && username === user.user_metadata.username ?
+        {profData && Object.keys(profData).length !== 0 && user && username === user.user_metadata.username ?
           <>
             <textarea id="profileTopBio" className="profileTopBio" placeholder="Describe yourself here..." defaultValue={profData.bio} onInput={(e) => {
               saveBio(e)
@@ -295,16 +305,24 @@ const ProfileTop = () => {
               navigate('/')
             }}>Logout</button>
           </div>
-          <Location />
+          <Location
+            location={profData.location}
+            user={user}
+            username={username}
+          />
           <Email
             email={profData.contact_info}
             user={user}
             username={username}
           />
-          <Languages />
+          <Languages
+            languages={profData.languages}
+            user={user}
+            username={username}
+          />
           <div className="gamesplayedList">
             <div className="h3Mimic">Games:</div>
-            {Object.keys(profData).length !== 0 && user && username === user.user_metadata.username ?
+            {profData && Object.keys(profData).length !== 0 && user && username === user.user_metadata.username ?
               <>
                 <div id="gamesplayedListAdd" className="gamesplayedListAdd" onClick={() => {
                   myFunction2();
