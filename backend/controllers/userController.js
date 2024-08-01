@@ -33,7 +33,7 @@ userController.addUser = async (req, res, next) => {
       INSERT INTO profile ( bio, pfp, location, server, languages, fav4games, contact_info, friends, allgames )
       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
       RETURNING *`;
-      const paramsProfile = ['', '', '', '', '', ['', '', '', ''], '', [], []];
+      const paramsProfile = ['', '', '', '', [], ['', '', '', ''], '', [], []];
       const resultProfile = await db.query(textProfile, paramsProfile);
       res.locals.profile = resultProfile.rows[0];
 
@@ -147,6 +147,102 @@ userController.addGame = async (req, res, next) => {
     return next();
   } catch (err) {
     return next('Error in userController.addGame: ' + JSON.stringify(err));
+  }
+};
+
+userController.addLanguage = async (req, res, next) => {
+  const { userId, language } = req.body;
+
+  try {
+    // first I need to retrieve the list of current games played
+    const text = `
+    SELECT profile_id FROM users WHERE supabase_id = $1`;
+    const params = [userId];
+    const result = await db.query(text, params);
+    // console.log('result.rows[0].profile_id: ', result.rows[0].profile_id);
+
+    const text2 = `
+    SELECT languages FROM profile WHERE id = $1`;
+    const params2 = [result.rows[0].profile_id];
+    const result2 = await db.query(text2, params2);
+    // console.log('result2.rows[0].allgames: ', result2.rows[0].allgames);
+
+    // If the allgames array for that user already includes the language
+    if (result2.rows[0].languages.includes(language)) {
+      return next();
+    }
+
+    result2.rows[0].languages.push(language);
+    // console.log('result2.rows[0].allgames: ', result2.rows[0].allgames);
+    // const text = `
+    // SELECT id, allgames FROM profile WHERE users
+    // `
+
+    // Then I'll need to push the new game to the array, later also implement logic that if the game is
+    // already in the array then don't push it
+
+    const text3 = `UPDATE profile SET languages = $1 WHERE id = $2 RETURNING languages`;
+    const params3 = [result2.rows[0].languages, result.rows[0].profile_id];
+    const result3 = await db.query(text3, params3);
+
+    // console.log('result3.rows[0].allgames: ', result3.rows[0].allgames);
+    res.locals.languages = result3.rows[0].languages;
+    return next();
+  } catch (err) {
+    return next('Error in userController.addLanguage: ' + JSON.stringify(err));
+  }
+};
+
+userController.removeLanguage = async (req, res, next) => {
+  const { userId, language } = req.body;
+  try {
+    const text = `
+    SELECT profile_id FROM users WHERE supabase_id = $1`;
+    const params = [userId];
+    const result = await db.query(text, params);
+    // console.log('result.rows[0].profile_id: ', result.rows[0].profile_id);
+
+    const text2 = `
+    SELECT languages FROM profile WHERE id = $1`;
+    const params2 = [result.rows[0].profile_id];
+    const result2 = await db.query(text2, params2);
+
+    // console.log('result2.rows[0].allgames: ', result2.rows[0].allgames);
+    let newArr = result2.rows[0].languages.filter((e) => e !== language);
+    // console.log('newArr: ', newArr);
+    const text3 = `UPDATE profile SET languages = $1 WHERE id = $2 RETURNING languages`;
+    const params3 = [newArr, result.rows[0].profile_id];
+    const result3 = await db.query(text3, params3);
+
+    res.locals.languages = result3.rows[0].languages;
+
+    return next();
+  } catch (err) {
+    return next(
+      'Error in userController.removeLanguage: ' + JSON.stringify(err)
+    );
+  }
+};
+
+userController.updateLocation = async (req, res, next) => {
+  const { userId, location } = req.body;
+  try {
+    // first I need to retrieve the list of current games played
+    const text = `
+    SELECT profile_id FROM users WHERE supabase_id = $1`;
+    const params = [userId];
+    const result = await db.query(text, params);
+    // console.log('result.rows[0].profile_id: ', result.rows[0].profile_id);
+
+    const text2 = `
+    UPDATE profile SET location = $1 WHERE id = $2 returning location`;
+    const params2 = [location, result.rows[0].profile_id];
+    const result2 = await db.query(text2, params2);
+
+    res.locals.location = result2.rows[0].location;
+    return next();
+  } catch (err) {
+    return next('Error in userController.addLanguage: ' + JSON.stringify(err));
   }
 };
 

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useUser, useSupabaseClient } from '@supabase/auth-helpers-react';
 import store from '../../redux/store';
+import axios from 'axios';
 
 const HomeTopRight = () => {
   const navigate = useNavigate();
@@ -54,7 +55,7 @@ const HomeTopRight = () => {
           type="button"
           className="HomeTopRightMessages"
           onClick={() => {
-            navigate(`/profile/${user.user_metadata.username}`);
+            window.location.assign(`/profile/${user.user_metadata.username}`)
           }}
         >
           {user === null ? (
