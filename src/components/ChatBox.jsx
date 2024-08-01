@@ -26,7 +26,7 @@ const ChatBox = () => {
             {/* <button type="button" className="ChatBoxPopupButton"></button> */}
             <div className="ChatBoxPopupWrapper" id="ChatBoxPopupWrapper">
                 <form className="ChatBoxUserInput" id="ChatBoxUserInput">
-                    <input type="text" className="ChatBoxUserInputReal"/>
+                    <textarea type="text" className="ChatBoxUserInputReal"/>
                     <button type="submit" className="ChatBoxUserSend">Send</button>
                 </form>
                 <div className="ChatBoxPopup" id="ChatBoxPopup">

@@ -409,13 +409,37 @@ input[type='file'] {
 
 .ChatBoxUserInputReal {
   background-color: rgba(0, 0, 0, 0);
-  // border: 0px !important;
+  border: 0px !important;
   color: white;
   grid-column: 1;
   grid-row: 1;
-  width: 100%;
+  width: 99%;
   height: 100%;
   box-sizing: border-box;
+  // align-self: center;
+  justify-self: center;
+  outline: none;
+  resize: none;
+  font-family: inherit;
+  font-size: inherit;
+  &::-webkit-scrollbar {
+    width: 14px;
+  }
+
+  /* Track */
+  &::-webkit-scrollbar-track {
+    background: #262626;
+  }
+
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    background: #3c3c3c;
+  }
+
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    background: #1b1b1b;
+  }
 }
 
 .ChatBoxUserSend {
