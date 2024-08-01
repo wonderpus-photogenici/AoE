@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import "../pages/Chat.css"
 
 const FriendsList = ({ friends, onSelectFriend }) => {
   // get friend's id, then pass back to Message.jsx to get Chat Hist
@@ -28,55 +29,24 @@ const FriendsList = ({ friends, onSelectFriend }) => {
 
   return (
     <>
-      <div
-        className="conversation"
-        style={{
-          width: '400px',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'top',
-          padding: '10px',
-        }}
-      >
+      <div className="chatMenuWrapper">
+        <div className ="chatMenuContainer">
         <h1>Freinds List</h1>
-        <div className="searchBar">
+        <div className="chatMenuInputBox">
           <input placeholder="Search for Friends" className="chatMenuInput" />
         </div>
-        <ul
-          className="friendsList"
-          style={{
-            color: 'yellow',
-            listStyle: 'none',
-            justifyContent: 'flex-start',
-            alignContent: 'center',
-          }}
-        >
+        <ul className="friendsList">
           {friends.map((friend) => (
-            <li
+            <li className="conversation"
               key={friend.username}
-              style={{
-                fontSize: '15px',
-                cursor: 'pointer',
-                border: 'solid 1px white',
-              }}
               onClick={() => handleClick(friend.username)}
             >
-              <img
-                className="conversationImg"
-                // src={friend.url}
-                style={{
-                  height: '50px',
-                  width: '50px',
-                  background: 'white',
-                  borderRadius: '50%',
-                  marginRight: '20px',
-                  objectFit: 'cover',
-                }}
-              />
+              <img className="conversationImg"/> 
               <span className="conversationName">{friend.username}</span>
             </li>
           ))}
         </ul>
+      </div>
       </div>
     </>
   );

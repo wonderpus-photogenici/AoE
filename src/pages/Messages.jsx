@@ -4,6 +4,8 @@ import FriendsList from '../components/FriendsList.jsx';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import axios from 'axios';
 import './Chat.css';
+import chatBackground from '../Assets/summoner.png';
+import ChatRec from './ChatRec.jsx'
 // import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
 
 const Messages = () => {
@@ -17,6 +19,7 @@ const Messages = () => {
   const [selectedFriendId, setSelectedFriendId] = useState(null);
   const [selectedFriend, setSelectedFriend] = useState(null);
   const [onlineUsers, setOnlineUsers] = useState([]); // to keep track of online users
+  const [own, setOwn] = useState(false)
 
   const inputRef = useRef(null);
   const socketRef = useRef(null);
@@ -130,13 +133,14 @@ const Messages = () => {
       console.log('Connected to WebSocket server');
       console.log('Socket ID:', socket.id);
     });
-
+    
     socket.on('message', async (message) => {
       clearTimeout(typingTimeoutRef.current);
       if (activityRef.current) {
         activityRef.current.textContent = '';
       }
-
+      // if(message.sender === username) setOwn(true)
+    
       console.log('Message received: ', message);
       console.log('Messages object: ', messages);
       setMessages((prevMessages) => [...prevMessages, message]);
@@ -224,37 +228,27 @@ const Messages = () => {
     getChatHistory(userId, friendId);
   };
 
+  console.log('own from message', own)
   return (
-    <div className="message-page">
+    <div className= "background" style={{ backgroundImage:'url(' + chatBackground+ ')', hegith: '100vh'} }>
+    <div className="messenger">
+      <div className="chatMenu">
       <FriendsList
-        className="friend-list"
-        style={{ width: '100px', padding: '10px' }}
         friends={friends}
         userId={userId}
         onSelectFriend={handleFriendSelect}
       />
+      </div>
       <div className="chatBox">
-        <h1>Game Tonight</h1>
+        <div className="chatMenuWrapper">
+        <h1>Messages</h1>
         {selectedFriend && <div>Chatting with: {selectedFriend}</div>}
 
         {selectedFriendId ? (
-          <div
-            className="message-container"
-            style={{ flex: '5.5', gap: '5px' }}
-          >
-            <ul style={{ gap: '5px' }}>
+          <div className="message-container">
                   {messages.map((msg, index) => (
-                    <li
-                      key={index}
-                      style={{ border: '1px, solid, white', height: '30px' }}
-                    >
-                      <strong>{msg.sender}</strong>:{msg.message}{' '}
-                      <span style={{ color: 'grey', fontSize: 'small' }}>
-                        ({msg.date_time})
-                      </span>
-                    </li>
+                      <ChatRec msg={msg} index={index} own={msg.sender === userId}/>
                   ))}
-            </ul>
             <p
               className="activity"
               ref={activityRef}
@@ -269,15 +263,19 @@ const Messages = () => {
         ) : (
           <p>Choose a friend to chat!</p>
         )}
+        </div>
       </div>
-      <div className="chat-online" style={{ flex: '3.5', gap: '5px' }}>
-        Online Friends:
+      <div className="chat-online" >
+        <div className= "chatOnlineWrapper">
+        <h1>Online Friends:</h1>
         <ul>
           {onlineUsers.map((user) => (
             <li key={user.id}>{user.name}</li> // Display user names from the list of online users
           ))}
         </ul>
       </div>
+    </div>
+    </div>
     </div>
   );
 };
