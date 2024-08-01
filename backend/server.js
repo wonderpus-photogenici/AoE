@@ -193,6 +193,12 @@ app.post('/api/getChatHistory', userController.getChatHistory, (req, res) => {
   res.status(200).json(res.locals.chatHistory);
 });
 
+app.post('/api/addFriendById', userController.addFriendById, (req, res) => {
+  res
+    .status(200)
+    .json({ success: true, message: 'Friend added successfully!' });
+});
+
 // Endpoint to link Riot account
 app.post('/api/link-riot-account', async (req, res) => {
   const { gameName, tagLine } = req.body;
