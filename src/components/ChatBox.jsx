@@ -18,12 +18,17 @@ const ChatBox = () => {
                 } else {
                     document.getElementById('ChatBoxPopupWrapper').style.display = "grid";
                 };
-            }}>pfp Username, pfp Username,</div>
+            }}>pfp Username</div>
             <div className="ChatBoxWrapperSpan" onClick={() => {
+                document.getElementById('ChatBoxPopupWrapper').style.display = "none";
                 document.getElementById('ChatBoxWrapper').style.display = "none";
             }}>X</div>
             {/* <button type="button" className="ChatBoxPopupButton"></button> */}
             <div className="ChatBoxPopupWrapper" id="ChatBoxPopupWrapper">
+                <form className="ChatBoxUserInput" id="ChatBoxUserInput">
+                    <input type="text" className="ChatBoxUserInputReal"/>
+                    <button type="submit" className="ChatBoxUserSend">Send</button>
+                </form>
                 <div className="ChatBoxPopup" id="ChatBoxPopup">
                     <div className="chatBoxIndividualMessage">
                         <div className="chatBoxIndividualUserPfp"></div>
