@@ -4,7 +4,10 @@ import profPicFiller from '../../Assets/aoelogo3_kyler.png';
 import { useNavigate, Link } from 'react-router-dom';
 
 const UserRec = (props) => {
-  const { username, pfp, bio } = props;
+  const { username, pfp, bio, languages } = props;
+  let languagesString = languages.join(', ');
+
+
   const navigate = useNavigate();
   const CDNURL = "https://gusnjhjnuugqaqtgwhym.supabase.co/storage/v1/object/public/AoE/";
   return (
@@ -20,11 +23,10 @@ const UserRec = (props) => {
 
       <div className="userRec-buttons">
         <button className="userRec-Button">Add</button>
-        <button className="userRec-Button2">Message</button>
+        {/* <button className="userRec-Button2">Message</button> */}
       </div>
-      <div className="userRec-favorite-game">
-        Favorite Game:
-      </div>
+      <textarea readOnly className="userRec-favorite-game" defaultValue={`Languages: ` + languagesString}>
+      </textarea>
       <div className="userRecBioWrapper">
         <div className="userRecBioTag">Bio:</div>
         <div className="userRec-game-rank-Container">

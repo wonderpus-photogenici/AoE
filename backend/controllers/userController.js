@@ -441,7 +441,7 @@ userController.getBio = async (req, res, next) => {
 userController.getFeedData = async (req, res, next) => {
   try {
     // Data Needed: pfp[users], username[users], allgames [profile]
-    const text = `SELECT users.username, users.pfp, profile.allgames, profile.bio FROM users JOIN profile on users.profile_id = profile.id`;
+    const text = `SELECT users.username, users.pfp, profile.allgames, profile.bio, profile.languages FROM users JOIN profile on users.profile_id = profile.id`;
     const params = [];
     const result = await db.query(text, params);
 
