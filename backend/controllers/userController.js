@@ -442,7 +442,7 @@ userController.getBio = async (req, res, next) => {
 userController.getFeedData = async (req, res, next) => {
   try {
     // Data Needed: pfp[users], username[users], allgames [profile]
-    const text = `SELECT users.id, users.username, users.pfp, profile.allgames, profile.bio FROM users JOIN profile on users.profile_id = profile.id`;
+    const text = `SELECT users.id, users.username, users.pfp, profile.allgames, profile.bio, profile.languages FROM users JOIN profile on users.profile_id = profile.id`;
     const params = [];
     const result = await db.query(text, params);
 
@@ -452,6 +452,22 @@ userController.getFeedData = async (req, res, next) => {
     return next('Error in userController.getFeedData: ' + JSON.stringify(err));
   }
 };
+
+userController.getPfpByUserId = async (req, res, next) => {
+  const { userId } = req.body;
+  try {
+    // Data Needed: pfp[users], username[users], allgames [profile]
+    const text = `
+    SELECT pfp FROM users WHERE id = $1`;
+    const params = [userId];
+    const result = await db.query(text, params);
+
+    res.locals.pfp = result.rows[0].pfp;
+    return next();
+  } catch (err) {
+    return next('Error in userController.getPfpByUserId: ' + JSON.stringify(err));
+  }
+}
 
 userController.findAllUsersPfp = async (req, res, next) => {
   try {
