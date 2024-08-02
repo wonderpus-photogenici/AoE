@@ -1,3 +1,4 @@
+const { checkPrime } = require('crypto');
 const db = require('../models/dbModels');
 const pass = require('../models/userModels');
 
@@ -604,6 +605,31 @@ userController.addFriendById = async (req, res, next) => {
     return res
       .status(500)
       .json({ success: false, message: 'Error in addFriendById middleware.' });
+  }
+};
+
+userController.removeFriendById = async (req, res, next) => {
+  const { userId, friendId } = req.body;
+  try {
+    // check if already friends
+    const text1 = `SELECT * FROM friends WHERE (user_id = $1 AND friend_id = $2) OR (user_id = $2 AND friend_id = $1)`;
+    const checkResult = await db.query(text1, [userId, friendId]);
+
+    if (checkResult.rows.length === 0) {
+      return res.json({ success: false, message: 'User is not your friend.' });
+    }
+
+    // delete the two rows in friends
+    const text2 = `DELETE FROM friends WHERE (user_id = $1 AND friend_id = $2) OR (user_id = $2 AND friend_id = $1)`;
+    await db.query(text2, [userId, friendId]);
+
+    return next();
+  } catch (err) {
+    console.error('Error in removeFriendById middleware: ', err);
+    return res.status(500).json({
+      success: false,
+      message: 'Error in removeFriendById middleware.',
+    });
   }
 };
 

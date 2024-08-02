@@ -34,6 +34,22 @@ const UserRec = (props) => {
     }
   };
 
+  const handleRemoveFriend = async () => {
+    try {
+      const response = await axios.post(
+        'http://localhost:3001/api/removeFriendById',
+        { userId: props.userId, friendId: id }
+      );
+      if (response.data.success) {
+        alert('Friend removed successfully!');
+      } else {
+        alert('Failed, user is not your friend!');
+      }
+    } catch (err) {
+      console.error('Error in removing friend: ', err);
+    }
+  };
+
   return (
     <div className="userRec-wrapper">
       <img className="userRec-prof-pic" src={CDNURL + pfp} alt="" />
@@ -54,7 +70,10 @@ const UserRec = (props) => {
         <button className="userRec-Button" onClick={handleAddFriend}>
           Add
         </button>
-        <button className="userRec-Button2">Message</button>
+        {/* <button className="userRec-Button2">Message</button> */}
+        <button className="userRec-Button2" onClick={handleRemoveFriend}>
+          Remove
+        </button>
       </div>
       <div className="userRec-favorite-game">Favorite Game:</div>
       <div className="userRecBioWrapper">
