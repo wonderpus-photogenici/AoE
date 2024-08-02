@@ -12,6 +12,13 @@ const ChatBox = (props) => {
 
     // console.log('activityRef.current: ', activityRef.current);
 
+    // const onEnterPress = (e) => {
+    //     // if (e.keyCode == 13 && e.shiftKey == false) {
+    //     //     e.preventDefault();
+    //     //     this.myFormRef.submit();
+    //     // }
+    // }
+
     const getFriendPfp = async () => {
         const response = await axios.post('http://localhost:3001/api/getPfpByUserId', {
             userId: friendId,
@@ -66,7 +73,7 @@ const ChatBox = (props) => {
                 }}>X</div>
                 <div className="ChatBoxPopupWrapper" id="ChatBoxPopupWrapper">
                     <form className="ChatBoxUserInput" id="ChatBoxUserInput" onSubmit={sendMessage}>
-                        <textarea type="text" className="ChatBoxUserInputReal" ref={inputRef} onChange={handleInputChange} />
+                        <textarea type="text" className="ChatBoxUserInputReal" ref={inputRef} onChange={handleInputChange}/>
                         <button type="submit" className="ChatBoxUserSend">Send</button>
                     </form>
                     <div className="ChatBoxPopup" id="ChatBoxPopup">

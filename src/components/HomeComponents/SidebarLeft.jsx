@@ -18,15 +18,15 @@ const SideBarLeft = () => {
                 </> : <>
                     {/* If there's a user logged in */}
                     <p style={{ color: "white" }}>Current user: {user.user_metadata.username}</p>
-                    <button type="button" 
+                    {/* <button type="button" 
                     onClick={() => {
                         if (document.getElementById('ChatBoxWrapper').style.display === "none") {
                             document.getElementById('ChatBoxWrapper').style.display = "grid" 
                         } else {
                             document.getElementById('ChatBoxWrapper').style.display = "none"
                         }}}
-                    >Test Button to test chat boxes popping up</button>
-                    <ChatBox />
+                    >Test Button to test chat boxes popping up</button> */}
+                    {/* <ChatBox /> */}
                 </>
             }
         </div>
