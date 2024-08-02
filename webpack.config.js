@@ -1,9 +1,13 @@
-const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: path.resolve(__dirname, "src/index.js"), // Corrected path for entry point
+  entry: path.resolve(__dirname, 'src/index.js'), // Corrected path for entry point
+  resolve: {
+    fallback: {
+      util: require.resolve('util/'),
+    },
+  },
   // output: {
   //   path: path.join(__dirname, "/dist"), // Output directory for bundled files
   //   filename: "bundle.js", // Output filename
@@ -13,7 +17,7 @@ module.exports = {
     publicPath: '/',
     filename: 'bundle.js',
   },
-  mode: "development",
+  mode: 'development',
   // target: "node", // Set target to Node.js
   // externals: [nodeExternals()], // Exclude Node.js native modules and dependencies
   module: {
@@ -22,40 +26,40 @@ module.exports = {
         test: /\.(js|jsx)$/, // Transpile JS and JSX files using Babel
         exclude: /node_modules/, // Exclude node_modules
         use: {
-          loader: "babel-loader", // Use Babel loader
+          loader: 'babel-loader', // Use Babel loader
         },
       },
       {
         test: /\.less$/i,
         use: [
           // compiles Less to CSS
-          "style-loader",
-          "css-loader",
-          "less-loader",
+          'style-loader',
+          'css-loader',
+          'less-loader',
         ],
       },
       {
         test: /\.css$/i, // Add rule for CSS files
         use: [
-          "style-loader", // Injects styles into the DOM
-          "css-loader",   // Interprets @import and url() like import/require()
+          'style-loader', // Injects styles into the DOM
+          'css-loader', // Interprets @import and url() like import/require()
         ],
       },
       {
         test: /\.scss$/, // Transpile SCSS files to CSS
         use: [
-          "style-loader", // Injects styles into DOM
-          "css-loader", // Interprets @import and url() like import/require()
-          "sass-loader", // Compiles Sass to CSS
+          'style-loader', // Injects styles into DOM
+          'css-loader', // Interprets @import and url() like import/require()
+          'sass-loader', // Compiles Sass to CSS
         ],
       },
       {
         test: /\.(png|jpe?g|gif|svg)$/i, // Handle image files
         use: [
           {
-            loader: "file-loader",
+            loader: 'file-loader',
             options: {
-              name: "[path][name].[ext]", // Keep original file structure
+              name: '[path][name].[ext]', // Keep original file structure
             },
           },
         ],
@@ -67,7 +71,7 @@ module.exports = {
     hot: true, // Enable live reload
     proxy: [
       {
-        context:['/**'],
+        context: ['/**'],
         target: 'http://localhost:3001',
         // target: 'http://[::1]:3001',
         // test
@@ -81,7 +85,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, "src/index.html"),
+      template: path.resolve(__dirname, 'src/index.html'),
     }),
   ],
 };
