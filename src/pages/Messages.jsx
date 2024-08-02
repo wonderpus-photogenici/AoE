@@ -4,10 +4,14 @@ import FriendsList from '../components/FriendsList.jsx';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import axios from 'axios';
 import './Chat.css';
-// import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
+import ChatBox from '../components/ChatBox.jsx';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { setSelectedFriendIdRedux } from '../redux/selectedFriendIdSlice.js';
+// import { useUser } from "@supabase/auth-helpers-react";
 
 const Messages = () => {
-  // const user = useUser();
+  // const supabase_user = useUser();
   const supabase = useSupabaseClient();
   const [messages, setMessages] = useState([]);
   const [user, setUser] = useState(null);
@@ -17,6 +21,8 @@ const Messages = () => {
   const [selectedFriendId, setSelectedFriendId] = useState(null);
   const [selectedFriend, setSelectedFriend] = useState(null);
   const [onlineUsers, setOnlineUsers] = useState([]); // to keep track of online users
+  const [onlyChatBox, setOnlyChatBox] = useState('false');
+  const dispatch = useDispatch();
 
   const inputRef = useRef(null);
   const socketRef = useRef(null);
@@ -51,6 +57,16 @@ const Messages = () => {
 
   //   })});
 
+  // This part is basically part of making it so when the x button is clicked on the popup
+  // chatbox that, if the user the sent the message sends another one, the popup will appear again
+  const reduxSelectedFriendId = useSelector((state) => state.selectedFriendId);
+  useEffect(() => {
+    if (reduxSelectedFriendId.selectedFriendId === 'no') {
+      dispatch(setSelectedFriendIdRedux("yes"));
+      setSelectedFriendId(null);
+    }
+  }, [reduxSelectedFriendId]);
+
   // Fetch user data from Supabase
   useEffect(() => {
     const getUser = async () => {
@@ -70,6 +86,14 @@ const Messages = () => {
           'http://localhost:3001/api/getUserId',
           { username }
         );
+
+        // const { data } = await fetch('http://localhost:3001/api/getUserId', {
+        //   method: 'POST',
+        //   headers: {
+        //     'Content-Type': 'application/json',
+        //   },
+        //   body: JSON.stringify({username}),
+        // });
         setUserId(data);
         console.log('User Id from frontend:', data);
       } catch (err) {
@@ -90,6 +114,13 @@ const Messages = () => {
           'http://localhost:3001/api/getFriendsList',
           { userId }
         );
+        // const { data } = await fetch('http://localhost:3001/api/getFriendsList', {
+        //   method: 'POST',
+        //   headers: {
+        //     'Content-Type': 'application/json',
+        //   },
+        //   body: JSON.stringify({userId}),
+        // });
         console.log('FriendsList from frontend:', data);
         setFriends(data);
       } catch (err) {
@@ -189,6 +220,8 @@ const Messages = () => {
 
       socketRef.current.emit('message', message); // emit the message
 
+      setSelectedFriendId(selectedFriendId);
+
       inputRef.current.value = '';
       inputRef.current.focus();
     }
@@ -196,6 +229,11 @@ const Messages = () => {
 
   // fetch chat history when userId and selectedFriendId are set
   const getChatHistory = async (userId, selectedFriendId) => {
+    // console.log('in getChatHistory')
+    // console.log('userId: ', userId);
+    // console.log(typeof userId);
+    // console.log('selectedFriendId: ', selectedFriendId);
+    // console.log(typeof selectedFriendId);
     if (!userId || !selectedFriendId) return;
     try {
       console.log(
@@ -208,6 +246,19 @@ const Messages = () => {
           selectedFriendId,
         }
       );
+
+      // const { data } = await fetch('http://localhost:3001/api/getChatHistory', {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   },
+      //   body: JSON.stringify({
+      //     userId,
+      //     selectedFriendId,
+      //   }),
+      // });
+
+      // console.log('after fetch');
       setMessages(data);
       console.log('chat history: ', data); // array of objects
     } catch (err) {
@@ -219,10 +270,14 @@ const Messages = () => {
   const handleFriendSelect = (friendId, friendName) => {
     setSelectedFriendId(friendId);
     setSelectedFriend(friendName);
-    console.log('friendID', friendId);
-    console.log('selected friend', friendName);
+    setOnlyChatBox('false');
+    // console.log('in handleFriendSelect');
+    // console.log('friendID', friendId);
+    // console.log('selected friend', friendName);
     getChatHistory(userId, friendId);
   };
+
+  console.log('selectedFriendId before return: ', selectedFriendId);
 
   return (
     <div className="message-page">
@@ -233,27 +288,73 @@ const Messages = () => {
         userId={userId}
         onSelectFriend={handleFriendSelect}
       />
+
+      {console.log('selectedFriendId after Friends List: ', selectedFriendId)}
+      {/* <ChatBox /> */}
       <div className="chatBox">
         <h1>Game Tonight</h1>
-        {selectedFriend && <div>Chatting with: {selectedFriend}</div>}
+        {selectedFriend && onlyChatBox === 'false' && <div>Chatting with: {selectedFriend}</div>}
 
-        {selectedFriendId ? (
+        <ChatBox
+          messages={messages}
+          friendId={selectedFriendId}
+          friendUsername={selectedFriend}
+          userId={userId}
+          username={username}
+          activityRef={activityRef}
+          inputRef={inputRef}
+          socketRef={socketRef}
+          handleInputChange={handleInputChange}
+          sendMessage={sendMessage}
+        />
+
+        {/* && selectedFriendId && typeof selectedFriendId === "number" */}
+        {messages && console.log('last message: ', messages[messages.length - 1])}
+        {/* {console.log('messages: ', messages, ' ')} */}
+        {console.log('userId before if', userId)}
+        {console.log('selectedFriendId before if', selectedFriendId)}
+        {/* {messages && messages[messages.length - 1] ? <>{setSelectedFriendId(messages[messages.length - 1].receiver_id)}</> : <></>} */}
+
+        {messages && messages[messages.length - 1] && messages[messages.length - 1].receiver_id === userId && messages[messages.length - 1].sender_id !== selectedFriendId ? <>
+          {/* {console.log('selectedFriendId: ', selectedFriendId, ' sender_id: ', messages[messages.length - 1].sender_id, ' messages: ', messages)} */}
+          {/* {console.log('chatbox should popup')}
+          {console.log('message senderId', messages[messages.length - 1].sender_id)}
+          {console.log('selectedFriendId: ', selectedFriendId)} */}
+          {document.getElementById('ChatBoxWrapper').style.display = "grid"}
+
+          {setSelectedFriendId(messages[messages.length - 1].sender_id)}
+          {setSelectedFriend(messages[messages.length - 1].sender)}
+          {getChatHistory(userId, messages[messages.length - 1].sender_id)}
+          {setOnlyChatBox('true')}
+          {/* <ChatBox
+            messages={messages}
+          /> */}
+        </> : <>
+          {/* <ChatBox /> */}
+        </>}
+        {/* {console.log('messages: ', messages)} */}
+        {/* <ChatBox
+          messages={messages}
+        /> */}
+        {/* {console.log('onlyChatBox: ', onlyChatBox)} */}
+        {selectedFriendId && onlyChatBox === 'false' ? (
           <div
             className="message-container"
             style={{ flex: '5.5', gap: '5px' }}
           >
+            {/* {console.log('messages: ', messages)} */}
             <ul style={{ gap: '5px' }}>
-                  {messages.map((msg, index) => (
-                    <li
-                      key={index}
-                      style={{ border: '1px, solid, white', height: '30px' }}
-                    >
-                      <strong>{msg.sender}</strong>:{msg.message}{' '}
-                      <span style={{ color: 'grey', fontSize: 'small' }}>
-                        ({msg.date_time})
-                      </span>
-                    </li>
-                  ))}
+              {messages.map((msg, index) => (
+                <li
+                  key={index}
+                  style={{ border: '1px, solid, white', height: '30px' }}
+                >
+                  <strong>{msg.sender}</strong>:{msg.message}{' '}
+                  <span style={{ color: 'grey', fontSize: 'small' }}>
+                    ({msg.date_time})
+                  </span>
+                </li>
+              ))}
             </ul>
             <p
               className="activity"

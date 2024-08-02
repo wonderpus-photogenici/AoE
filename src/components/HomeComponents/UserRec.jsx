@@ -5,7 +5,10 @@ import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 
 const UserRec = (props) => {
-  const { username, pfp, bio, allgames, id, user } = props;
+  const { username, pfp, bio, languages, allgames, id, user } = props;
+  let languagesString = languages.join(', ');
+
+
   // const [userId, setUserId] = useState(null);
   const navigate = useNavigate();
   const CDNURL =
@@ -75,7 +78,8 @@ const UserRec = (props) => {
           Remove
         </button>
       </div>
-      <div className="userRec-favorite-game">Favorite Game:</div>
+      <textarea readOnly className="userRec-favorite-game" defaultValue={`Languages: ` + languagesString}>
+      </textarea>
       <div className="userRecBioWrapper">
         <div className="userRecBioTag">Bio:</div>
         <div className="userRec-game-rank-Container">
