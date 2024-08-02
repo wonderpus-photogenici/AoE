@@ -151,7 +151,7 @@ app.post('/api/removeLanguage', userController.removeLanguage, (req, res) => {
 
 app.post('/api/updateLocation', userController.updateLocation, (req, res) => {
   res.status(200).send(res.locals.location);
-})
+});
 
 app.post('/api/getUserGames', userController.getUserGames, (req, res) => {
   res.status(200).send(res.locals.userGames);
@@ -207,6 +207,22 @@ app.post('/api/getFriendsList', userController.getFriends, (req, res) => {
 app.post('/api/getChatHistory', userController.getChatHistory, (req, res) => {
   res.status(200).json(res.locals.chatHistory);
 });
+
+app.post('/api/addFriendById', userController.addFriendById, (req, res) => {
+  res
+    .status(200)
+    .json({ success: true, message: 'Friend added successfully.' });
+});
+
+app.post(
+  '/api/removeFriendById',
+  userController.removeFriendById,
+  (req, res) => {
+    res
+      .status(200)
+      .json({ success: true, message: 'Friend removed successfully.' });
+  }
+);
 
 // Endpoint to link Riot account
 app.post('/api/link-riot-account', async (req, res) => {
