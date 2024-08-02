@@ -8,6 +8,9 @@ const Feed = () => {
   const [usernameFilter, setUsernameFilter] = useState('');
   const [gameFilter, setGameFilter] = useState('');
   const [userId, setUserId] = useState(null);
+  const [isFriend, setIsFriend] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   const user = useUser();
   // const [availableGames, setAvailableGames] = useState([]);
 
@@ -61,6 +64,32 @@ const Feed = () => {
   //   setAvailableGames(Array.from(gamesSet));
   // };
 
+  // console.log('feedData: ', feedData); // feedData.map(obj => obj.id)
+
+  useEffect(() => {
+    if (feedData.length > 1) {
+      const checkFriendsWithUser = async () => {
+        try {
+          const friendChecks = feedData.map((obj) =>
+            axios.post('http://localhost:3001/api/checkFriendsStatus', {
+              userId: userId,
+              friendId: obj.id,
+            })
+          );
+          const responses = await Promise.all(friendChecks);
+          // console.log('responese: ', responses);
+          const friendsStatus = responses.map((res) => res.data || null);
+          console.log('friendsStatus: ', friendsStatus);
+          setIsFriend(friendsStatus);
+          setLoading(false);
+        } catch (err) {
+          console.error('Error in fetchFriendsWithUserCheck function: ', err);
+        }
+      };
+      checkFriendsWithUser();
+    }
+  }, [feedData, userId]);
+
   const handleUsernameFilterChange = (e) => {
     setUsernameFilter(e.target.value);
   };
@@ -86,6 +115,7 @@ const Feed = () => {
       bio={data.bio}
       id={data.id}
       userId={userId}
+      isFriend={isFriend[index]}
     />
   ));
 
@@ -216,7 +246,7 @@ const Feed = () => {
           </select>
         </div>
       </div>
-      {feedArray.length > 0 ? feedArray : <p>No results found.</p>}
+      {loading ? <p>Page Is Loading...</p> : feedArray}
     </div>
   );
 };
