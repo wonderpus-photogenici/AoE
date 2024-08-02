@@ -87,11 +87,12 @@ const ChatBox = (props) => {
                             {messages.map((msg, index) => (
                                 <div className="chatBoxIndividualMessage" key={'chatBoxIndividualMessage#' + index}>
                                     {msg.sender === username ? <>
-                                        <img className="chatBoxIndividualUserPfp" src={CDNURL + myPfp} alt="" />
+                                        <img className="chatBoxIndividualUserPfpSelf" src={CDNURL + myPfp} alt="" />
+                                        <div className="chatBoxIndividualMessageContentSelf">{msg.message}</div>
                                     </> : <>
                                         <img className="chatBoxIndividualUserPfp" src={CDNURL + friendPfp} alt="" />
+                                        <div className="chatBoxIndividualMessageContent">{msg.message}</div>
                                     </>}
-                                    <div className="chatBoxIndividualMessageContent">{msg.message}</div>
                                     <div className="chatBoxIndividualTimeStamp">{msg.date_time}</div>
                                 </div>
                             ))}
