@@ -113,6 +113,7 @@ const Feed = () => {
       pfp={data.pfp}
       allgames={data.allgames}
       bio={data.bio}
+      languages={data.languages}
       id={data.id}
       userId={userId}
       isFriend={isFriend[index]}
@@ -250,5 +251,4 @@ const Feed = () => {
     </div>
   );
 };
-
 export default Feed;
