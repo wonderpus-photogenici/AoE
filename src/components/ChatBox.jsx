@@ -1,7 +1,6 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { getMyPfp } from '../../backend/controllers/userController';
 
 const ChatBox = (props) => {
     const [friendPfp, setFriendPfp] = useState('');
@@ -63,11 +62,6 @@ const ChatBox = (props) => {
                         {/* Individual message */}
                         {messages.map((msg, index) => (
                             <div className="chatBoxIndividualMessage" key={'chatBoxIndividualMessage#' + index}>
-                                {/* {msg.sender === username ? <>
-
-                                </> : <>
-                                    <img className="chatBoxIndividualUserPfp" src={CDNURL + friendPfp} alt="" />
-                                </>} */}
                                 <div className="chatBoxIndividualUserPfp">{msg.sender === username ? <>Y</>: <>N</>}</div>
                                 <div className="chatBoxIndividualMessageContent">{msg.message}</div>
                                 <div className="chatBoxIndividualTimeStamp">{msg.date_time}</div>
