@@ -13,7 +13,7 @@
     border-radius: 10px;
     outline: none;
     padding: 10px;
-    box-shadow: 10px 10px 10px rgba(32, 17, 71, 0.815);;
+    box-shadow: 10px 10px 10px rgba(53, 51, 63, 0.815);;;
 
 }
 
@@ -111,7 +111,7 @@
     flex-direction: column;
     padding:10px;
 
-    border: 1px solid white
+    /* border: 1px solid white */
 
 }
 .messageHistory {
@@ -212,4 +212,10 @@
 
 .chatInput:hover {
     background-color: rgba(43, 84, 172, 0.315)
+}
+
+.activity {
+    color: yellow;
+    display: inline-flex;
+    justify-content: center
 }

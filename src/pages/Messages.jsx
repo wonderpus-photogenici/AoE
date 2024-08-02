@@ -21,40 +21,14 @@ const Messages = () => {
   const [selectedFriendId, setSelectedFriendId] = useState(null);
   const [selectedFriend, setSelectedFriend] = useState(null);
   const [onlineUsers, setOnlineUsers] = useState([]); // to keep track of online users
-  // const [own, setOwn] = useState(false)
+  const [pfpUrl, setPfpUrl] = useState(null);
 
   const inputRef = useRef(null);
   const socketRef = useRef(null);
   const activityRef = useRef(null);
   const typingTimeoutRef = useRef(null);
-  // const [socket, setSocket] = useState(null)
-  // Ensure user ID is propertly extracted from user object
-  // const userId = user?.id;
-  //    console.log('userID', userId, user)
-  // const username = user?.user_metadata?.username; // Accessing username
-  //     console.log('username', username)
-  // console.log('socketRef', socketRef)
 
-  // const getUser = async () => {
-  //   const {
-  //     data: { user },
-  //   } = await supabase.auth.getUser();
-  // };
-
-  // getting current user's information with authentication
-  // useEffect(() => {
-  // getUser();
-  // },[user])
-
-  // getting username
-  // useEffect(() => {
-  //   (async () => {
-  //     const { data, error } = await axios.get('http://localhost:3001/api/getProfData', {
-  //       id: userId
-  //     });
-  //     console.log('data: ', data);
-
-  //   })});
+ 
 
   // Fetch user data from Supabase
   useEffect(() => {
@@ -62,9 +36,6 @@ const Messages = () => {
       const { data } = await supabase.auth.getUser();
       setUser(data.user);
       setUsername(data.user.user_metadata.username);
-      // if(messages.sender === username) {
-      //   setOwn(true)
-      // }
     };
     getUser();
   }, [supabase]);
@@ -258,10 +229,8 @@ const Messages = () => {
             <p
               className="activity"
               ref={activityRef}
-              style={{ color: 'pink' }}
             ></p>
             </div>
-       
         ) : (
           <p>Choose a friend to chat!</p>
         )}

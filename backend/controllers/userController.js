@@ -1,3 +1,4 @@
+const { checkPrime } = require('crypto');
 const db = require('../models/dbModels');
 const pass = require('../models/userModels');
 
@@ -441,7 +442,7 @@ userController.getBio = async (req, res, next) => {
 userController.getFeedData = async (req, res, next) => {
   try {
     // Data Needed: pfp[users], username[users], allgames [profile]
-    const text = `SELECT users.username, users.pfp, profile.allgames, profile.bio FROM users JOIN profile on users.profile_id = profile.id`;
+    const text = `SELECT users.id, users.username, users.pfp, profile.allgames, profile.bio FROM users JOIN profile on users.profile_id = profile.id`;
     const params = [];
     const result = await db.query(text, params);
 
@@ -580,6 +581,55 @@ userController.getChatHistory = async (req, res, next) => {
   } catch (err) {
     console.error('Error in getChatHistory middleware: ', err);
     return res.status(500).send('Internal server error.');
+  }
+};
+
+userController.addFriendById = async (req, res, next) => {
+  const { userId, friendId } = req.body;
+  try {
+    // check if already friends
+    const text1 = `SELECT * FROM friends WHERE user_id = $1 AND friend_id = $2`;
+    const checkResult = await db.query(text1, [userId, friendId]);
+
+    if (checkResult.rows.length > 0) {
+      return res.json({ success: false, message: 'User is already a friend.' });
+    }
+
+    // add friend to list
+    const text2 = `INSERT INTO friends (user_id, friend_id) VALUES ($1, $2), ($2, $1)`;
+    await db.query(text2, [userId, friendId]);
+
+    return next();
+  } catch (err) {
+    console.error('Error in addFriendById middleware: ', err);
+    return res
+      .status(500)
+      .json({ success: false, message: 'Error in addFriendById middleware.' });
+  }
+};
+
+userController.removeFriendById = async (req, res, next) => {
+  const { userId, friendId } = req.body;
+  try {
+    // check if already friends
+    const text1 = `SELECT * FROM friends WHERE (user_id = $1 AND friend_id = $2) OR (user_id = $2 AND friend_id = $1)`;
+    const checkResult = await db.query(text1, [userId, friendId]);
+
+    if (checkResult.rows.length === 0) {
+      return res.json({ success: false, message: 'User is not your friend.' });
+    }
+
+    // delete the two rows in friends
+    const text2 = `DELETE FROM friends WHERE (user_id = $1 AND friend_id = $2) OR (user_id = $2 AND friend_id = $1)`;
+    await db.query(text2, [userId, friendId]);
+
+    return next();
+  } catch (err) {
+    console.error('Error in removeFriendById middleware: ', err);
+    return res.status(500).json({
+      success: false,
+      message: 'Error in removeFriendById middleware.',
+    });
   }
 };
 
