@@ -7,6 +7,8 @@ import './Chat.css';
 import chatBackground from '../Assets/summoner.png';
 import ChatRec from './ChatRec.jsx'
 // import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
+import { CgScrollV } from "react-icons/cg";
+import { send } from 'process';
 
 const Messages = () => {
   // const user = useUser();
@@ -19,7 +21,7 @@ const Messages = () => {
   const [selectedFriendId, setSelectedFriendId] = useState(null);
   const [selectedFriend, setSelectedFriend] = useState(null);
   const [onlineUsers, setOnlineUsers] = useState([]); // to keep track of online users
-  const [own, setOwn] = useState(false)
+  // const [own, setOwn] = useState(false)
 
   const inputRef = useRef(null);
   const socketRef = useRef(null);
@@ -60,6 +62,9 @@ const Messages = () => {
       const { data } = await supabase.auth.getUser();
       setUser(data.user);
       setUsername(data.user.user_metadata.username);
+      // if(messages.sender === username) {
+      //   setOwn(true)
+      // }
     };
     getUser();
   }, [supabase]);
@@ -73,6 +78,7 @@ const Messages = () => {
           'http://localhost:3001/api/getUserId',
           { username }
         );
+
         setUserId(data);
         console.log('User Id from frontend:', data);
       } catch (err) {
@@ -133,13 +139,13 @@ const Messages = () => {
       console.log('Connected to WebSocket server');
       console.log('Socket ID:', socket.id);
     });
-    
-    socket.on('message', async (message) => {
+
+    socket.on('message', async (message, username) => {
       clearTimeout(typingTimeoutRef.current);
       if (activityRef.current) {
         activityRef.current.textContent = '';
       }
-      // if(message.sender === username) setOwn(true)
+    //  if(messages.sender === username) setOwn(true)
     
       console.log('Message received: ', message);
       console.log('Messages object: ', messages);
@@ -228,7 +234,7 @@ const Messages = () => {
     getChatHistory(userId, friendId);
   };
 
-  console.log('own from message', own)
+  // console.log('own from message', own)
   return (
     <div className= "background" style={{ backgroundImage:'url(' + chatBackground+ ')', hegith: '100vh'} }>
     <div className="messenger">
@@ -247,22 +253,26 @@ const Messages = () => {
         {selectedFriendId ? (
           <div className="message-container">
                   {messages.map((msg, index) => (
-                      <ChatRec msg={msg} index={index} own={msg.sender === userId}/>
+                      <ChatRec msg={msg} index={index} own={msg.sender === username} key={index}/>
                   ))}
             <p
               className="activity"
               ref={activityRef}
               style={{ color: 'pink' }}
             ></p>
-
-            <form onSubmit={sendMessage}>
-              <input type="text" ref={inputRef} onChange={handleInputChange} />
-              <button type="submit">Send</button>
-            </form>
-          </div>
+            </div>
+       
         ) : (
           <p>Choose a friend to chat!</p>
         )}
+         {selectedFriendId ? (
+             <form onSubmit={sendMessage} className ="inputBox">
+              <input className= "chatInput" type="text" ref={inputRef} onChange={handleInputChange} />
+              <button type="submit" style={{color: 'black', boxShadow:'rgba(67, 100, 87, 0.849);'}}>Send</button>
+            </form>
+            ) : (
+              <p>...loading</p>
+            )}
         </div>
       </div>
       <div className="chat-online" >

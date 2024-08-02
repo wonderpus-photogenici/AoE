@@ -1,3 +1,4 @@
+
 * {
     color: white
 }
@@ -20,13 +21,14 @@
     flex: 3.5;
     /* border: 1px solid pink; */
     display: block;
-    /* margin: 0 auto; */
+    margin: 0 auto;
 }
 
 .chatBox {
     flex: 5.5;
-    display: block;
-    margin: 0 auto;
+   display:block;
+   margin: 0 auto;
+   /* border: 1px solid yellow */
 }
 
 .chat-online {
@@ -41,14 +43,19 @@
 .chatOnlineWrapper {
     padding: 10px;
     height: 100%;
-    gap:5px;
-    box-shadow: 2px 2px 2px rgba(53, 51, 63, 0.815)
+    /* gap:5px; */
+    box-shadow: 2px 2px 2px rgba(53, 51, 63, 0.815);
+    margin: 0 auto;
+    width: 100%;
+    /* border: 1px solid pink; */
 }
 
 .chatMenuContainer {
     display:flex;
+    width: 100%;
     flex-direction: column;
     justify-content: left;
+    
 }
 /* friendlist chatMenu */
  h1 {
@@ -98,13 +105,25 @@
 
 
 /* chatBox */
+.message-container {
+    width: 95%;
+    display: flex;
+    flex-direction: column;
+    padding:10px;
+
+    border: 1px solid white
+
+}
 .messageHistory {
     display: flex;
     flex-direction: column;
     height: 9rem;
     width: 95%;
-    border: 1px solid blue;
-    padding: 5px;
+    /* border: 1px solid blue; */
+    padding: 10px;
+    border-radius: 10px;
+    max-width: 70%;
+    margin-left: 15px;
     /* margin-top: 15px; */
 }
 
@@ -128,11 +147,14 @@
     color: white;
     margin-left:10px;
     max-width: 300px;
+    margin:0;
+    padding: 10px;
 }
 
 .messageHistory p {
     display: inline-block;
     text-wrap:pretty;
+    font-size: 15px
 }
 
 .messageBottom {
@@ -142,13 +164,52 @@
 
 .messageHistory.own {
     align-items: flex-end;
+    align-self: flex-end;
+    margin-right: 15px;
+   
 }
 
 .messageHistory.own .messageText {
-    background-color: rgba(76, 113, 86, 0.816);
-    padding: 2px;
+    background-color: rgba(88, 134, 100, 0.8);
+    padding: 10px;
 }
 
 .messagePortion {
     padding: 2px;
+}
+
+.message-container {
+    overflow-y:scroll;
+    height:75vh;
+}
+
+
+/* Input for chatting */
+.inputBox {
+    height: 3rem;
+    width: 90%;
+    display: flex;
+    margin: 20px auto;
+    justify-content: center;
+    /* border: 1px solid red; */
+}
+.chatInput {
+    height: 2rem;
+    width: 100%;
+    display: flex;
+    margin: 0 auto;
+    justify-content: center;
+    /* border: 1px solid red; */
+    color: black;
+    padding: 10px;
+    border: none;
+    border-bottom: 1px solid rgb(155, 154, 154);
+    background-color:transparent;
+    color:white;
+    outline: none;
+    box-shadow: 5px 5px 5px rgba(78, 88, 78, 0.815);
+}
+
+.chatInput:hover {
+    background-color: rgba(43, 84, 172, 0.315)
 }

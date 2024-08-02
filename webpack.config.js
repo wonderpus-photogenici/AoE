@@ -79,6 +79,12 @@ module.exports = {
       publicPath: '/',
     },
   },
+
+  resolve: {
+    fallback: {
+      "process": require.resolve("process/browser")
+    }
+  },
   plugins: [
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, "src/index.html"),

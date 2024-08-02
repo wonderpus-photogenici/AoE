@@ -8,8 +8,8 @@ export default function ChatRec({msg, index, own}) {
   return (
     <div className={own ? "messageHistory own": "messageHistory"} key={index}>
         <div className = "chatbox-top">
-            <img src='https://th.bing.com/th/id/OIP.5TUUOlD14Dc4wqneaqNP5AHaJU?rs=1&pid=ImgDetMain' placeholder = "users pfp" className="chatUserPic"/>
-            <p>{msg.sender}:</p>
+            <img src='https://th.bing.com/th/id/OIP.5TUUOlD14Dc4wqneaqNP5AHaJU?rs=1&pid=ImgDetMain'         placeholder = "users pfp" className="chatUserPic"/>
+            <p>{msg.sender}</p>
         </div>
         <div clasName="messagePortion">
             <p className="messageText">{msg.message}</p>
