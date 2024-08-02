@@ -38,7 +38,7 @@ const FriendsList = ({ friends, onSelectFriend }) => {
           padding: '10px',
         }}
       >
-        <h1>Freinds List</h1>
+        <h1>Friends List</h1>
         <div className="searchBar">
           <input placeholder="Search for Friends" className="chatMenuInput" />
         </div>

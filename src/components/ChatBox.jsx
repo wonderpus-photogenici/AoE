@@ -38,6 +38,9 @@ const ChatBox = (props) => {
     };
 
     if (messages && messages[messages.length - 1] && messages[messages.length - 1].receiver_id === userId) {
+        // console.log('before requests: ')
+        // console.log('friendId: ', friendId);
+        // console.log('userId: ', userId);
         getFriendPfp();
         getMyPfp();
     }
@@ -72,6 +75,7 @@ const ChatBox = (props) => {
                     };
                 }}><img className="popupFriendPfp" src={CDNURL + friendPfp} alt="" /> {messages.length !== 0 ? <><div >{friendUsername}</div></> : <></>}</div>
                 <div className="ChatBoxWrapperSpan" onClick={() => {
+                    console.log('span clicked');
                     document.getElementById('ChatBoxPopupWrapper').style.display = "none";
                     document.getElementById('ChatBoxWrapper').style.display = "none";
                     dispatch(setSelectedFriendIdRedux('no'));

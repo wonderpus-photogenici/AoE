@@ -63,7 +63,7 @@ const Messages = () => {
   useEffect(() => {
     if (reduxSelectedFriendId.selectedFriendId === 'no') {
       dispatch(setSelectedFriendIdRedux("yes"));
-      // setSelectedFriendId(null);
+      setSelectedFriendId(null);
     }
   }, [reduxSelectedFriendId]);
 
@@ -86,6 +86,14 @@ const Messages = () => {
           'http://localhost:3001/api/getUserId',
           { username }
         );
+
+        // const { data } = await fetch('http://localhost:3001/api/getUserId', {
+        //   method: 'POST',
+        //   headers: {
+        //     'Content-Type': 'application/json',
+        //   },
+        //   body: JSON.stringify({username}),
+        // });
         setUserId(data);
         console.log('User Id from frontend:', data);
       } catch (err) {
@@ -106,6 +114,13 @@ const Messages = () => {
           'http://localhost:3001/api/getFriendsList',
           { userId }
         );
+        // const { data } = await fetch('http://localhost:3001/api/getFriendsList', {
+        //   method: 'POST',
+        //   headers: {
+        //     'Content-Type': 'application/json',
+        //   },
+        //   body: JSON.stringify({userId}),
+        // });
         console.log('FriendsList from frontend:', data);
         setFriends(data);
       } catch (err) {
@@ -205,6 +220,8 @@ const Messages = () => {
 
       socketRef.current.emit('message', message); // emit the message
 
+      setSelectedFriendId(selectedFriendId);
+
       inputRef.current.value = '';
       inputRef.current.focus();
     }
@@ -229,6 +246,18 @@ const Messages = () => {
           selectedFriendId,
         }
       );
+
+      // const { data } = await fetch('http://localhost:3001/api/getChatHistory', {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   },
+      //   body: JSON.stringify({
+      //     userId,
+      //     selectedFriendId,
+      //   }),
+      // });
+
       // console.log('after fetch');
       setMessages(data);
       console.log('chat history: ', data); // array of objects
@@ -242,10 +271,13 @@ const Messages = () => {
     setSelectedFriendId(friendId);
     setSelectedFriend(friendName);
     setOnlyChatBox('false');
+    // console.log('in handleFriendSelect');
     // console.log('friendID', friendId);
     // console.log('selected friend', friendName);
     getChatHistory(userId, friendId);
   };
+
+  console.log('selectedFriendId before return: ', selectedFriendId);
 
   return (
     <div className="message-page">
@@ -256,25 +288,12 @@ const Messages = () => {
         userId={userId}
         onSelectFriend={handleFriendSelect}
       />
+
+      {console.log('selectedFriendId after Friends List: ', selectedFriendId)}
       {/* <ChatBox /> */}
       <div className="chatBox">
         <h1>Game Tonight</h1>
         {selectedFriend && onlyChatBox === 'false' && <div>Chatting with: {selectedFriend}</div>}
-
-
-        {messages && messages[messages.length - 1] && messages[messages.length - 1].receiver_id === userId && typeof selectedFriendId === 'number' ? <>
-          {/* {console.log('selectedFriendId: ', selectedFriendId, ' sender_id: ', messages[messages.length - 1].sender_id, ' messages: ', messages)} */}
-          {/* <ChatBox
-            messages={messages}
-          /> */}
-        </> : <></>}
-        {/* {console.log('selectedFriendId: ', selectedFriendId)}
-        {console.log('messages: ', messages)} */}
-        {messages && messages[messages.length - 1] && messages[messages.length - 1].receiver_id === userId ? <>
-          {/* {console.log('messages in if: ', messages)} */}
-        </> : <>
-
-        </>}
 
         <ChatBox
           messages={messages}
@@ -290,10 +309,17 @@ const Messages = () => {
         />
 
         {/* && selectedFriendId && typeof selectedFriendId === "number" */}
-        {console.log('messages: ', messages, ' ')}
+        {messages && console.log('last message: ', messages[messages.length - 1])}
+        {/* {console.log('messages: ', messages, ' ')} */}
+        {console.log('userId before if', userId)}
+        {console.log('selectedFriendId before if', selectedFriendId)}
+        {/* {messages && messages[messages.length - 1] ? <>{setSelectedFriendId(messages[messages.length - 1].receiver_id)}</> : <></>} */}
+
         {messages && messages[messages.length - 1] && messages[messages.length - 1].receiver_id === userId && messages[messages.length - 1].sender_id !== selectedFriendId ? <>
-          {console.log('selectedFriendId: ', selectedFriendId, ' sender_id: ', messages[messages.length - 1].sender_id, ' messages: ', messages)}
-          {console.log('chatbox should popup')}
+          {/* {console.log('selectedFriendId: ', selectedFriendId, ' sender_id: ', messages[messages.length - 1].sender_id, ' messages: ', messages)} */}
+          {/* {console.log('chatbox should popup')}
+          {console.log('message senderId', messages[messages.length - 1].sender_id)}
+          {console.log('selectedFriendId: ', selectedFriendId)} */}
           {document.getElementById('ChatBoxWrapper').style.display = "grid"}
 
           {setSelectedFriendId(messages[messages.length - 1].sender_id)}
