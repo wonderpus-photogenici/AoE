@@ -5,6 +5,9 @@ import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import axios from 'axios';
 import './Chat.css';
 import ChatBox from '../components/ChatBox.jsx';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { setSelectedFriendIdRedux } from '../redux/selectedFriendIdSlice.js';
 // import { useUser } from "@supabase/auth-helpers-react";
 
 const Messages = () => {
@@ -19,6 +22,7 @@ const Messages = () => {
   const [selectedFriend, setSelectedFriend] = useState(null);
   const [onlineUsers, setOnlineUsers] = useState([]); // to keep track of online users
   const [onlyChatBox, setOnlyChatBox] = useState('false');
+  const dispatch = useDispatch();
 
   const inputRef = useRef(null);
   const socketRef = useRef(null);
@@ -52,6 +56,16 @@ const Messages = () => {
   //     console.log('data: ', data);
 
   //   })});
+
+  // This part is basically part of making it so when the x button is clicked on the popup
+  // chatbox that, if the user the sent the message sends another one, the popup will appear again
+  const reduxSelectedFriendId = useSelector((state) => state.selectedFriendId);
+  useEffect(() => {
+    if (reduxSelectedFriendId.selectedFriendId === 'no') {
+      dispatch(setSelectedFriendIdRedux("yes"));
+      setSelectedFriendId(null);
+    }
+  }, [reduxSelectedFriendId]);
 
   // Fetch user data from Supabase
   useEffect(() => {
@@ -268,6 +282,11 @@ const Messages = () => {
           friendUsername={selectedFriend}
           userId={userId}
           username={username}
+          activityRef={activityRef}
+          inputRef={inputRef}
+          socketRef={socketRef}
+          handleInputChange={handleInputChange}
+          sendMessage={sendMessage}
         />
 
         {messages && messages[messages.length - 1] && messages[messages.length - 1].receiver_id === userId && messages[messages.length - 1].sender_id !== selectedFriendId ? <>

@@ -3,11 +3,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: path.resolve(__dirname, 'src/index.js'), // Corrected path for entry point
-  resolve: {
-    fallback: {
-      util: require.resolve('util/'),
-    },
-  },
   // output: {
   //   path: path.join(__dirname, "/dist"), // Output directory for bundled files
   //   filename: "bundle.js", // Output filename

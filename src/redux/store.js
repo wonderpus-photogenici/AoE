@@ -7,6 +7,7 @@ import feedDataReducer from "./feedDataSlice";
 import profileReducer from "./profileSlice";
 import profileLanguagesReducer from "./profileLanguagesSlice";
 import profileLocationReducer from "./profileLocationSlice";
+import selectedFriendIdReducer from "./selectedFriendIdSlice";
 
 const store = configureStore({
   reducer: {
@@ -18,6 +19,7 @@ const store = configureStore({
     profile: profileReducer,
     profileLanguages: profileLanguagesReducer,
     profileLocation: profileLocationReducer,
+    selectedFriendId: selectedFriendIdReducer,
   },
 });
 

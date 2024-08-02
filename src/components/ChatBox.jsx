@@ -1,13 +1,16 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { getMyPfp } from '../../backend/controllers/userController';
+import { useDispatch } from 'react-redux';
+import { setSelectedFriendIdRedux } from '../redux/selectedFriendIdSlice';
 
 const ChatBox = (props) => {
     const [friendPfp, setFriendPfp] = useState('');
-    const { messages, friendId, friendUsername, userId, username } = props;
+    const [myPfp, setMyPfp] = useState('');
+    const dispatch = useDispatch();
+    const { messages, friendId, friendUsername, userId, username, activityRef, inputRef, handleInputChange, sendMessage } = props;
 
-    // When feedData changes, run extractAvailableGames();
+    // console.log('activityRef.current: ', activityRef.current);
 
     const getFriendPfp = async () => {
         const response = await axios.post('http://localhost:3001/api/getPfpByUserId', {
@@ -18,11 +21,21 @@ const ChatBox = (props) => {
         }
     };
 
+    const getMyPfp = async () => {
+        const response = await axios.post('http://localhost:3001/api/getPfpByUserId', {
+            userId: userId,
+        });
+        if (response.data) {
+            setMyPfp(response.data);
+        }
+    };
+
     if (messages && messages[messages.length - 1] && messages[messages.length - 1].receiver_id === userId) {
         getFriendPfp();
+        getMyPfp();
     }
 
-    console.log('messages in chatbox: ', messages);
+    // console.log('messages in chatbox: ', messages);
 
 
     var currentdate = new Date();
@@ -45,25 +58,37 @@ const ChatBox = (props) => {
                     } else {
                         document.getElementById('ChatBoxPopupWrapper').style.display = "grid";
                     };
-                }}><img className="popupFriendPfp" src={CDNURL + friendPfp} alt="" /> {messages.length !== 0 ? <>{messages[messages.length - 1].sender}</> : <></>}</div>
+                }}><img className="popupFriendPfp" src={CDNURL + friendPfp} alt="" /> {messages.length !== 0 ? <><div >{friendUsername}</div></> : <></>}</div>
                 <div className="ChatBoxWrapperSpan" onClick={() => {
                     document.getElementById('ChatBoxPopupWrapper').style.display = "none";
                     document.getElementById('ChatBoxWrapper').style.display = "none";
+                    dispatch(setSelectedFriendIdRedux('no'));
                 }}>X</div>
                 <div className="ChatBoxPopupWrapper" id="ChatBoxPopupWrapper">
-                    <form className="ChatBoxUserInput" id="ChatBoxUserInput">
-                        <textarea type="text" className="ChatBoxUserInputReal" />
+                    <form className="ChatBoxUserInput" id="ChatBoxUserInput" onSubmit={sendMessage}>
+                        <textarea type="text" className="ChatBoxUserInputReal" ref={inputRef} onChange={handleInputChange} />
                         <button type="submit" className="ChatBoxUserSend">Send</button>
                     </form>
                     <div className="ChatBoxPopup" id="ChatBoxPopup">
                         {/* Individual messages */}
-                        {messages.map((msg, index) => (
-                            <div className="chatBoxIndividualMessage" key={'chatBoxIndividualMessage#' + index}>
-                                    {/* <img className="chatBoxIndividualUserPfp" src={CDNURL + friendPfp} alt="" /> */}
-                                <div className="chatBoxIndividualMessageContent">{msg.message}</div>
-                                <div className="chatBoxIndividualTimeStamp">{msg.date_time}</div>
-                            </div>
-                        ))}
+                        <div className="chatBoxPopUpMessagesWrapper">
+                            {messages.map((msg, index) => (
+                                <div className="chatBoxIndividualMessage" key={'chatBoxIndividualMessage#' + index}>
+                                    {msg.sender === username ? <>
+                                        <img className="chatBoxIndividualUserPfp" src={CDNURL + myPfp} alt="" />
+                                    </> : <>
+                                        <img className="chatBoxIndividualUserPfp" src={CDNURL + friendPfp} alt="" />
+                                    </>}
+                                    <div className="chatBoxIndividualMessageContent">{msg.message}</div>
+                                    <div className="chatBoxIndividualTimeStamp">{msg.date_time}</div>
+                                </div>
+                            ))}
+                        </div>
+                        <div
+                            className="activityChatBox"
+                            ref={activityRef}
+                            style={{ color: 'pink' }}
+                        ></div>
                     </div>
                 </div>
             </div>
