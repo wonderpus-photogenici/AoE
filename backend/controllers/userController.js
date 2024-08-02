@@ -452,6 +452,22 @@ userController.getFeedData = async (req, res, next) => {
   }
 };
 
+userController.getPfpByUserId = async (req, res, next) => {
+  const { userId } = req.body;
+  try {
+    // Data Needed: pfp[users], username[users], allgames [profile]
+    const text = `
+    SELECT pfp FROM users WHERE id = $1`;
+    const params = [userId];
+    const result = await db.query(text, params);
+
+    res.locals.pfp = result.rows[0].pfp;
+    return next();
+  } catch (err) {
+    return next('Error in userController.getPfpByUserId: ' + JSON.stringify(err));
+  }
+}
+
 userController.findAllUsersPfp = async (req, res, next) => {
   try {
     let usersObj = {};

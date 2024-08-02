@@ -4,10 +4,11 @@ import FriendsList from '../components/FriendsList.jsx';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import axios from 'axios';
 import './Chat.css';
-// import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
+import ChatBox from '../components/ChatBox.jsx';
+// import { useUser } from "@supabase/auth-helpers-react";
 
 const Messages = () => {
-  // const user = useUser();
+  // const supabase_user = useUser();
   const supabase = useSupabaseClient();
   const [messages, setMessages] = useState([]);
   const [user, setUser] = useState(null);
@@ -17,6 +18,7 @@ const Messages = () => {
   const [selectedFriendId, setSelectedFriendId] = useState(null);
   const [selectedFriend, setSelectedFriend] = useState(null);
   const [onlineUsers, setOnlineUsers] = useState([]); // to keep track of online users
+  const [onlyChatBox, setOnlyChatBox] = useState('false');
 
   const inputRef = useRef(null);
   const socketRef = useRef(null);
@@ -196,6 +198,11 @@ const Messages = () => {
 
   // fetch chat history when userId and selectedFriendId are set
   const getChatHistory = async (userId, selectedFriendId) => {
+    // console.log('in getChatHistory')
+    // console.log('userId: ', userId);
+    // console.log(typeof userId);
+    // console.log('selectedFriendId: ', selectedFriendId);
+    // console.log(typeof selectedFriendId);
     if (!userId || !selectedFriendId) return;
     try {
       console.log(
@@ -208,6 +215,7 @@ const Messages = () => {
           selectedFriendId,
         }
       );
+      // console.log('after fetch');
       setMessages(data);
       console.log('chat history: ', data); // array of objects
     } catch (err) {
@@ -219,8 +227,9 @@ const Messages = () => {
   const handleFriendSelect = (friendId, friendName) => {
     setSelectedFriendId(friendId);
     setSelectedFriend(friendName);
-    console.log('friendID', friendId);
-    console.log('selected friend', friendName);
+    setOnlyChatBox('false');
+    // console.log('friendID', friendId);
+    // console.log('selected friend', friendName);
     getChatHistory(userId, friendId);
   };
 
@@ -233,27 +242,70 @@ const Messages = () => {
         userId={userId}
         onSelectFriend={handleFriendSelect}
       />
+      {/* <ChatBox /> */}
       <div className="chatBox">
         <h1>Game Tonight</h1>
-        {selectedFriend && <div>Chatting with: {selectedFriend}</div>}
+        {selectedFriend && onlyChatBox === 'false' && <div>Chatting with: {selectedFriend}</div>}
 
-        {selectedFriendId ? (
+
+        {messages && messages[messages.length - 1] && messages[messages.length - 1].receiver_id === userId && typeof selectedFriendId === 'number' ? <>
+          {console.log('selectedFriendId: ', selectedFriendId, ' sender_id: ', messages[messages.length - 1].sender_id, ' messages: ', messages)}
+          {/* <ChatBox
+            messages={messages}
+          /> */}
+        </> : <></>}
+        {/* {console.log('selectedFriendId: ', selectedFriendId)}
+        {console.log('messages: ', messages)} */}
+        {messages && messages[messages.length - 1] && messages[messages.length - 1].receiver_id === userId ? <>
+          {/* {console.log('messages in if: ', messages)} */}
+        </> : <>
+
+        </>}
+
+        <ChatBox
+          messages={messages}
+          friendId={selectedFriendId}
+          friendUsername={selectedFriend}
+          userId={userId}
+          username={username}
+        />
+
+        {messages && messages[messages.length - 1] && messages[messages.length - 1].receiver_id === userId && messages[messages.length - 1].sender_id !== selectedFriendId ? <>
+          {document.getElementById('ChatBoxWrapper').style.display = "grid"}
+
+          {setSelectedFriendId(messages[messages.length - 1].sender_id)}
+          {setSelectedFriend(messages[messages.length - 1].sender)}
+          {getChatHistory(userId, messages[messages.length - 1].sender_id)}
+          {setOnlyChatBox('true')}
+          {/* <ChatBox
+            messages={messages}
+          /> */}
+        </> : <>
+          {/* <ChatBox /> */}
+        </>}
+        {/* {console.log('messages: ', messages)} */}
+        {/* <ChatBox
+          messages={messages}
+        /> */}
+        {/* {console.log('onlyChatBox: ', onlyChatBox)} */}
+        {selectedFriendId && onlyChatBox === 'false' ? (
           <div
             className="message-container"
             style={{ flex: '5.5', gap: '5px' }}
           >
+            {/* {console.log('messages: ', messages)} */}
             <ul style={{ gap: '5px' }}>
-                  {messages.map((msg, index) => (
-                    <li
-                      key={index}
-                      style={{ border: '1px, solid, white', height: '30px' }}
-                    >
-                      <strong>{msg.sender}</strong>:{msg.message}{' '}
-                      <span style={{ color: 'grey', fontSize: 'small' }}>
-                        ({msg.date_time})
-                      </span>
-                    </li>
-                  ))}
+              {messages.map((msg, index) => (
+                <li
+                  key={index}
+                  style={{ border: '1px, solid, white', height: '30px' }}
+                >
+                  <strong>{msg.sender}</strong>:{msg.message}{' '}
+                  <span style={{ color: 'grey', fontSize: 'small' }}>
+                    ({msg.date_time})
+                  </span>
+                </li>
+              ))}
             </ul>
             <p
               className="activity"
