@@ -63,7 +63,7 @@ const Messages = () => {
   useEffect(() => {
     if (reduxSelectedFriendId.selectedFriendId === 'no') {
       dispatch(setSelectedFriendIdRedux("yes"));
-      setSelectedFriendId(null);
+      // setSelectedFriendId(null);
     }
   }, [reduxSelectedFriendId]);
 
@@ -263,7 +263,7 @@ const Messages = () => {
 
 
         {messages && messages[messages.length - 1] && messages[messages.length - 1].receiver_id === userId && typeof selectedFriendId === 'number' ? <>
-          {console.log('selectedFriendId: ', selectedFriendId, ' sender_id: ', messages[messages.length - 1].sender_id, ' messages: ', messages)}
+          {/* {console.log('selectedFriendId: ', selectedFriendId, ' sender_id: ', messages[messages.length - 1].sender_id, ' messages: ', messages)} */}
           {/* <ChatBox
             messages={messages}
           /> */}
@@ -289,7 +289,11 @@ const Messages = () => {
           sendMessage={sendMessage}
         />
 
+        {/* && selectedFriendId && typeof selectedFriendId === "number" */}
+        {console.log('messages: ', messages, ' ')}
         {messages && messages[messages.length - 1] && messages[messages.length - 1].receiver_id === userId && messages[messages.length - 1].sender_id !== selectedFriendId ? <>
+          {console.log('selectedFriendId: ', selectedFriendId, ' sender_id: ', messages[messages.length - 1].sender_id, ' messages: ', messages)}
+          {console.log('chatbox should popup')}
           {document.getElementById('ChatBoxWrapper').style.display = "grid"}
 
           {setSelectedFriendId(messages[messages.length - 1].sender_id)}

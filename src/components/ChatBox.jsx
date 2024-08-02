@@ -64,6 +64,11 @@ const ChatBox = (props) => {
                         document.getElementById('ChatBoxPopupWrapper').style.display = "none";
                     } else {
                         document.getElementById('ChatBoxPopupWrapper').style.display = "grid";
+                        if (document.getElementById("chatBoxPopUpMessagesWrapper")) {
+                            console.log('it should scroll down');
+                            var objDiv = document.getElementById("chatBoxPopUpMessagesWrapper");
+                            objDiv.scrollTop = objDiv.scrollHeight;
+                        };
                     };
                 }}><img className="popupFriendPfp" src={CDNURL + friendPfp} alt="" /> {messages.length !== 0 ? <><div >{friendUsername}</div></> : <></>}</div>
                 <div className="ChatBoxWrapperSpan" onClick={() => {
@@ -73,12 +78,12 @@ const ChatBox = (props) => {
                 }}>X</div>
                 <div className="ChatBoxPopupWrapper" id="ChatBoxPopupWrapper">
                     <form className="ChatBoxUserInput" id="ChatBoxUserInput" onSubmit={sendMessage}>
-                        <textarea type="text" className="ChatBoxUserInputReal" ref={inputRef} onChange={handleInputChange}/>
+                        <textarea type="text" className="ChatBoxUserInputReal" ref={inputRef} onChange={handleInputChange} />
                         <button type="submit" className="ChatBoxUserSend">Send</button>
                     </form>
                     <div className="ChatBoxPopup" id="ChatBoxPopup">
                         {/* Individual messages */}
-                        <div className="chatBoxPopUpMessagesWrapper">
+                        <div className="chatBoxPopUpMessagesWrapper" id ="chatBoxPopUpMessagesWrapper">
                             {messages.map((msg, index) => (
                                 <div className="chatBoxIndividualMessage" key={'chatBoxIndividualMessage#' + index}>
                                     {msg.sender === username ? <>
