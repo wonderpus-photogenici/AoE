@@ -1,16 +1,27 @@
 import React, { useState } from 'react';
 import profPicFiller from '../../Assets/aoelogo3_kyler.png';
 // import profPicFiller from '../Assets/aoelogo2.png';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const UserRec = (props) => {
-  const { username, pfp, bio, languages, allgames, id, user, isFriend } = props;
+  const {
+    username,
+    pfp,
+    bio,
+    languages,
+    allgames,
+    id,
+    user,
+    isFriend: initialIsFriend,
+  } = props;
   let languagesString = languages.join(', ');
 
   const navigate = useNavigate();
   const CDNURL =
     'https://gusnjhjnuugqaqtgwhym.supabase.co/storage/v1/object/public/AoE/';
+
+  const [isFriend, setIsFriend] = useState(initialIsFriend);
 
   const handleAddFriend = async () => {
     try {
@@ -19,6 +30,7 @@ const UserRec = (props) => {
         { userId: props.userId, friendId: id }
       );
       if (response.data.success) {
+        setIsFriend(true);
         alert('Friend added suucessfully!');
       } else {
         alert('User is already a friend!');
@@ -35,6 +47,7 @@ const UserRec = (props) => {
         { userId: props.userId, friendId: id }
       );
       if (response.data.success) {
+        setIsFriend(false);
         alert('Friend removed successfully!');
       } else {
         alert('Failed, user is not your friend!');
@@ -47,7 +60,6 @@ const UserRec = (props) => {
   return (
     <div className="userRec-wrapper">
       <img className="userRec-prof-pic" src={CDNURL + pfp} alt="" />
-
       <div className="userRec-userInfo">
         <span
           className="userRec-username"
@@ -59,9 +71,15 @@ const UserRec = (props) => {
           {username}
         </span>
       </div>
-
       <div className="userRec-buttons">
-        {isFriend ? (
+        {id === props.userId ? (
+          <button
+            className="userRec-Button"
+            style={{ backgroundColor: '#7CB9E8' }}
+          >
+            User
+          </button>
+        ) : isFriend ? (
           <button
             className="userRec-Button"
             style={{ backgroundColor: '#fd5c63' }}
@@ -79,6 +97,7 @@ const UserRec = (props) => {
           </button>
         )}
       </div>
+
       <textarea
         readOnly
         className="userRec-favorite-game"
