@@ -288,7 +288,7 @@ const Messages = () => {
         <div className="top">
         {selectedFriend && (
         <div className="friendInfo">
-        <span className ="chooseFriend">{selectedFriend}</span>
+        <span className ="chooseFriend" style={{ color: "white" }}>{selectedFriend}</span>
         <div className="icons">
           <img src={phone} alt="phone" className="icon"/>
           <img src={video} alt="video" className="icon"/>
@@ -310,7 +310,7 @@ const Messages = () => {
               </div>
 
             ) : (
-              <p className="chooseFriend">Choose a friend to chat!</p>
+              <p className="chooseFriend" style={{ color: "white" }}>Choose a friend to chat!</p>
             )}
         </div>
             <div className="bottom">
