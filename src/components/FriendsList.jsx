@@ -1,9 +1,16 @@
 import React from 'react';
 import axios from 'axios';
 import "../pages/Chat.css"
+import noPfp from '../Assets/noPfp.png';
 
-const FriendsList = ({ friends, onSelectFriend }) => {
+const FriendsList = ({ friends, onSelectFriend, friendPicture}) => {
   // get friend's id, then pass back to Message.jsx to get Chat Hist
+
+
+
+const CDNURL = "https://gusnjhjnuugqaqtgwhym.supabase.co/storage/v1/object/public/AoE/"
+
+
 
   const handleClick = async (name) => {
     try {
@@ -41,7 +48,7 @@ const FriendsList = ({ friends, onSelectFriend }) => {
               key={friend.username}
               onClick={() => handleClick(friend.username)}
             >
-              <img className="conversationImg"/> 
+              <img className="conversationImg" src={friendPicture ? CDNURL + friendPicture : 'url(' + noPfp +')'}/> 
               <span className="conversationName">{friend.username}</span>
             </li>
           ))}

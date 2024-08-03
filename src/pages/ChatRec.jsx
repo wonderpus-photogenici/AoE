@@ -2,16 +2,16 @@ import React from 'react'
 import './Chat.css';
 import noPfp from '../Assets/noPfp.png';
 
-export default function ChatRec({msg, index, own}) {
-    console.log('msg', msg, index)
-    console.log('own here', own)
+export default function ChatRec({msg, index, own, picture, friendPicture}) {
+    console.log('friendPicture', friendPicture)
+    // console.log('own here', own)
 
     const CDNURL = "https://gusnjhjnuugqaqtgwhym.supabase.co/storage/v1/object/public/AoE/"
 
   return (
     <div className={own ? "messageHistory own": "messageHistory"} key={index}>
         <div className = "chatbox-top">
-            <img src= {msg.pfp ? CDNURL + msg.pfp : 'url(' + noPfp +')'}  placeholder = "users pfp" className="chatUserPic"/>
+            <img src= { own ? CDNURL + picture : CDNURL + friendPicture}  placeholder = "users pfp" className="chatUserPic"/>
             <p>{msg.sender}</p>
         </div>
         <div clasName="messagePortion">

@@ -20,51 +20,25 @@ const Messages = () => {
   const [userId, setUserId] = useState(null);
   const [selectedFriendId, setSelectedFriendId] = useState(null);
   const [selectedFriend, setSelectedFriend] = useState(null);
-  const [onlineUsers, setOnlineUsers] = useState([]); // to keep track of online users
-  // const [own, setOwn] = useState(false)
+  const [onlineUsers, setOnlineUsers] = useState([]); // to keep track of online user
+  const [userPicture, setUserPicture ]= useState(null)
+  const [friendPicture, setFriendPicture] = useState(null)
 
   const inputRef = useRef(null);
   const socketRef = useRef(null);
   const activityRef = useRef(null);
   const typingTimeoutRef = useRef(null);
-  // const [socket, setSocket] = useState(null)
-  // Ensure user ID is propertly extracted from user object
-  // const userId = user?.id;
-  //    console.log('userID', userId, user)
-  // const username = user?.user_metadata?.username; // Accessing username
-  //     console.log('username', username)
-  // console.log('socketRef', socketRef)
 
-  // const getUser = async () => {
-  //   const {
-  //     data: { user },
-  //   } = await supabase.auth.getUser();
-  // };
 
-  // getting current user's information with authentication
-  // useEffect(() => {
-  // getUser();
-  // },[user])
+  const CDNURL = "https://gusnjhjnuugqaqtgwhym.supabase.co/storage/v1/object/public/AoE/"
 
-  // getting username
-  // useEffect(() => {
-  //   (async () => {
-  //     const { data, error } = await axios.get('http://localhost:3001/api/getProfData', {
-  //       id: userId
-  //     });
-  //     console.log('data: ', data);
-
-  //   })});
-
+  console.log('selectedFriend? ', selectedFriend)
   // Fetch user data from Supabase
   useEffect(() => {
     const getUser = async () => {
       const { data } = await supabase.auth.getUser();
       setUser(data.user);
       setUsername(data.user.user_metadata.username);
-      // if(messages.sender === username) {
-      //   setOwn(true)
-      // }
     };
     getUser();
   }, [supabase]);
@@ -90,6 +64,27 @@ const Messages = () => {
       getUserId(user.user_metadata.username);
     }
   }, [user]);
+
+    //getting userPictures
+    useEffect(()=> {
+
+      const getPfpPath = async(username) => {
+        console.log('pfp username', username)
+      
+        try {
+          const {data} = await axios.post('http://localhost:3001/api/getPfpPath',{username});
+          setUserPicture(data)
+          console.log('userPicture data', data)
+        }catch(error) {
+          console.log('error occured from getPfpPath in message.jsx')
+        }
+  
+      }
+      if(username) {
+      getPfpPath(username)
+      }
+    },[username])
+  
 
   // Fetch friends list once userId is set
   useEffect(() => {
@@ -226,13 +221,34 @@ const Messages = () => {
   };
 
   // start chat with another friend
-  const handleFriendSelect = (friendId, friendName) => {
+  const handleFriendSelect = async(friendId, friendName) => {
     setSelectedFriendId(friendId);
     setSelectedFriend(friendName);
     console.log('friendID', friendId);
-    console.log('selected friend', friendName);
-    getChatHistory(userId, friendId);
+    console.log('selected friend', friendName)
+
+   getChatHistory(userId, friendId);
+
   };
+
+  useEffect(()=> {
+
+    const getPfpPath = async(selectedFriend) => {
+      console.log('pfp friendname', selectedFriend)
+    
+      try {
+        const {data} = await axios.post('http://localhost:3001/api/getPfpPath',{selectedFriend});
+        setFriendPicture(data)
+        console.log('userPicture data', data)
+      }catch(error) {
+        console.log('error occured from getPfpPath in message.jsx')
+      }
+
+    }
+    if(selectedFriend) {
+    getPfpPath(selectedFriend)
+    }
+  },[selectedFriend])
 
   // console.log('own from message', own)
   return (
@@ -243,6 +259,7 @@ const Messages = () => {
         friends={friends}
         userId={userId}
         onSelectFriend={handleFriendSelect}
+        friendPicture={friendPicture}
       />
       </div>
       <div className="chatBox">
@@ -253,7 +270,7 @@ const Messages = () => {
         {selectedFriendId ? (
           <div className="message-container">
                   {messages.map((msg, index) => (
-                      <ChatRec msg={msg} index={index} own={msg.sender === username} key={index}/>
+                      <ChatRec msg={msg} index={index} own={msg.sender === username} key={index} picture={userPicture} friendPicture={friendPicture}/>
                   ))}
             <p
               className="activity"
