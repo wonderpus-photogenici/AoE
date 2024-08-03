@@ -252,14 +252,14 @@ const Messages = () => {
 
   // console.log('own from message', own)
   // console.log('selected')
-  if (selectedFriendId) {
-    if (document.getElementById("message-container")) {
-      if (document.getElementById("message-container").scrollTop) {
-        let objDiv = document.getElementById("message-container");
-        objDiv.scrollTop = objDiv.scrollHeight;
-      }
-    }
-  }
+  // if (selectedFriendId) {
+  //   if (document.getElementById("message-container")) {
+  //     if (document.getElementById("message-container").scrollTop) {
+  //       let objDiv = document.getElementById("message-container");
+  //       objDiv.scrollTop = objDiv.scrollHeight;
+  //     }
+  //   }
+  // }
 
   return (
     <div className="background" style={{ backgroundImage: 'url(' + chatBackground + ')', hegith: '100vh' }}>
