@@ -17,6 +17,8 @@ import image from '../Assets/image.png';
 import camera from '../Assets/camera.png';
 import mic from '../Assets/mic.png';
 import HomeTopRight from '../components/HomeComponents/HomeTopRight.jsx'
+import MessageTopRight from '../components/MessageTopRight.jsx'
+import FriendSearchSingle from '../'
 
 const Messages = () => {
   // const user = useUser();
@@ -335,7 +337,8 @@ const Messages = () => {
         </div>
         <div className="chat-online" >
         <div className="navBar">
-          <HomeTopRight />
+          {/* <HomeTopRight /> */}
+          <MessageTopRight />
         </div>
           <div className="chatOnlineWrapper">
             <h1 style={{ color: "white" }}>Online Friends:</h1>

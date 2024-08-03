@@ -324,8 +324,12 @@
 .messageSend {
     height: 2rem;
     width:6rem;
-    color: white;
-    background-color: rgba(84, 84, 157, 0.863);
+    background-color: rgba(17, 14, 14, 0.868);
+    /* border: 1px solid rgba(116, 119, 124, 0.915); */
+    box-shadow: 0 0 0 .5 gray;
+    border-radius: 5px;
+    color: rgb(181, 192, 224);
+    cursor: pointer;
 }
 
 /* Input for chatting */
@@ -364,10 +368,7 @@
 
 /* NavBar */
 
-.navBar {
-    background: rgba(3, 1, 14, 0.978);
-    border-radius: 20px;
-}
+
 
 .onlineList {
     display:flex;
@@ -382,4 +383,26 @@
     height: 25px;
     font-size: 20px;
     color: white;
+}
+
+.navBar {
+    /* background: rgba(69, 67, 85, 0.678); */
+    width: 100%;
+
+}
+
+.MSGTopRightMessages {
+    height: 30px;
+    width: 80px;
+    background-color: rgba(17, 14, 14, 0.868);
+    /* border: 1px solid rgba(116, 119, 124, 0.915); */
+    box-shadow: 0 0 0 .5 gray;
+    border-radius: 5px;
+    color: rgb(181, 192, 224);
+    cursor: pointer;
+
+}
+
+.MSGTopRightMessages:hover {
+    background-color: rgba(79, 105, 153, 0.73);
 }
