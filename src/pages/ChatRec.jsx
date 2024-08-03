@@ -14,10 +14,10 @@ export default function ChatRec({msg, index, own, picture, friendPicture}) {
             <img src= { own ? CDNURL + picture : CDNURL + friendPicture}  placeholder = "users pfp" className="chatUserPic"/>
             <p style={{color: "white"}}>{msg.sender}</p>
         </div>
-        <div clasName="messagePortion">
+        <div className="messagePortion">
             <p className="messageText">{msg.message}</p>
         </div>
-        <div classname="chatbox-bottom">
+        <div className="chatbox-bottom">
         <p style={{color: 'grey', fontSize:"small"}}>{msg.date_time}</p>
         </div>
     </div>
