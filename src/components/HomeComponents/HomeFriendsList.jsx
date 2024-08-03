@@ -85,14 +85,13 @@ const HomeFriendsList = () => {
         try {
 
             console.log('friend Id in hRFBID: ', friendId);
-            console.log('friend username in hRFBID: '. friendUsername);
+            console.log('friend username in hRFBID: ', friendUsername);
           const response = await axios.post(
             'http://localhost:3001/api/removeFriendById',
             { userId, friendId }
           );
           if (response.data.success) {
-            dispatch(setRemoveFriendHomeFriendsList({username: friendUsername}));
-            alert('Friend removed successfully!');
+            dispatch(setRemoveFriendHomeFriendsList({username: friendUsername, friend_id: friendId}));
           } else {
             alert('Failed, user is not your friend!');
           }
