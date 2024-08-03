@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 const Feed = () => {
   const [feedData, setFeedData] = useState([]);
   const [usernameFilter, setUsernameFilter] = useState('');
+  const [languageFilter, setLanguageFilter] = useState('');
   const [gameFilter, setGameFilter] = useState('');
   const [userId, setUserId] = useState(null);
   const [isFriend, setIsFriend] = useState([]);
@@ -80,11 +81,16 @@ const Feed = () => {
     setGameFilter(e.target.value);
   };
 
+  const handleLanguageFilterChange = (e) => {
+    setLanguageFilter(e.target.value);
+  }
+
   const filteredFeedData = feedData.filter((item) => {
     const usernameMatch = item.username
       .includes(usernameFilter);
     const gameMatch = gameFilter === '' || item.allgames.includes(gameFilter);
-    return usernameMatch && gameMatch;
+    const languagesMatch = languageFilter === '' || item.languages.includes(languageFilter);
+    return usernameMatch && gameMatch && languagesMatch;
   });
 
   const feedArray = filteredFeedData.map((data, index) => (
@@ -203,6 +209,8 @@ const Feed = () => {
     'The Legend of Zelda: Breath of the Wild',
   ];
 
+  const availableLanguages = ["Mandarin Chinese", "Spanish", "English", "Hindi", "Bengali", "Portuguese", "Russian", "Japanese", "Yue Chinese", "Vietnamese", "Turkish", "Wu Chinese", "Marathi", "Telugu", "Western Punjabi", "Korean", "Tamil", "Egyptian Arabic", "Standard German", "French", "Urdu", "Javanese", "Iranian Persian", "Gujarati", "Hausa", "Bhojpuri", "Levantine Arabic", "Southern Min"];
+
   return (
     <div className="feed-wrapper">
       {/* <HomeGameSearch feedData={feedData} /> */}
@@ -214,15 +222,27 @@ const Feed = () => {
             value={usernameFilter}
             onChange={handleUsernameFilterChange}
             style={{ borderRadius: '4px' }}
+            className="homeFilterByUserName"
           />
         </div>
         <div className="filter-input">
           <label>Filter by Game:</label>
-          <select value={gameFilter} onChange={handleGameFilterChange}>
-            <option value="">All Games</option>
+          <select value={gameFilter} onChange={handleGameFilterChange} className="homeFilterByUserName">
+            <option value="" className="homeFilterByUserName">All Games</option>
             {availableGames.map((game, index) => (
-              <option key={index} value={game}>
+              <option className="homeFilterByUserName" key={index} value={game}>
                 {game}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="filter-input">
+          <label>Filter by Language:</label>
+          <select value={languageFilter} onChange={handleLanguageFilterChange} className="homeFilterByUserName">
+            <option value="" className="homeFilterByUserName">All Languages</option>
+            {availableLanguages.map((language, index) => (
+              <option className="homeFilterByUserName" key={index} value={language}>
+                {language}
               </option>
             ))}
           </select>

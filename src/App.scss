@@ -832,6 +832,11 @@ input[type='file'] {
   }
 }
 
+.homeFilterByUserName {
+  background-color: rgb(8, 8, 8);
+  color: #b9cac2;
+}
+
 .riot-account-input {
   grid-area: riot-account-input;
   background-color: #0c0c0c;
@@ -854,7 +859,7 @@ input[type='file'] {
 }
 
 .profile-top {
-  height: 250px;
+  height: 100%;
 }
 
 .valorant-rank-chart,
