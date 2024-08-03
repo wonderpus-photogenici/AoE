@@ -50,7 +50,7 @@ const UserRec = (props) => {
         { userId: props.userId, friendId: id }
       );
       if (response.data.success) {
-        dispatch(setRemoveFriendHomeFriendsList({username}));
+        dispatch(setRemoveFriendHomeFriendsList({username, friend_id: id}));
         setIsFriend(false);
         alert('Friend removed successfully!');
       } else {

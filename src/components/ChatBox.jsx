@@ -7,8 +7,21 @@ import { setSelectedFriendIdRedux } from '../redux/selectedFriendIdSlice';
 const ChatBox = (props) => {
     const [friendPfp, setFriendPfp] = useState('');
     const [myPfp, setMyPfp] = useState('');
+    // const [friendId, setSelectedFriendId] = useState(null);
+    // const [friendUsername, setSelectedFriend] = useState(null);
     const dispatch = useDispatch();
     const { messages, friendId, friendUsername, userId, username, activityRef, inputRef, handleInputChange, sendMessage } = props;
+
+    // console.log('in chatbox: ');
+    // console.log('messages: ', messages)
+    // console.log('friendId: ', friendId);
+    // console.log('friendUsername: ', friendUsername);
+    // console.log('userId: ', userId);
+    // console.log('username: ', username);
+    // console.log('activityRef: ', activityRef);
+    // console.log('inputRef: ', inputRef);
+    // console.log('handleInputChange: ', handleInputChange);
+    // console.log('sendMessage: ', sendMessage);
 
     // console.log('activityRef.current: ', activityRef.current);
 
@@ -20,9 +33,12 @@ const ChatBox = (props) => {
     // }
 
     const getFriendPfp = async () => {
+        console.log('friendId in chatbox: ', friendId);
+
         const response = await axios.post('http://localhost:3001/api/getPfpByUserId', {
             userId: friendId,
         });
+        console.log('in getFriendPfp after response');
         if (response.data) {
             setFriendPfp(response.data);
         }
@@ -30,7 +46,7 @@ const ChatBox = (props) => {
 
     const getMyPfp = async () => {
         const response = await axios.post('http://localhost:3001/api/getPfpByUserId', {
-            userId: userId,
+            userId,
         });
         if (response.data) {
             setMyPfp(response.data);
@@ -41,6 +57,8 @@ const ChatBox = (props) => {
         // console.log('before requests: ')
         // console.log('friendId: ', friendId);
         // console.log('userId: ', userId);
+        // setSelectedFriend(messages[messages.length - 1].sender);
+        // setSelectedFriendId(messages[messages.length - 1].sender_id);
         getFriendPfp();
         getMyPfp();
     }
@@ -56,13 +74,21 @@ const ChatBox = (props) => {
         + currentdate.getMinutes() + ":"
         + currentdate.getSeconds();
 
+        // if (document.getElementById('ChatBoxWrapper')) {
+        //     console.log('why isnt it popping up?');
+        //     document.getElementById('ChatBoxWrapper').style.display = "grid" ;
+        // }
+        if (messages && messages.length !== 0) {
+            document.getElementById('ChatBoxWrapper').style.display = "grid" ;
+        }
+
     if (messages) {
         const CDNURL = "https://gusnjhjnuugqaqtgwhym.supabase.co/storage/v1/object/public/AoE/";
 
         return (
             <div className="ChatBoxWrapper" id="ChatBoxWrapper">
                 <div className="ChatBoxWrapperGroupMessage" onClick={() => {
-                    console.log('chatbox click');
+                    // console.log('chatbox click');
                     if (document.getElementById('ChatBoxPopupWrapper').style.display === "grid") {
                         document.getElementById('ChatBoxPopupWrapper').style.display = "none";
                     } else {
@@ -75,7 +101,7 @@ const ChatBox = (props) => {
                     };
                 }}><img className="popupFriendPfp" src={CDNURL + friendPfp} alt="" /> {messages.length !== 0 ? <><div >{friendUsername}</div></> : <></>}</div>
                 <div className="ChatBoxWrapperSpan" onClick={() => {
-                    console.log('span clicked');
+                    // console.log('span clicked');
                     document.getElementById('ChatBoxPopupWrapper').style.display = "none";
                     document.getElementById('ChatBoxWrapper').style.display = "none";
                     dispatch(setSelectedFriendIdRedux('no'));
@@ -115,7 +141,7 @@ const ChatBox = (props) => {
         return (
             <div className="ChatBoxWrapper" id="ChatBoxWrapper">
                 <div className="ChatBoxWrapperGroupMessage" onClick={() => {
-                    console.log('chatbox click');
+                    // console.log('chatbox click');
                     if (document.getElementById('ChatBoxPopupWrapper').style.display === "grid") {
                         document.getElementById('ChatBoxPopupWrapper').style.display = "none";
                     } else {

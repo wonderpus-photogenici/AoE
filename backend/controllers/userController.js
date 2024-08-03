@@ -456,7 +456,9 @@ userController.getFeedData = async (req, res, next) => {
 };
 
 userController.getPfpByUserId = async (req, res, next) => {
+  console.log('at start of uC.getPfpByUserId');
   const { userId } = req.body;
+  console.log( 'userId in uc.getPfpByUserId: ', userId);
   try {
     // Data Needed: pfp[users], username[users], allgames [profile]
     const text = `
