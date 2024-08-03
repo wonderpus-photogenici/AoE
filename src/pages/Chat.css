@@ -198,10 +198,11 @@
 
 /* chatBox */
 .message-container {
-    width: 95%;
+    width: 100%;
+    height: 70vh;
     display: flex;
     flex-direction: column;
-    padding:10px;
+    padding:25px;
 
     /* border: 1px solid white */
 
@@ -215,6 +216,7 @@
     padding: 10px;
     border-radius: 10px;
     max-width: 70%;
+    max-height: 50%;
     margin-left: 15px;
     /* margin-top: 15px; */
 }
@@ -234,8 +236,8 @@
 }
 
 .messageText {
-    border-radius: 20px;
-    background-color: rgba(206, 161, 132, 0.5);
+    border-radius: 15px;
+    background-color: rgba(96, 165, 151, 0.73);;
     color: white;
     margin-left:10px;
     max-width: 300px;
@@ -262,7 +264,7 @@
 }
 
 .messageHistory.own .messageText {
-    background-color: rgba(88, 134, 100, 0.8);
+    background-color: rgba(95, 96, 79, 0.73);
     padding: 10px;
 }
 
@@ -276,38 +278,78 @@
 }
 
 
-/* Input for chatting */
-.inputBox {
-    height: 3rem;
-    width: 90%;
-    display: flex;
-    margin: 20px auto;
-    justify-content: center;
-    /* border: 1px solid red; */
-}
-.chatInput {
-    height: 2rem;
-    width: 100%;
-    display: flex;
-    margin: 0 auto;
-    justify-content: center;
-    /* border: 1px solid red; */
-    color: black;
-    padding: 10px;
-    border: none;
-    border-bottom: 1px solid rgb(155, 154, 154);
-    background-color:transparent;
-    color:white;
-    outline: none;
-    box-shadow: 5px 5px 5px rgba(78, 88, 78, 0.815);
-}
 
-.chatInput:hover {
-    background-color: rgba(43, 84, 172, 0.315)
-}
 
 .activity {
     color: yellow;
     display: inline-flex;
     justify-content: center
+}
+
+.top {
+    display: flex;
+    flex:1;
+}
+ .chooseFriend {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 35px;
+    padding: 5px;
+}
+
+.friendInfo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 600px;
+}
+
+.middle {
+    flex:2;
+    display:flex;
+    flex-direction: column;
+
+}
+.bottom {
+    flex:1;
+    height: 80px;
+    border-top:1px solid rgba(255, 255, 255, 0.125);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+.messageSend {
+    height: 2rem;
+    width:6rem;
+    background-color: rgb(97, 97, 182);
+}
+
+/* Input for chatting */
+.inputBox {
+    height: 4rem;
+    width: 90%;
+    display: flex;
+    margin: 20px auto;
+    justify-content: space-between;
+    align-items: center;
+    /* border: 1px solid red; */
+}
+.chatInput {
+    height: 3rem;
+    width: 100%;
+    display: flex;
+    margin: 0 auto;
+    justify-content: left;
+    /* border: 1px solid red; */
+    padding: 10px;
+    border: none;
+    background-color:transparent;
+    color:white;
+    outline: none;
+    box-shadow: 5px 5px 5px rgba(31, 47, 77, 0.815);
+}
+
+.chatInput:hover {
+    background-color: rgba(79, 105, 153, 0.797)
 }
