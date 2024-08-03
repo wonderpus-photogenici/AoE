@@ -199,6 +199,10 @@ app.post('/api/getUserId', userController.getUserId, (req, res) => {
   res.status(200).json(res.locals.userId);
 });
 
+app.post('/api/getPfpByUserId', userController.getPfpByUserId, (req, res) => {
+  res.status(200).send(res.locals.pfp);
+})
+
 app.post('/api/getFriendsList', userController.getFriends, (req, res) => {
   // res.status(200).json(res.locals.userId);
   res.status(200).json(res.locals.friendsList);
@@ -232,7 +236,7 @@ app.post(
   }
 );
 
-app.post('/api/removeFriendByUsername',userController.removeFriendByUsername,(req, res) => {
+app.post('/api/removeFriendByUsername', userController.removeFriendByUsername,(req, res) => {
     res.status(200)
       .json({ success: true, message: 'Friend removed successfully.' });
   }

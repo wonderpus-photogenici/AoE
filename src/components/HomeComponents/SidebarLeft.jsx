@@ -1,7 +1,7 @@
 import React from 'react'
 import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useDispatch } from 'react-redux';
-import ChatBox from '../ChatBox.jsx';
+// import ChatBox from '../ChatBox.jsx';
 
 const SideBarLeft = () => {
     const dispatch = useDispatch();
@@ -20,10 +20,10 @@ const SideBarLeft = () => {
                     <p style={{ color: "white" }}>Current user: {user.user_metadata.username}</p>
                     {/* <button type="button" 
                     onClick={() => {
-                        if (document.getElementById('ChatBoxWrapper').style.display === "none") {
-                            document.getElementById('ChatBoxWrapper').style.display = "grid" 
-                        } else {
+                        if (document.getElementById('ChatBoxWrapper').style.display === "grid") {
                             document.getElementById('ChatBoxWrapper').style.display = "none"
+                        } else {
+                            document.getElementById('ChatBoxWrapper').style.display = "grid" 
                         }}}
                     >Test Button to test chat boxes popping up</button> */}
                     {/* <ChatBox /> */}
