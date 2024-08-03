@@ -78,11 +78,11 @@ const ChatBox = (props) => {
         //     console.log('why isnt it popping up?');
         //     document.getElementById('ChatBoxWrapper').style.display = "grid" ;
         // }
-        if (messages && messages.length !== 0 && messages[messages.length - 1].receiver_id === userId) {
+        if (messages && messages.length !== 0 && messages[messages.length - 1].receiver_id === userId && document.getElementById('ChatBoxWrapper')) {
             document.getElementById('ChatBoxWrapper').style.display = "grid" ;
         }
 
-    if (messages) {
+    if (messages && document.getElementById('ChatBoxWrapper')) {
         const CDNURL = "https://gusnjhjnuugqaqtgwhym.supabase.co/storage/v1/object/public/AoE/";
 
         return (
@@ -137,7 +137,7 @@ const ChatBox = (props) => {
             </div>
         )
 
-    } else {
+    } else if (document.getElementById('ChatBoxWrapper')) {
         return (
             <div className="ChatBoxWrapper" id="ChatBoxWrapper">
                 <div className="ChatBoxWrapperGroupMessage" onClick={() => {
@@ -163,6 +163,10 @@ const ChatBox = (props) => {
                     </div>
                 </div>
             </div>
+        )
+    } else {
+        return (
+            <div></div>
         )
     }
 }
