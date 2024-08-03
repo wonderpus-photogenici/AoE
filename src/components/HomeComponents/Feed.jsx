@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useUser, useSupabaseClient } from '@supabase/auth-helpers-react';
 import axios from 'axios';
 import UserRec from './UserRec.jsx';
+import { useSelector } from 'react-redux';
 
 const Feed = () => {
   const [feedData, setFeedData] = useState([]);
@@ -41,6 +42,8 @@ const Feed = () => {
     }
   }, [user]);
 
+  const removeFriend = useSelector((state) => state.removeFriendHomeFriendsList);
+
   useEffect(() => {
     if (feedData.length > 1) {
       const checkFriendsWithUser = async () => {
@@ -54,7 +57,11 @@ const Feed = () => {
           const responses = await Promise.all(friendChecks);
           // console.log('responese: ', responses);
           const friendsStatus = responses.map((res) => res.data || null);
-          // console.log('friendsStatus: ', friendsStatus);
+          // if (removeFriend.removeFriendHomeFriendsList.length !== 0) {
+          //   console.log('removeFriend.removeFriendHomeFriendsList: ', removeFriend.removeFriendHomeFriendsList);
+          //   console.log('friendsStatus: ', friendsStatus);
+          // }
+          // console.log('friendsStatus2: ', friendsStatus);
           setIsFriend(friendsStatus);
           setLoading(false);
         } catch (err) {
@@ -63,7 +70,7 @@ const Feed = () => {
       };
       checkFriendsWithUser();
     }
-  }, [feedData, userId]);
+  }, [feedData, userId, removeFriend]);
 
   const handleUsernameFilterChange = (e) => {
     setUsernameFilter(e.target.value);

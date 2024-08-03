@@ -39,7 +39,7 @@ const Messages = () => {
 
   const CDNURL = "https://gusnjhjnuugqaqtgwhym.supabase.co/storage/v1/object/public/AoE/"
 
-  console.log('selectedFriend? ', selectedFriend)
+  // console.log('selectedFriend? ', selectedFriend)
   // Fetch user data from Supabase
   useEffect(() => {
     const getUser = async () => {
