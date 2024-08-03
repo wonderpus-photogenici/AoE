@@ -99,8 +99,8 @@
 }
 
 .icon {
-    width: 20px;
-    height: 20px;
+    width: 25px;
+    height: 25px;
     cursor: pointer
 }
 /* friendlist chatMenu */
@@ -240,7 +240,7 @@
     background-color: rgba(96, 165, 151, 0.73);;
     color: white;
     margin-left:10px;
-    max-width: 300px;
+    max-width: 500px;
     margin:0;
     padding: 10px;
 }
@@ -266,6 +266,8 @@
 .messageHistory.own .messageText {
     background-color: rgba(95, 96, 79, 0.73);
     padding: 10px;
+    overflow-wrap: anywhere;
+    max-height: max-content;
 }
 
 .messagePortion {
@@ -322,20 +324,25 @@
 .messageSend {
     height: 2rem;
     width:6rem;
-    background-color: rgb(97, 97, 182);
+    color: white;
+    background-color: rgba(84, 84, 157, 0.863);
 }
 
 /* Input for chatting */
 .inputBox {
-    height: 4rem;
+    height: 3rem;
     width: 90%;
     display: flex;
     margin: 20px auto;
     justify-content: space-between;
     align-items: center;
+    gap: 20px;
+    padding: 5px;
+    font-size: 16px;
     /* border: 1px solid red; */
 }
 .chatInput {
+    flex:1;
     height: 3rem;
     width: 100%;
     display: flex;
@@ -352,4 +359,27 @@
 
 .chatInput:hover {
     background-color: rgba(79, 105, 153, 0.797)
+}
+
+
+/* NavBar */
+
+.navBar {
+    background: rgba(3, 1, 14, 0.978);
+    border-radius: 20px;
+}
+
+.onlineList {
+    display:flex;
+    flex-direction: column;
+    list-style: none;
+    /* margin-bottom: 30px; */
+    
+}
+
+.onlineList p {
+    margin-top: 10px;
+    height: 25px;
+    font-size: 20px;
+    color: white;
 }

@@ -16,6 +16,7 @@ import chatBackground from '../Assets/summoner.png'
 import image from '../Assets/image.png';
 import camera from '../Assets/camera.png';
 import mic from '../Assets/mic.png';
+import HomeTopRight from '../components/HomeComponents/HomeTopRight.jsx'
 
 const Messages = () => {
   // const user = useUser();
@@ -30,6 +31,7 @@ const Messages = () => {
   const [onlineUsers, setOnlineUsers] = useState([]); // to keep track of online user
   const [userPicture, setUserPicture] = useState(null)
   const [friendPicture, setFriendPicture] = useState(null)
+  
 
   const inputRef = useRef(null);
   const socketRef = useRef(null);
@@ -319,7 +321,7 @@ const Messages = () => {
                 <img src={camera} alt="camera" className="icon"/>
                 <img src={mic} alt="mic" className="icon"/>
               </div>
-                <input className="chatInput" type="text" ref={inputRef} onChange={handleInputChange} />
+                <input className="chatInput" type="text" ref={inputRef} onChange={handleInputChange} placeholder="Type here.." />
                 <div className="emoji">
                   <img src={emoji} alt="emoji" className="icon" />
                 </div>
@@ -332,13 +334,19 @@ const Messages = () => {
             </div>
         </div>
         <div className="chat-online" >
+        <div className="navBar">
+          <HomeTopRight />
+        </div>
           <div className="chatOnlineWrapper">
             <h1 style={{ color: "white" }}>Online Friends:</h1>
             <ul>
               {onlineUsers.map((user) => (
-                <li key={user.id} style={{ color: "white" }}>{user.name}</li> // Display user names from the list of online users
+                <li className="onlineList" key={user.id}>
+                  <p>{user.name}</p>
+               </li> // Display user names from the list of online users
               ))}
             </ul>
+         
           </div>
         </div>
       </div>
