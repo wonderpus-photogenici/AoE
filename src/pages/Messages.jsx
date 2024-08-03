@@ -252,7 +252,7 @@ const Messages = () => {
 
   // console.log('own from message', own)
   return (
-    <div className= "background" style={{ backgroundImage:'url(' + chatBackground+ ')', hegith: '100vh'} }>
+    <div className= "background" style={{ backgroundImage:'url(' + chatBackground+ ')'}}>
     <div className="messenger">
       <div className="chatMenu">
       <FriendsList
@@ -260,6 +260,8 @@ const Messages = () => {
         userId={userId}
         onSelectFriend={handleFriendSelect}
         friendPicture={friendPicture}
+        userPicture={userPicture}
+        username={username}
       />
       </div>
       <div className="chatBox">

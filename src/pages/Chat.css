@@ -1,40 +1,50 @@
 
 * {
-    color: white
+    color: white;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
+.background {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
 .messenger {
     display: flex;
-    width: 90%;
-    height: 95vh;
+    width: 90vw;
+    height: 90vh;
     /* border: 1px solid blue; */
     margin:10px auto;
-    background-color: rgba(0, 0, 0, 0.815);
-    border-radius: 10px;
-    outline: none;
+    background-color: rgba(46, 62, 91, 0.797);
+    backdrop-filter: blur(5px) saturate(180%);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
     padding: 10px;
-    box-shadow: 10px 10px 10px rgba(53, 51, 63, 0.815);;;
+    box-shadow: 8px 8px 8px rgba(224, 224, 226, 0.577);;
 
 }
 
 .chatMenu {
     flex: 3.5;
     /* border: 1px solid pink; */
-    display: block;
     margin: 0 auto;
 }
 
 .chatBox {
     flex: 5.5;
-   display:block;
    margin: 0 auto;
-   /* border: 1px solid yellow */
+   /* border: 1px solid yellow; */
+   border-right:1px solid rgba(255, 255, 255, 0.125);
+   border-left:1px solid rgba(255, 255, 255, 0.125);
 }
 
 .chat-online {
     flex: 3;
-    display: block;
     margin: 0 auto;
+    /* border: 1px solid yellow; */
 }
 
 
@@ -44,7 +54,6 @@
     padding: 10px;
     height: 100%;
     /* gap:5px; */
-    box-shadow: 2px 2px 2px rgba(53, 51, 63, 0.815);
     margin: 0 auto;
     width: 100%;
     /* border: 1px solid pink; */
@@ -57,20 +66,83 @@
     justify-content: left;
     
 }
+
+.userInfo {
+    display: flex;
+    padding: 20px;
+    align-items: center;
+    justify-content:space-between;
+}
+
+.user {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.user img {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        object-fit: cover;
+        gap: 10px;
+}
+
+.user h2 {
+    gap: 20px;
+}
+
+.icons {
+    display: flex;
+    gap: 18px;
+}
+
+.icon {
+    width: 20px;
+    height: 20px;
+    cursor: pointer
+}
 /* friendlist chatMenu */
  h1 {
     font-size : 700;
+ }
+ .chatMenuInputBox {
+
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+ }
+
+ .searchBar {
+    flex: 1;
+    background-color: rgba(17, 25, 40, 0.5);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    border-radius: 10px;
+    padding: 5px;
+ }
+
+ .add{
+    width: 36px;
+    height: 36px;
+    background-color: rgba(17, 25, 40, 0.5);
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
  }
 
 .chatMenuInput {
     width: 90%;
     padding: 10px;
     border: none;
-    border-bottom: 1px solid rgb(155, 154, 154);
+    /* border-bottom: 1px solid rgb(155, 154, 154); */
     background-color:transparent;
     color:white;
     outline: none;
-    box-shadow: 5px 5px 5px rgba(78, 88, 78, 0.815);
+    flex:1;
+    /* box-shadow: 5px 5px 5px rgba(78, 88, 78, 0.815); */
 }
 .friendsList {
     display: block;
