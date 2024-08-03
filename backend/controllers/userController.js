@@ -1,3 +1,4 @@
+const { checkPrime } = require('crypto');
 const db = require('../models/dbModels');
 const pass = require('../models/userModels');
 
@@ -33,7 +34,7 @@ userController.addUser = async (req, res, next) => {
       INSERT INTO profile ( bio, pfp, location, server, languages, fav4games, contact_info, friends, allgames )
       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
       RETURNING *`;
-      const paramsProfile = ['', '', '', '', '', ['', '', '', ''], '', [], []];
+      const paramsProfile = ['', '', '', '', [], ['', '', '', ''], '', [], []];
       const resultProfile = await db.query(textProfile, paramsProfile);
       res.locals.profile = resultProfile.rows[0];
 
@@ -66,6 +67,45 @@ userController.addUser = async (req, res, next) => {
         })
       );
     }
+  }
+};
+
+userController.updatePfp = async (req, res, next) => {
+  const { pfp, username } = req.body;
+  // console.log('in uC.updatePfp');
+  // console.log('pfp: ', pfp);
+  // console.log('username: ', username);
+
+  try {
+    const text = `UPDATE users SET pfp = $1 WHERE username = $2 RETURNING pfp`;
+    const params = [pfp, username];
+    const result = await db.query(text, params);
+
+    // console.log('in uC.updatePfp 2');
+
+    res.locals.pfp = result.rows[0].pfp;
+
+    // console.log('res.locals.pfp: ', res.locals.pfp);
+    return next();
+  } catch (err) {
+    return next('Error in userController.updatePfp: ' + JSON.stringify(err));
+  }
+};
+
+userController.getPfpPath = async (req, res, next) => {
+  const { username } = req.body;
+
+  console.log('in uC.getPfpPath username: ', username);
+
+  try {
+    const text = `SELECT pfp FROM users WHERE username = $1`;
+    const params = [username];
+    const result = await db.query(text, params);
+    res.locals.pfp = result.rows[0].pfp;
+
+    return next();
+  } catch (err) {
+    return next('Error in userController.getPfpPath: ' + JSON.stringify(err));
   }
 };
 
@@ -110,6 +150,131 @@ userController.addGame = async (req, res, next) => {
     return next();
   } catch (err) {
     return next('Error in userController.addGame: ' + JSON.stringify(err));
+  }
+};
+
+userController.addLanguage = async (req, res, next) => {
+  const { userId, language } = req.body;
+
+  try {
+    // first I need to retrieve the list of current games played
+    const text = `
+    SELECT profile_id FROM users WHERE supabase_id = $1`;
+    const params = [userId];
+    const result = await db.query(text, params);
+    // console.log('result.rows[0].profile_id: ', result.rows[0].profile_id);
+
+    const text2 = `
+    SELECT languages FROM profile WHERE id = $1`;
+    const params2 = [result.rows[0].profile_id];
+    const result2 = await db.query(text2, params2);
+    // console.log('result2.rows[0].allgames: ', result2.rows[0].allgames);
+
+    // If the allgames array for that user already includes the language
+    if (result2.rows[0].languages.includes(language)) {
+      return next();
+    }
+
+    result2.rows[0].languages.push(language);
+    // console.log('result2.rows[0].allgames: ', result2.rows[0].allgames);
+    // const text = `
+    // SELECT id, allgames FROM profile WHERE users
+    // `
+
+    // Then I'll need to push the new game to the array, later also implement logic that if the game is
+    // already in the array then don't push it
+
+    const text3 = `UPDATE profile SET languages = $1 WHERE id = $2 RETURNING languages`;
+    const params3 = [result2.rows[0].languages, result.rows[0].profile_id];
+    const result3 = await db.query(text3, params3);
+
+    // console.log('result3.rows[0].allgames: ', result3.rows[0].allgames);
+    res.locals.languages = result3.rows[0].languages;
+    return next();
+  } catch (err) {
+    return next('Error in userController.addLanguage: ' + JSON.stringify(err));
+  }
+};
+
+userController.removeLanguage = async (req, res, next) => {
+  const { userId, language } = req.body;
+  try {
+    const text = `
+    SELECT profile_id FROM users WHERE supabase_id = $1`;
+    const params = [userId];
+    const result = await db.query(text, params);
+    // console.log('result.rows[0].profile_id: ', result.rows[0].profile_id);
+
+    const text2 = `
+    SELECT languages FROM profile WHERE id = $1`;
+    const params2 = [result.rows[0].profile_id];
+    const result2 = await db.query(text2, params2);
+
+    // console.log('result2.rows[0].allgames: ', result2.rows[0].allgames);
+    let newArr = result2.rows[0].languages.filter((e) => e !== language);
+    // console.log('newArr: ', newArr);
+    const text3 = `UPDATE profile SET languages = $1 WHERE id = $2 RETURNING languages`;
+    const params3 = [newArr, result.rows[0].profile_id];
+    const result3 = await db.query(text3, params3);
+
+    res.locals.languages = result3.rows[0].languages;
+
+    return next();
+  } catch (err) {
+    return next(
+      'Error in userController.removeLanguage: ' + JSON.stringify(err)
+    );
+  }
+};
+
+userController.updateLocation = async (req, res, next) => {
+  const { userId, location } = req.body;
+  try {
+    // first I need to retrieve the list of current games played
+    const text = `
+    SELECT profile_id FROM users WHERE supabase_id = $1`;
+    const params = [userId];
+    const result = await db.query(text, params);
+    // console.log('result.rows[0].profile_id: ', result.rows[0].profile_id);
+
+    const text2 = `
+    UPDATE profile SET location = $1 WHERE id = $2 returning location`;
+    const params2 = [location, result.rows[0].profile_id];
+    const result2 = await db.query(text2, params2);
+
+    res.locals.location = result2.rows[0].location;
+    return next();
+  } catch (err) {
+    return next('Error in userController.addLanguage: ' + JSON.stringify(err));
+  }
+};
+
+userController.removeGame = async (req, res, next) => {
+  const { userId, game } = req.body;
+  try {
+    const text = `
+    SELECT profile_id FROM users WHERE supabase_id = $1`;
+    const params = [userId];
+    const result = await db.query(text, params);
+    // console.log('result.rows[0].profile_id: ', result.rows[0].profile_id);
+
+    const text2 = `
+    SELECT allgames FROM profile WHERE id = $1`;
+    const params2 = [result.rows[0].profile_id];
+    const result2 = await db.query(text2, params2);
+
+    // console.log('result2.rows[0].allgames: ', result2.rows[0].allgames);
+    let newArr = result2.rows[0].allgames.filter((e) => e !== game);
+    // console.log('newArr: ', newArr);
+    const text3 = `UPDATE profile SET allgames = $1 WHERE id = $2 RETURNING allgames`;
+    const params3 = [newArr, result.rows[0].profile_id];
+    const result3 = await db.query(text3, params3);
+
+    res.locals.allgames = result3.rows[0].allgames;
+
+    return next();
+  } catch (err) {
+    return next('Error in userController.removeGame: ' + JSON.stringify(err));
   }
 };
 
@@ -200,7 +365,6 @@ userController.saveBio = async (req, res, next) => {
     const result = await db.query(text, params);
     // console.log('result.rows[0].profile_id: ', result.rows[0].profile_id);
 
-
     const text2 = `UPDATE profile SET bio = $1 WHERE id = $2 RETURNING bio;`;
     const params2 = [bio, result.rows[0].profile_id];
     const result2 = await db.query(text2, params2);
@@ -220,16 +384,43 @@ userController.getProfData = async (req, res, next) => {
   const { username } = req.body;
 
   try {
-    const text = `SELECT users.pfp, profile.allgames, profile.bio FROM users JOIN profile on users.profile_id = profile.id WHERE users.username = $1`;
+    const text = `SELECT users.pfp, profile.allgames, profile.bio, profile.location, profile.languages, profile.contact_info FROM users JOIN profile on users.profile_id = profile.id WHERE users.username = $1`;
     const params = [username];
     const result = await db.query(text, params);
 
     res.locals.profData = result.rows[0];
+
+    // console.log('res.locals.profData: ', res.locals.profData);
     return next();
   } catch (err) {
     return next('Error in userController.getProfData: ' + JSON.stringify(err));
   }
-}
+};
+
+userController.saveEmail = async (req, res, next) => {
+  const { username, email } = req.body;
+
+  try {
+    const text = `
+    SELECT profile_id FROM users WHERE username = $1`;
+    const params = [username];
+    const result = await db.query(text, params);
+    // console.log('result.rows[0].profile_id: ', result.rows[0].profile_id);
+
+    const text2 = `UPDATE profile SET contact_info = $1 WHERE id = $2 RETURNING contact_info;`;
+    const params2 = [email, result.rows[0].profile_id];
+    const result2 = await db.query(text2, params2);
+
+    res.locals.email = result2.rows[0].contact_info;
+    // console.log('result2.rows[0].bio: ', result2.rows[0].bio);
+    // const text = `UPDATE profile SET riot_account = $1 WHERE id = $2 RETURNING *;`;
+    // const params = [riotData, userId];
+    // const result = await db.query(text, params);
+    return next();
+  } catch (err) {
+    return next('Error in userController.saveEmail: ' + JSON.stringify(err));
+  }
+};
 
 userController.getBio = async (req, res, next) => {
   const { username } = req.body;
@@ -244,16 +435,16 @@ userController.getBio = async (req, res, next) => {
     const result2 = await db.query(text2, params2);
     // console.log('result2.rows[0]: ', result2.rows[0]);
     res.locals.bio = result2.rows[0];
-    return next()
+    return next();
   } catch (err) {
     return next('Error in userController.getBio: ' + JSON.stringify(err));
   }
-}
+};
 
 userController.getFeedData = async (req, res, next) => {
   try {
     // Data Needed: pfp[users], username[users], allgames [profile]
-    const text = `SELECT users.username, users.pfp, profile.allgames, profile.bio FROM users JOIN profile on users.profile_id = profile.id`;
+    const text = `SELECT users.id, users.username, users.pfp, profile.allgames, profile.bio, profile.languages FROM users JOIN profile on users.profile_id = profile.id`;
     const params = [];
     const result = await db.query(text, params);
 
@@ -263,6 +454,24 @@ userController.getFeedData = async (req, res, next) => {
     return next('Error in userController.getFeedData: ' + JSON.stringify(err));
   }
 };
+
+userController.getPfpByUserId = async (req, res, next) => {
+  console.log('at start of uC.getPfpByUserId');
+  const { userId } = req.body;
+  console.log( 'userId in uc.getPfpByUserId: ', userId);
+  try {
+    // Data Needed: pfp[users], username[users], allgames [profile]
+    const text = `
+    SELECT pfp FROM users WHERE id = $1`;
+    const params = [userId];
+    const result = await db.query(text, params);
+
+    res.locals.pfp = result.rows[0].pfp;
+    return next();
+  } catch (err) {
+    return next('Error in userController.getPfpByUserId: ' + JSON.stringify(err));
+  }
+}
 
 userController.findAllUsersPfp = async (req, res, next) => {
   try {
@@ -330,6 +539,149 @@ userController.fetchUserById = async (userId) => {
   } catch (err) {
     console.error('Error fetching user by ID:', err);
     throw err;
+  }
+};
+
+// get user ID and use the ID to find friends
+userController.getUserId = async (req, res, next) => {
+  const { username } = req.body;
+  try {
+    const text = `SELECT id FROM users WHERE username = $1`;
+    const params = [username];
+    const result = await db.query(text, params);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'User not found.' });
+    }
+
+    const userId = result.rows[0].id;
+    // console.log('User ID from backend: ', userId);
+    res.locals.userId = userId;
+    return next();
+  } catch (err) {
+    console.error('Error in getUserId middleware: ', err);
+    return res.status(500).send('Internal server error.');
+  }
+};
+
+// use user ID to look up friends
+userController.getFriends = async (req, res, next) => {
+  const { userId } = req.body;
+  try {
+    const text = `SELECT users.username, users.pfp, users.id FROM users 
+    INNER JOIN friends ON friends.friend_id = users.id 
+    WHERE friends.user_id = $1`;
+    const params = [userId];
+    const result = await db.query(text, params);
+    // console.log('result: ', result.rows);
+    res.locals.friendsList = result.rows;
+    return next();
+  } catch (err) {
+    console.error('Error in getFriends middleware: ', err);
+    return res.status(500).send('Internal server error.');
+  }
+};
+
+// use user ID to look up chat history
+userController.getChatHistory = async (req, res, next) => {
+  const { userId, selectedFriendId } = req.body;
+  try {
+    const text = `SELECT u1.username AS sender, u2.username AS receiver, m.message, m.date_time
+    FROM messages m
+    INNER JOIN users u1 ON m.sender_id = u1.id
+    INNER JOIN users u2 ON m.receiver_id = u2.id
+    WHERE (m.sender_id = $1 AND m.receiver_id = $2) OR 
+    (m.sender_id = $2 AND m.receiver_id = $1)
+    ORDER BY m.date_time`;
+    const params = [userId, selectedFriendId];
+    const result = await db.query(text, params);
+    console.log('Query result: ', result.rows);
+    res.locals.chatHistory = result.rows;
+    return next();
+  } catch (err) {
+    console.error('Error in getChatHistory middleware: ', err);
+    return res.status(500).send('Internal server error.');
+  }
+};
+
+userController.addFriendById = async (req, res, next) => {
+  const { userId, friendId } = req.body;
+  try {
+    // check if already friends
+    const text1 = `SELECT * FROM friends WHERE user_id = $1 AND friend_id = $2`;
+    const checkResult = await db.query(text1, [userId, friendId]);
+
+    if (checkResult.rows.length > 0) {
+      return res.json({ success: false, message: 'User is already a friend.' });
+    }
+
+    // add friend to list
+    const text2 = `INSERT INTO friends (user_id, friend_id) VALUES ($1, $2), ($2, $1)`;
+    await db.query(text2, [userId, friendId]);
+
+    return next();
+  } catch (err) {
+    console.error('Error in addFriendById middleware: ', err);
+    return res
+      .status(500)
+      .json({ success: false, message: 'Error in addFriendById middleware.' });
+  }
+};
+
+userController.removeFriendById = async (req, res, next) => {
+  const { userId, friendId } = req.body;
+  try {
+    // check if already friends
+    const text1 = `SELECT * FROM friends WHERE (user_id = $1 AND friend_id = $2) OR (user_id = $2 AND friend_id = $1)`;
+    const checkResult = await db.query(text1, [userId, friendId]);
+
+    if (checkResult.rows.length === 0) {
+      return res.json({ success: false, message: 'User is not your friend.' });
+    }
+
+    // delete the two rows in friends
+    const text2 = `DELETE FROM friends WHERE (user_id = $1 AND friend_id = $2) OR (user_id = $2 AND friend_id = $1)`;
+    await db.query(text2, [userId, friendId]);
+
+    return next();
+  } catch (err) {
+    console.error('Error in removeFriendById middleware: ', err);
+    return res.status(500).json({
+      success: false,
+      message: 'Error in removeFriendById middleware.',
+    });
+  }
+};
+
+userController.removeFriendByUsername = async (req, res, next) => {
+  const { username } = req.body;
+  try {
+
+  } catch (err) {
+    console.error('Error in removeFriendByUsername middleware: ', err);
+    return res.status(500).json({
+      success: false,
+      message: 'Error in removeFriendByUsername middleware.',
+    });
+  }
+}
+
+userController.checkFriendsStatus = async (req, res, next) => {
+  const { userId, friendId } = req.body;
+  try {
+    const text = `SELECT * FROM friends WHERE (user_id = $1 AND friend_id = $2) OR (user_id = $2 AND friend_id = $1)`;
+    const result = await db.query(text, [userId, friendId]);
+
+    if (result.rows.length > 0) {
+      console.log('middleware result: ', result.rows[0]);
+      res.locals.friendsStatus = result.rows[0];
+    } else {
+      res.locals.friendsStatus = null;
+    }
+    return next();
+  } catch (err) {
+    console.error('Error in checkFriendsStatus middleware: ', err);
+    return res.status(500).json('Error in checkFriendsStatus middleware.');
   }
 };
 

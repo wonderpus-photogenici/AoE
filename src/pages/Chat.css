@@ -1,0 +1,385 @@
+
+* {
+    /* color: white; */
+    /* margin: 0;
+    padding: 0; */
+    box-sizing: border-box;
+}
+
+.background {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.messenger {
+    display: flex;
+    width: 90vw;
+    height: 90vh;
+    /* border: 1px solid blue; */
+    margin:10px auto;
+    background-color: rgba(46, 62, 91, 0.797);
+    backdrop-filter: blur(5px) saturate(180%);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 10px;
+    box-shadow: 8px 8px 8px rgba(224, 224, 226, 0.577);;
+
+}
+
+.chatMenu {
+    flex: 3.5;
+    /* border: 1px solid pink; */
+    margin: 0 auto;
+}
+
+.chatBox {
+    flex: 5.5;
+   margin: 0 auto;
+   /* border: 1px solid yellow; */
+   border-right:1px solid rgba(255, 255, 255, 0.125);
+   border-left:1px solid rgba(255, 255, 255, 0.125);
+}
+
+.chat-online {
+    flex: 3;
+    margin: 0 auto;
+    /* border: 1px solid yellow; */
+}
+
+
+.chatMenuWrapper,
+.chatBoxWrapper,
+.chatOnlineWrapper {
+    padding: 10px;
+    height: 100%;
+    /* gap:5px; */
+    margin: 0 auto;
+    width: 100%;
+    box-sizing: border-box;
+    /* border: 1px solid pink; */
+}
+
+.chatMenuContainer {
+    display:flex;
+    width: 100%;
+    flex-direction: column;
+    justify-content: left;
+    
+}
+
+.userInfo {
+    display: flex;
+    padding: 20px;
+    align-items: center;
+    justify-content:space-between;
+}
+
+.user {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.user img {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        object-fit: cover;
+        gap: 10px;
+}
+
+.user h2 {
+    gap: 20px;
+}
+
+.icons {
+    display: flex;
+    gap: 18px;
+}
+
+.icon {
+    width: 25px;
+    height: 25px;
+    cursor: pointer
+}
+/* friendlist chatMenu */
+
+/* .friendsList {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: scroll;
+} */
+
+ h1 {
+    font-size : 700;
+ }
+ .chatMenuInputBox {
+
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+ }
+
+ .searchBar {
+    flex: 1;
+    background-color: rgba(17, 25, 40, 0.5);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    border-radius: 10px;
+    padding: 5px;
+ }
+
+ .add{
+    width: 36px;
+    height: 36px;
+    background-color: rgba(17, 25, 40, 0.5);
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+ }
+
+.chatMenuInput {
+    width: 90%;
+    padding: 10px;
+    border: none;
+    /* border-bottom: 1px solid rgb(155, 154, 154); */
+    background-color:transparent;
+    color:white;
+    outline: none;
+    flex:1;
+    /* box-shadow: 5px 5px 5px rgba(78, 88, 78, 0.815); */
+}
+.friendsList {
+    display: block;
+    justify-content: left;
+}
+.conversation {
+    display: flex;
+    padding: 10px;
+    /* border: 1px solid yellow; */
+    align-items: center;
+    cursor: pointer;
+    margin: 0 auto;
+    list-style: none;
+    border-bottom: 1px solid #dddddd35;
+}
+.conversation:hover {
+    background-color:rgba(79, 105, 153, 0.797);
+}
+
+.texts {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.conversationImg {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit:cover;
+    margin-right: 20px;
+    background: rgba(67, 100, 87, 0.849);
+}
+.conversationName {
+    font-weight: 500;
+}
+
+.conversationText {
+    font-weight: 400;
+    color: rgb(159, 153, 153);
+}
+
+
+
+/* chatBox */
+.message-container {
+    width: 100%;
+    height: 70vh;
+    display: flex;
+    flex-direction: column;
+    padding:25px;
+
+    /* border: 1px solid white */
+
+}
+.messageHistory {
+    display: flex;
+    flex-direction: column;
+    height: 9rem;
+    width: 95%;
+    /* border: 1px solid blue; */
+    padding: 10px;
+    border-radius: 10px;
+    max-width: 70%;
+    max-height: 50%;
+    margin-left: 15px;
+    /* margin-top: 15px; */
+}
+
+.chatbox-top {
+    display: flex;
+    padding: 3px;
+    align-items: center;
+}
+
+.chatUserPic {
+    height:40px;
+    width: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+.messageText {
+    border-radius: 15px;
+    background-color: rgba(96, 165, 151, 0.73);;
+    color: white;
+    margin-left:10px;
+    max-width: 500px;
+    margin:0;
+    padding: 10px;
+}
+
+.messageHistory p {
+    display: inline-block;
+    text-wrap:pretty;
+    font-size: 15px
+}
+
+.messageBottom {
+    font-size: 12px;
+    /* margin-top: 5px; */
+}
+
+.messageHistory.own {
+    align-items: flex-end;
+    align-self: flex-end;
+    margin-right: 15px;
+   
+}
+
+.messageHistory.own .messageText {
+    background-color: rgba(95, 96, 79, 0.73);
+    padding: 10px;
+    overflow-wrap: anywhere;
+    max-height: max-content;
+}
+
+.messagePortion {
+    padding: 2px;
+}
+
+.message-container {
+    overflow-y:scroll;
+    height:75vh;
+}
+
+
+
+
+.activity {
+    color: yellow;
+    display: inline-flex;
+    justify-content: center
+}
+
+.top {
+    display: flex;
+    flex:1;
+}
+ .chooseFriend {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 35px;
+    padding: 5px;
+}
+
+.friendInfo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 600px;
+}
+
+.middle {
+    flex:2;
+    display:flex;
+    flex-direction: column;
+
+}
+.bottom {
+    flex:1;
+    height: 80px;
+    border-top:1px solid rgba(255, 255, 255, 0.125);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+.messageSend {
+    height: 2rem;
+    width:6rem;
+    color: white;
+    background-color: rgba(84, 84, 157, 0.863);
+}
+
+/* Input for chatting */
+.inputBox {
+    height: 3rem;
+    width: 90%;
+    display: flex;
+    margin: 20px auto;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 5px;
+    font-size: 16px;
+    /* border: 1px solid red; */
+}
+.chatInput {
+    flex:1;
+    height: 3rem;
+    width: 100%;
+    display: flex;
+    margin: 0 auto;
+    justify-content: left;
+    /* border: 1px solid red; */
+    padding: 10px;
+    border: none;
+    background-color:transparent;
+    color:white;
+    outline: none;
+    box-shadow: 5px 5px 5px rgba(31, 47, 77, 0.815);
+}
+
+.chatInput:hover {
+    background-color: rgba(79, 105, 153, 0.797)
+}
+
+
+/* NavBar */
+
+.navBar {
+    background: rgba(3, 1, 14, 0.978);
+    border-radius: 20px;
+}
+
+.onlineList {
+    display:flex;
+    flex-direction: column;
+    list-style: none;
+    /* margin-bottom: 30px; */
+    
+}
+
+.onlineList p {
+    margin-top: 10px;
+    height: 25px;
+    font-size: 20px;
+    color: white;
+}
