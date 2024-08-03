@@ -38,7 +38,7 @@ const CDNURL = "https://gusnjhjnuugqaqtgwhym.supabase.co/storage/v1/object/publi
     <>
       <div className="chatMenuWrapper">
         <div className ="chatMenuContainer">
-        <h1>Freinds List</h1>
+        <h1 style={{color: "white"}}>Friends List</h1>
         <div className="chatMenuInputBox">
           <input placeholder="Search for Friends" className="chatMenuInput" />
         </div>
@@ -49,7 +49,7 @@ const CDNURL = "https://gusnjhjnuugqaqtgwhym.supabase.co/storage/v1/object/publi
               onClick={() => handleClick(friend.username)}
             >
               <img className="conversationImg" src={friendPicture ? CDNURL + friendPicture : 'url(' + noPfp +')'}/> 
-              <span className="conversationName">{friend.username}</span>
+              <span className="conversationName" style={{color: "white"}}>{friend.username}</span>
             </li>
           ))}
         </ul>

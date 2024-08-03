@@ -264,8 +264,8 @@ const Messages = () => {
       </div>
       <div className="chatBox">
         <div className="chatMenuWrapper">
-        <h1>Messages</h1>
-        {selectedFriend && <div>Chatting with: {selectedFriend}</div>}
+        <h1 style={{color: "white"}}>Messages</h1>
+        {selectedFriend && <div style={{color: "white"}}>Chatting with: {selectedFriend}</div>}
 
         {selectedFriendId ? (
           <div className="message-container">
@@ -280,7 +280,7 @@ const Messages = () => {
             </div>
        
         ) : (
-          <p>Choose a friend to chat!</p>
+          <p style={{color: "white"}}>Choose a friend to chat!</p>
         )}
          {selectedFriendId ? (
              <form onSubmit={sendMessage} className ="inputBox">
@@ -288,16 +288,16 @@ const Messages = () => {
               <button type="submit" style={{color: 'black', boxShadow:'rgba(67, 100, 87, 0.849);'}}>Send</button>
             </form>
             ) : (
-              <p>...loading</p>
+              <p style={{color: "white"}}>...loading</p>
             )}
         </div>
       </div>
       <div className="chat-online" >
         <div className= "chatOnlineWrapper">
-        <h1>Online Friends:</h1>
+        <h1 style={{color: "white"}}>Online Friends:</h1>
         <ul>
           {onlineUsers.map((user) => (
-            <li key={user.id}>{user.name}</li> // Display user names from the list of online users
+            <li key={user.id} style={{color: "white"}}>{user.name}</li> // Display user names from the list of online users
           ))}
         </ul>
       </div>

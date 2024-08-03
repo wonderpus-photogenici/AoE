@@ -47,6 +47,7 @@
     box-shadow: 2px 2px 2px rgba(53, 51, 63, 0.815);
     margin: 0 auto;
     width: 100%;
+    box-sizing: border-box;
     /* border: 1px solid pink; */
 }
 

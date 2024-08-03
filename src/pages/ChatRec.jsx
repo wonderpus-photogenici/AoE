@@ -12,7 +12,7 @@ export default function ChatRec({msg, index, own, picture, friendPicture}) {
     <div className={own ? "messageHistory own": "messageHistory"} key={index}>
         <div className = "chatbox-top">
             <img src= { own ? CDNURL + picture : CDNURL + friendPicture}  placeholder = "users pfp" className="chatUserPic"/>
-            <p>{msg.sender}</p>
+            <p style={{color: "white"}}>{msg.sender}</p>
         </div>
         <div clasName="messagePortion">
             <p className="messageText">{msg.message}</p>
