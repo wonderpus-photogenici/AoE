@@ -68,8 +68,11 @@ const CDNURL = "https://gusnjhjnuugqaqtgwhym.supabase.co/storage/v1/object/publi
               key={friend.username}
               onClick={() => handleClick(friend.username)}
             >
-              <img className="conversationImg" src={friendPicture ? CDNURL + friendPicture : 'url(' + noPfp +')'}/> 
-              <span className="conversationName">{friend.username}</span>
+              <img className="conversationImg" src={CDNURL + friend.pfp} alt ={'url(' + noPfp + ')'} /> 
+              <div className="texts">
+              <span className="conversationName" style={{color: "white"}}>{friend.username}</span>
+              <p className="conversationText">Hello</p>
+              </div>
             </li>
           ))}
         </ul>

@@ -24,7 +24,7 @@ const Feed = () => {
             { username: user.user_metadata.username }
           );
           setUserId(response.data);
-          console.log('Logged-in user ID: ', response.data);
+          // console.log('Logged-in user ID: ', response.data);
 
           // Function to get all of the user's usernames, pfps, and games played
           const feedResponse = await axios.post(
@@ -41,31 +41,6 @@ const Feed = () => {
     }
   }, [user]);
 
-  // When feedData changes, run extractAvailableGames();
-  // useEffect(() => {
-  //   extractAvailableGames();
-  // }, [feedData]);
-
-  // Function to get all of the user's usernames, pfps, and games played
-  // const getFeedData = async () => {
-  //   const response = await axios.post('http://localhost:3001/api/getFeedData');
-  //   if (response.data) {
-  //     setFeedData(response.data);
-  //   }
-  // };
-
-  // const extractAvailableGames = () => {
-  //   const gamesSet = new Set();
-  //   feedData.forEach(item => {
-  //     item.allgames.forEach(game => {
-  //       gamesSet.add(game);
-  //     });
-  //   });
-  //   setAvailableGames(Array.from(gamesSet));
-  // };
-
-  // console.log('feedData: ', feedData); // feedData.map(obj => obj.id)
-
   useEffect(() => {
     if (feedData.length > 1) {
       const checkFriendsWithUser = async () => {
@@ -79,7 +54,7 @@ const Feed = () => {
           const responses = await Promise.all(friendChecks);
           // console.log('responese: ', responses);
           const friendsStatus = responses.map((res) => res.data || null);
-          console.log('friendsStatus: ', friendsStatus);
+          // console.log('friendsStatus: ', friendsStatus);
           setIsFriend(friendsStatus);
           setLoading(false);
         } catch (err) {
@@ -100,8 +75,7 @@ const Feed = () => {
 
   const filteredFeedData = feedData.filter((item) => {
     const usernameMatch = item.username
-      .toLowerCase()
-      .includes(usernameFilter.toLowerCase());
+      .includes(usernameFilter);
     const gameMatch = gameFilter === '' || item.allgames.includes(gameFilter);
     return usernameMatch && gameMatch;
   });

@@ -95,6 +95,8 @@ userController.updatePfp = async (req, res, next) => {
 userController.getPfpPath = async (req, res, next) => {
   const { username } = req.body;
 
+  console.log('in uC.getPfpPath username: ', username);
+
   try {
     const text = `SELECT pfp FROM users WHERE username = $1`;
     const params = [username];
@@ -564,7 +566,7 @@ userController.getUserId = async (req, res, next) => {
 userController.getFriends = async (req, res, next) => {
   const { userId } = req.body;
   try {
-    const text = `SELECT users.username FROM users 
+    const text = `SELECT users.username, users.pfp, users.id FROM users 
     INNER JOIN friends ON friends.friend_id = users.id 
     WHERE friends.user_id = $1`;
     const params = [userId];
@@ -648,6 +650,19 @@ userController.removeFriendById = async (req, res, next) => {
     });
   }
 };
+
+userController.removeFriendByUsername = async (req, res, next) => {
+  const { username } = req.body;
+  try {
+
+  } catch (err) {
+    console.error('Error in removeFriendByUsername middleware: ', err);
+    return res.status(500).json({
+      success: false,
+      message: 'Error in removeFriendByUsername middleware.',
+    });
+  }
+}
 
 userController.checkFriendsStatus = async (req, res, next) => {
   const { userId, friendId } = req.body;

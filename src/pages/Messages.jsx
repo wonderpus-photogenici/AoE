@@ -21,7 +21,7 @@ const Messages = () => {
   const [selectedFriendId, setSelectedFriendId] = useState(null);
   const [selectedFriend, setSelectedFriend] = useState(null);
   const [onlineUsers, setOnlineUsers] = useState([]); // to keep track of online user
-  const [userPicture, setUserPicture ]= useState(null)
+  const [userPicture, setUserPicture] = useState(null)
   const [friendPicture, setFriendPicture] = useState(null)
 
   const inputRef = useRef(null);
@@ -65,28 +65,28 @@ const Messages = () => {
     }
   }, [user]);
 
-    //getting userPictures
-    useEffect(()=> {
+  //getting userPictures
+  useEffect(() => {
 
-      const getPfpPath = async(username) => {
-        console.log('pfp username', username)
-      
-        try {
-          const {data} = await axios.post('http://localhost:3001/api/getPfpPath',{username});
-          setUserPicture(data)
-          console.log('userPicture data', data)
-        }catch(error) {
-          console.log('error occured from getPfpPath in message.jsx')
-        }
-  
+    const getPfpPath = async (username) => {
+      console.log('pfp username', username)
+
+      try {
+        const { data } = await axios.post('http://localhost:3001/api/getPfpPath', { username });
+        setUserPicture(data)
+        console.log('userPicture data', data)
+      } catch (error) {
+        console.log('error occured from getPfpPath in message.jsx')
       }
-      if(username) {
+
+    }
+    if (username) {
       getPfpPath(username)
-      }
-    },[username])
-  
+    }
+  }, [username])
 
-  // Fetch friends list once userId is set
+
+  // Fetch friends list w/ pictures once userId is set
   useEffect(() => {
     const getFriendsList = async (userId) => {
       try {
@@ -140,8 +140,8 @@ const Messages = () => {
       if (activityRef.current) {
         activityRef.current.textContent = '';
       }
-    //  if(messages.sender === username) setOwn(true)
-    
+      //  if(messages.sender === username) setOwn(true)
+
       console.log('Message received: ', message);
       console.log('Messages object: ', messages);
       setMessages((prevMessages) => [...prevMessages, message]);
@@ -221,36 +221,46 @@ const Messages = () => {
   };
 
   // start chat with another friend
-  const handleFriendSelect = async(friendId, friendName) => {
+  const handleFriendSelect = async (friendId, friendName) => {
     setSelectedFriendId(friendId);
     setSelectedFriend(friendName);
     console.log('friendID', friendId);
     console.log('selected friend', friendName)
 
-   getChatHistory(userId, friendId);
+    getChatHistory(userId, friendId);
 
   };
 
-  useEffect(()=> {
+  useEffect(() => {
 
-    const getPfpPath = async(selectedFriend) => {
-      console.log('pfp friendname', selectedFriend)
-    
+    const getPfpPath = async (selectedFriend) => {
+      console.log('pfp friendname: ', selectedFriend);
+
       try {
-        const {data} = await axios.post('http://localhost:3001/api/getPfpPath',{selectedFriend});
-        setFriendPicture(data)
-        console.log('userPicture data', data)
-      }catch(error) {
-        console.log('error occured from getPfpPath in message.jsx')
+        const { data } = await axios.post('http://localhost:3001/api/getPfpPath', { username: selectedFriend });
+        setFriendPicture(data);
+        console.log('userPicture data: ', data);
+      } catch (error) {
+        console.log('error occured from getPfpPath in message.jsx');
       }
 
     }
-    if(selectedFriend) {
-    getPfpPath(selectedFriend)
-    }
-  },[selectedFriend])
+    if (selectedFriend) {
+      getPfpPath(selectedFriend);
+    };
+  }, [selectedFriend])
 
   // console.log('own from message', own)
+  // console.log('selected')
+  // if (selectedFriendId) {
+  //   if (document.getElementById("message-container")) {
+  //     if (document.getElementById("message-container").scrollTop) {
+  //       let objDiv = document.getElementById("message-container");
+  //       objDiv.scrollTop = objDiv.scrollHeight;
+  //     }
+  //   }
+  // }
+
   return (
     <div className= "background" style={{ backgroundImage:'url(' + chatBackground+ ')'}}>
     <div className="messenger">
@@ -269,43 +279,43 @@ const Messages = () => {
         <h1>Messages</h1>
         {selectedFriend && <div>Chatting with: {selectedFriend}</div>}
 
-        {selectedFriendId ? (
-          <div className="message-container">
-                  {messages.map((msg, index) => (
-                      <ChatRec msg={msg} index={index} own={msg.sender === username} key={index} picture={userPicture} friendPicture={friendPicture}/>
-                  ))}
-            <p
-              className="activity"
-              ref={activityRef}
-              style={{ color: 'pink' }}
-            ></p>
-            </div>
-       
-        ) : (
-          <p>Choose a friend to chat!</p>
-        )}
-         {selectedFriendId ? (
-             <form onSubmit={sendMessage} className ="inputBox">
-              <input className= "chatInput" type="text" ref={inputRef} onChange={handleInputChange} />
-              <button type="submit" style={{color: 'black', boxShadow:'rgba(67, 100, 87, 0.849);'}}>Send</button>
-            </form>
+            {selectedFriendId ? (
+              <div className="message-container" id="message-container">
+                {messages.map((msg, index) => (
+                  <ChatRec msg={msg} index={index} own={msg.sender === username} key={index} picture={userPicture} friendPicture={friendPicture} />
+                ))}
+                <p
+                  className="activity"
+                  ref={activityRef}
+                  style={{ color: 'pink' }}
+                ></p>
+              </div>
+
             ) : (
-              <p>...loading</p>
+              <p style={{ color: "white" }}>Choose a friend to chat!</p>
             )}
+            {selectedFriendId ? <> 
+              <form onSubmit={sendMessage} className="inputBox">
+                <input className="chatInput" type="text" ref={inputRef} onChange={handleInputChange} />
+                <button type="submit" style={{ color: 'black', boxShadow: 'rgba(67, 100, 87, 0.849)' }}>Send</button>
+              </form>
+            </> : <>
+              < p style={{ color: "white" }}>...loading</p>
+            </>}
+          </div>
+        </div>
+        <div className="chat-online" >
+          <div className="chatOnlineWrapper">
+            <h1 style={{ color: "white" }}>Online Friends:</h1>
+            <ul>
+              {onlineUsers.map((user) => (
+                <li key={user.id} style={{ color: "white" }}>{user.name}</li> // Display user names from the list of online users
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
-      <div className="chat-online" >
-        <div className= "chatOnlineWrapper">
-        <h1>Online Friends:</h1>
-        <ul>
-          {onlineUsers.map((user) => (
-            <li key={user.id}>{user.name}</li> // Display user names from the list of online users
-          ))}
-        </ul>
-      </div>
-    </div>
-    </div>
-    </div>
+    </div >
   );
 };
 
