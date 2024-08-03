@@ -298,11 +298,11 @@ const ProfileTop = () => {
         <div className="location-gamelogos">
           <div className="profileTopNavBtns">
             <button type='button' className="HomeTopRightMessages profileTopHomeBtn" onClick={() => {
-              navigate('/home')
+              navigate('/home');
             }}>Home</button>
             <button type='button' className="HomeTopRightMessages profileTopLogBtn" onClick={() => {
               signOut();
-              navigate('/')
+              navigate('/');
             }}>Logout</button>
           </div>
           <Location
