@@ -175,6 +175,8 @@ const ChatBoxWrapper = () => {
     const sendMessage = (e) => {
         e.preventDefault();
 
+        console.log('sendMessage in chatboxWrapper e: ', e);
+
         const messageText = inputRef.current.value;
 
         if (messageText && socketRef.current) {
