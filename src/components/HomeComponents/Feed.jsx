@@ -84,6 +84,7 @@ const Feed = () => {
       pfp={data.pfp}
       allgames={data.allgames}
       bio={data.bio}
+      languages={data.languages}
       id={data.id}
       userId={userId}
     />
@@ -220,5 +221,4 @@ const Feed = () => {
     </div>
   );
 };
-
 export default Feed;

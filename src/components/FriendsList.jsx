@@ -12,8 +12,8 @@ const FriendsList = ({ friends, onSelectFriend }) => {
         username: name,
       });
       // setFriendId(data);
-      console.log('Friend ID from frontend: ', data.id, data.pfp);
-      onSelectFriend(data.id, name);
+      console.log('Friend ID from frontend: ', data);
+      onSelectFriend(data, name);
     } catch (err) {
       console.error("Error getting friend's ID: ", err);
     }
