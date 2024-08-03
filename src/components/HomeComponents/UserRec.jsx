@@ -15,6 +15,7 @@ const UserRec = (props) => {
     user,
     isFriend: initialIsFriend,
   } = props;
+
   let languagesString = languages.join(', ');
 
   const navigate = useNavigate();
