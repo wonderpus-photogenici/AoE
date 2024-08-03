@@ -19,7 +19,7 @@ test('adds user', async () => {
     req.body.password = '123'
     jest.spyOn(db, 'query').mockResolvedValueOnce({ rowCount: 0, rows: [] }).mockResolvedValueOnce({ rowCount: 1, rows: ['hi'] }).mockResolvedValueOnce({ rowCount: 1, rows: ['hi'] });
     await userController.addUser(req, res, (err) => {
-      //console.log(res.locals);
+      console.log(res.locals);
       expect(res.locals.profile).toEqual('hi');
       //expect(err).not.toBeDefined();
     })
