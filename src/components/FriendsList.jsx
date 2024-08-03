@@ -44,7 +44,7 @@ const CDNURL = "https://gusnjhjnuugqaqtgwhym.supabase.co/storage/v1/object/publi
     <>
       <div className="chatMenuWrapper">
         <div className ="chatMenuContainer">
-        <div className ="userInfo">
+        <div className ="userInfo" style={{ color: "white" }}>
           <div className="user">
             <img src ={CDNURL + userPicture} alt="user-profile"/>
             <h2>{username}</h2>
