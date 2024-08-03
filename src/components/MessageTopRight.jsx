@@ -1,9 +1,9 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
 import { useUser, useSupabaseClient } from '@supabase/auth-helpers-react';
-import store from '../../redux/store';
-import axios from 'axios';
+// import store from '../../redux/store';
+// import axios from 'axios';
+import '../pages/Chat.css'
 
 const MessageTopRight = () => {
   const navigate = useNavigate();
@@ -25,7 +25,7 @@ const MessageTopRight = () => {
       <div className="HomeTopRightMessagesWrapper">
         <button
           type="button"
-          className="HomeTopRightMessages"
+          className="MSGTopRightMessages"
           onClick={() => {
             navigate('/home');
           }}
@@ -36,7 +36,7 @@ const MessageTopRight = () => {
       <div className="HomeTopRightLogoutWrapper">
         <button
           type="button"
-          className="HomeTopRightMessages"
+          className="MSGTopRightMessages"
           onClick={() => {
             signOut();
             navigate('/');
@@ -48,13 +48,12 @@ const MessageTopRight = () => {
       <div className="HomeTopRightProfileWrapper">
         <button
           type="button"
-          className="HomeTopRightMessages"
+          className="MSGTopRightMessages"
           onClick={() => {
             window.location.assign(`/profile/${user.user_metadata.username}`)
           }}
         >
           {user === null ? (
-            // If there's not a user logged in:
             <>None</>
           ) : (
             <>

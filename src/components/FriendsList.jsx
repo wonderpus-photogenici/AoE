@@ -8,11 +8,13 @@ import video from "../Assets/video-white.png"
 import edit from "../Assets/pencil-white.png"
 import more from "../Assets/more-white.png"
 import search from "../Assets/search.png"
+import FriendSearchSingle from "../components/HomeComponents/FriendSearchSingle.jsx"
 
 const FriendsList = ({ friends, onSelectFriend, friendPicture, userPicture, username}) => {
   // get friend's id, then pass back to Message.jsx to get Chat Hist
 const [addMode, setAddMode]= useState(false)
-
+const [searchQuery, setSearchQuery] = useState('')
+const [filter, setFilter] = useState('false')
 
 const CDNURL = "https://gusnjhjnuugqaqtgwhym.supabase.co/storage/v1/object/public/AoE/"
 
@@ -40,6 +42,11 @@ const CDNURL = "https://gusnjhjnuugqaqtgwhym.supabase.co/storage/v1/object/publi
     );
   }
 
+
+// Filter friends based on search query
+const filteredFriends = friends.filter(friend => friend.username.toLowerCase().includes(searchQuery.toLowerCase())
+);
+
   return (
     <>
       <div className="chatMenuWrapper">
@@ -58,7 +65,10 @@ const CDNURL = "https://gusnjhjnuugqaqtgwhym.supabase.co/storage/v1/object/publi
         <div className="chatMenuInputBox">
           <div className="searchBar">
           <img src={search} alt="search" className="icon" />
-          <input placeholder="Search" className="chatMenuInput" />
+          <input placeholder="Search" className="chatMenuInput"
+          id="friendsSearchInput"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)} />
           </div>
           <img src={addMode ? subtract:add} alt="add" className="add" onClick={()=> setAddMode((prev)=>!prev)}/>
         </div>
@@ -66,6 +76,7 @@ const CDNURL = "https://gusnjhjnuugqaqtgwhym.supabase.co/storage/v1/object/publi
           {friends.map((friend) => (
             <li className="conversation"
               key={friend.username}
+              pfp={friend.pfp}
               onClick={() => handleClick(friend.username)}
             >
               <img className="conversationImg" src={CDNURL + friend.pfp} alt ={'url(' + noPfp + ')'} /> 
