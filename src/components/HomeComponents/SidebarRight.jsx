@@ -34,7 +34,7 @@ const SidebarRightComponent = () => {
       // console.log('allUsers: ',allUsers)
       // console.log('allUsers.data: ', allUsers.data);
       dispatch(setAllUsers(allUsers.data));
-    } catch (err) {
+    } catch (error) {
       console.error(
         'error in retrieveAllUsers:',
         error.response?.data || error.message
