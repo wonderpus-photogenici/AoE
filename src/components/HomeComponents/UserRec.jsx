@@ -32,7 +32,7 @@ const UserRec = (props) => {
         { userId: props.userId, friendId: id }
       );
       if (response.data.success) {
-        dispatch(setHomeFriendsList({username, pfp, id}))
+        dispatch(setHomeFriendsList({ username, pfp, id }));
         setIsFriend(true);
         // alert('Friend added successfully!');
       } else {
@@ -43,23 +43,23 @@ const UserRec = (props) => {
     }
   };
 
-  const handleRemoveFriend = async () => {
-    try {
-      const response = await axios.post(
-        'http://localhost:3001/api/removeFriendById',
-        { userId: props.userId, friendId: id }
-      );
-      if (response.data.success) {
-        dispatch(setRemoveFriendHomeFriendsList({username, friend_id: id}));
-        setIsFriend(false);
-        alert('Friend removed successfully!');
-      } else {
-        alert('Failed, user is not your friend!');
-      }
-    } catch (err) {
-      console.error('Error in removing friend: ', err);
-    }
-  };
+  // const handleRemoveFriend = async () => {
+  //   try {
+  //     const response = await axios.post(
+  //       'http://localhost:3001/api/removeFriendById',
+  //       { userId: props.userId, friendId: id }
+  //     );
+  //     if (response.data.success) {
+  //       dispatch(setRemoveFriendHomeFriendsList({ username, friend_id: id }));
+  //       setIsFriend(false);
+  //       alert('Friend removed successfully!');
+  //     } else {
+  //       alert('Failed, user is not your friend!');
+  //     }
+  //   } catch (err) {
+  //     console.error('Error in removing friend: ', err);
+  //   }
+  // };
 
   return (
     <div className="userRec-wrapper">
@@ -79,17 +79,17 @@ const UserRec = (props) => {
         {id === props.userId ? (
           <button
             className="userRec-Button"
-            style={{ backgroundColor: '#7CB9E8' }}
+            style={{ backgroundColor: '#fcae1e' }}
           >
             User
           </button>
         ) : isFriend ? (
           <button
             className="userRec-Button"
-            style={{ backgroundColor: '#fd5c63' }}
-            onClick={handleRemoveFriend}
+            style={{ backgroundColor: '#4B9CD3' }}
+            // onClick={handleRemoveFriend}
           >
-            Remove
+            Friend
           </button>
         ) : (
           <button
