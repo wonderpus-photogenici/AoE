@@ -6,7 +6,7 @@ import Feed from '../components/HomeComponents/Feed.jsx';
 import Header from '../components/Header.jsx';
 import HomeRight from '../components/HomeComponents/HomeRight.jsx';
 import '../App.scss';
-import ChatBoxWrapper from '../components/ChatBoxWrapper.jsx';
+// import ChatBoxWrapper from '../components/ChatBoxWrapper.jsx';
 
 const Home = () => {
     return (
@@ -15,7 +15,7 @@ const Home = () => {
             <HomeLeft className="home-left" />
             <Feed className="feed"/>
             <HomeRight className="home-right"/>
-            <ChatBoxWrapper />
+            {/* <ChatBoxWrapper /> */}
         </div>
     );
 }
