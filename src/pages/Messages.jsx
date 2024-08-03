@@ -86,7 +86,7 @@ const Messages = () => {
   }, [username])
 
 
-  // Fetch friends list once userId is set
+  // Fetch friends list w/ pictures once userId is set
   useEffect(() => {
     const getFriendsList = async (userId) => {
       try {
@@ -252,6 +252,15 @@ const Messages = () => {
 
   // console.log('own from message', own)
   // console.log('selected')
+  if (selectedFriendId) {
+    if (document.getElementById("message-container")) {
+      if (document.getElementById("message-container").scrollTop) {
+        let objDiv = document.getElementById("message-container");
+        objDiv.scrollTop = objDiv.scrollHeight;
+      }
+    }
+  }
+
   return (
     <div className="background" style={{ backgroundImage: 'url(' + chatBackground + ')', hegith: '100vh' }}>
       <div className="messenger">
@@ -269,7 +278,7 @@ const Messages = () => {
             {selectedFriend && <div style={{ color: "white" }}>Chatting with: {selectedFriend}</div>}
 
             {selectedFriendId ? (
-              <div className="message-container">
+              <div className="message-container" id="message-container">
                 {messages.map((msg, index) => (
                   <ChatRec msg={msg} index={index} own={msg.sender === username} key={index} picture={userPicture} friendPicture={friendPicture} />
                 ))}

@@ -232,6 +232,12 @@ app.post(
   }
 );
 
+app.post('/api/removeFriendByUsername',userController.removeFriendByUsername,(req, res) => {
+    res.status(200)
+      .json({ success: true, message: 'Friend removed successfully.' });
+  }
+);
+
 // Endpoint to link Riot account
 app.post('/api/link-riot-account', async (req, res) => {
   const { gameName, tagLine } = req.body;

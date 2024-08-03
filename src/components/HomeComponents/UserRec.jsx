@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import profPicFiller from '../../Assets/aoelogo3_kyler.png';
-// import profPicFiller from '../Assets/aoelogo2.png';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { setHomeFriendsList } from '../../redux/homeFriendsListSlice';
+import { setRemoveFriendHomeFriendsList } from '../../redux/removeFriendHomeFriendsListSlice';
 
 const UserRec = (props) => {
   const {
@@ -10,11 +11,11 @@ const UserRec = (props) => {
     pfp,
     bio,
     languages,
-    allgames,
     id,
-    user,
     isFriend: initialIsFriend,
   } = props;
+
+  const dispatch = useDispatch();
 
   let languagesString = languages.join(', ');
 
@@ -31,8 +32,9 @@ const UserRec = (props) => {
         { userId: props.userId, friendId: id }
       );
       if (response.data.success) {
+        dispatch(setHomeFriendsList({username, pfp, id}))
         setIsFriend(true);
-        alert('Friend added suucessfully!');
+        // alert('Friend added successfully!');
       } else {
         alert('User is already a friend!');
       }
@@ -48,6 +50,7 @@ const UserRec = (props) => {
         { userId: props.userId, friendId: id }
       );
       if (response.data.success) {
+        dispatch(setRemoveFriendHomeFriendsList({username}));
         setIsFriend(false);
         alert('Friend removed successfully!');
       } else {

@@ -8,6 +8,8 @@ import profileReducer from "./profileSlice";
 import profileLanguagesReducer from "./profileLanguagesSlice";
 import profileLocationReducer from "./profileLocationSlice";
 import selectedFriendIdReducer from "./selectedFriendIdSlice";
+import homeFriendsListReducer from "./homeFriendsListSlice";
+import removeFriendHomeFriendsListReducer from "./removeFriendHomeFriendsListSlice";
 
 const store = configureStore({
   reducer: {
@@ -20,6 +22,8 @@ const store = configureStore({
     profileLanguages: profileLanguagesReducer,
     profileLocation: profileLocationReducer,
     selectedFriendId: selectedFriendIdReducer,
+    homeFriendsList: homeFriendsListReducer,
+    removeFriendHomeFriendsList: removeFriendHomeFriendsListReducer,
   },
 });
 
