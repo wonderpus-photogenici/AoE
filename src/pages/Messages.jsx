@@ -19,6 +19,7 @@ import mic from '../Assets/mic.png';
 import HomeTopRight from '../components/HomeComponents/HomeTopRight.jsx'
 import MessageTopRight from '../components/MessageTopRight.jsx'
 import FriendSearchSingle from '../'
+import EmojiPicker from "emoji-picker-react"
 
 const Messages = () => {
   // const user = useUser();
@@ -33,8 +34,8 @@ const Messages = () => {
   const [onlineUsers, setOnlineUsers] = useState([]); // to keep track of online user
   const [userPicture, setUserPicture] = useState(null)
   const [friendPicture, setFriendPicture] = useState(null)
-  
-
+  const [open , setOpen] = useState(false);  
+  const [text, setText] = useState("")
   const inputRef = useRef(null);
   const socketRef = useRef(null);
   const activityRef = useRef(null);
@@ -182,12 +183,14 @@ const Messages = () => {
   }, []);
 
   // Handle keypress activity
-  const handleInputChange = () => {
+  const handleInputChange = (e) => {
+    setText(e.target.value)
+    setOpen(false)
     if (socketRef.current) {
       socketRef.current.emit('activity', username);
     }
   };
-
+  console.log('text', text)
   // Send message
   const sendMessage = (e) => {
     e.preventDefault();
@@ -205,7 +208,7 @@ const Messages = () => {
 
       socketRef.current.emit('message', message); // emit the message
 
-      inputRef.current.value = '';
+     setText('')
       inputRef.current.focus();
     }
   };
@@ -260,6 +263,13 @@ const Messages = () => {
       getPfpPath(selectedFriend);
     };
   }, [selectedFriend])
+
+
+  const handleEmoji =(emojiObject)=> {
+    setText((prev) => prev + emojiObject.emoji);
+    setOpen(false);
+    inputRef.current.focus();
+  }
 
   // console.log('own from message', own)
   // console.log('selected')
@@ -323,9 +333,10 @@ const Messages = () => {
                 <img src={camera} alt="camera" className="icon"/>
                 <img src={mic} alt="mic" className="icon"/>
               </div>
-                <input className="chatInput" type="text" ref={inputRef} onChange={handleInputChange} placeholder="Type here.." />
+                <input className="chatInput" type="text" ref={inputRef} onChange={handleInputChange} placeholder="Type here.." value={text}/>
                 <div className="emoji">
-                  <img src={emoji} alt="emoji" className="icon" />
+                  <img src={emoji} alt="emoji" className="icon" onClick={()=> setOpen((prev)=> !prev)}/>
+                  <EmojiPicker open={open} onEmojiClick={handleEmoji}/>
                 </div>
                 <button type="submit" className="messageSend">Send</button>
               </form>)
