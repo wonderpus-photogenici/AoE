@@ -649,4 +649,23 @@ userController.removeFriendById = async (req, res, next) => {
   }
 };
 
+userController.checkFriendsStatus = async (req, res, next) => {
+  const { userId, friendId } = req.body;
+  try {
+    const text = `SELECT * FROM friends WHERE (user_id = $1 AND friend_id = $2) OR (user_id = $2 AND friend_id = $1)`;
+    const result = await db.query(text, [userId, friendId]);
+
+    if (result.rows.length > 0) {
+      console.log('middleware result: ', result.rows[0]);
+      res.locals.friendsStatus = result.rows[0];
+    } else {
+      res.locals.friendsStatus = null;
+    }
+    return next();
+  } catch (err) {
+    console.error('Error in checkFriendsStatus middleware: ', err);
+    return res.status(500).json('Error in checkFriendsStatus middleware.');
+  }
+};
+
 module.exports = userController;

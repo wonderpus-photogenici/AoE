@@ -212,6 +212,14 @@ app.post('/api/getChatHistory', userController.getChatHistory, (req, res) => {
   res.status(200).json(res.locals.chatHistory);
 });
 
+app.post(
+  '/api/checkFriendsStatus',
+  userController.checkFriendsStatus,
+  (req, res) => {
+    res.status(200).json(res.locals.friendsStatus);
+  }
+);
+
 app.post('/api/addFriendById', userController.addFriendById, (req, res) => {
   res
     .status(200)
