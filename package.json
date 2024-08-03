@@ -5,8 +5,8 @@
   "main": "src/index.js",
   "scripts": {
     "build": "webpack --mode production",
-    "serve": "webpack serve --mode development",
-    "dev": "nodemon backend/server.js & webpack-dev-server"
+    "serve": "webpack serve --mode development --open",
+    "dev": "concurrently \"nodemon backend/server.js\" \"npm run serve\""
   },
   "keywords": [],
   "author": "",
@@ -27,9 +27,9 @@
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
     "bootstrap": "^5.3.3",
+    "concurrently": "^8.2.2",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
-    "css-loader": "^7.1.2",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "firebase": "^10.12.3",
@@ -53,15 +53,20 @@
     "redux-thunk": "^3.1.0",
     "sass": "^1.77.8",
     "sass-loader": "^14.2.1",
+    "socket.io": "^4.7.5",
+    "socket.io-client": "^4.7.5",
     "style-loader": "^4.0.0",
+    "util": "^0.12.5",
     "uuid": "^10.0.0",
     "webpack": "^5.93.0",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^5.0.4"
   },
   "devDependencies": {
+    "css-loader": "^7.1.2",
     "file-loader": "^6.2.0",
     "less": "^4.2.0",
-    "less-loader": "^12.2.0"
+    "less-loader": "^12.2.0",
+    "serve": "^14.2.3"
   }
 }
