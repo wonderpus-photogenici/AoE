@@ -78,7 +78,7 @@ const ChatBox = (props) => {
         //     console.log('why isnt it popping up?');
         //     document.getElementById('ChatBoxWrapper').style.display = "grid" ;
         // }
-        if (messages && messages.length !== 0) {
+        if (messages && messages.length !== 0 && messages[messages.length - 1].receiver_id === userId) {
             document.getElementById('ChatBoxWrapper').style.display = "grid" ;
         }
 
