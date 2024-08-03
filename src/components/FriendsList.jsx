@@ -1,11 +1,17 @@
-import React from 'react';
+import React, {useState} from 'react';
 import axios from 'axios';
 import "../pages/Chat.css"
 import noPfp from '../Assets/noPfp.png';
+import add from '../Assets/add-large.png';
+import subtract from "../Assets/subtract.png"
+import video from "../Assets/video-white.png"
+import edit from "../Assets/pencil-white.png"
+import more from "../Assets/more-white.png"
+import search from "../Assets/search.png"
 
-const FriendsList = ({ friends, onSelectFriend, friendPicture}) => {
+const FriendsList = ({ friends, onSelectFriend, friendPicture, userPicture, username}) => {
   // get friend's id, then pass back to Message.jsx to get Chat Hist
-
+const [addMode, setAddMode]= useState(false)
 
 
 const CDNURL = "https://gusnjhjnuugqaqtgwhym.supabase.co/storage/v1/object/public/AoE/"
@@ -38,9 +44,23 @@ const CDNURL = "https://gusnjhjnuugqaqtgwhym.supabase.co/storage/v1/object/publi
     <>
       <div className="chatMenuWrapper">
         <div className ="chatMenuContainer">
-        <h1 style={{color: "white"}}>Friends List</h1>
+        <div className ="userInfo" style={{ color: "white" }}>
+          <div className="user">
+            <img src ={CDNURL + userPicture} alt="user-profile"/>
+            <h2>{username}</h2>
+          </div>
+          <div className="icons">
+          <img src={more} alt="more" className="icon"/>
+          <img src={video} alt="video" className="icon"/>
+          <img src={edit} alt="edit" className="icon"/>
+          </div>
+        </div>
         <div className="chatMenuInputBox">
-          <input placeholder="Search for Friends" className="chatMenuInput" />
+          <div className="searchBar">
+          <img src={search} alt="search" className="icon" />
+          <input placeholder="Search" className="chatMenuInput" />
+          </div>
+          <img src={addMode ? subtract:add} alt="add" className="add" onClick={()=> setAddMode((prev)=>!prev)}/>
         </div>
         <ul className="friendsList">
           {friends.map((friend) => (
@@ -49,7 +69,10 @@ const CDNURL = "https://gusnjhjnuugqaqtgwhym.supabase.co/storage/v1/object/publi
               onClick={() => handleClick(friend.username)}
             >
               <img className="conversationImg" src={CDNURL + friend.pfp} alt ={'url(' + noPfp + ')'} /> 
+              <div className="texts">
               <span className="conversationName" style={{color: "white"}}>{friend.username}</span>
+              <p className="conversationText">Hello</p>
+              </div>
             </li>
           ))}
         </ul>

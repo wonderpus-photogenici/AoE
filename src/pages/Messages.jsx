@@ -4,11 +4,18 @@ import FriendsList from '../components/FriendsList.jsx';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import axios from 'axios';
 import './Chat.css';
-import chatBackground from '../Assets/summoner.png';
 import ChatRec from './ChatRec.jsx'
 // import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { CgScrollV } from "react-icons/cg";
 import { send } from 'process';
+import phone from '../Assets/phone.png';
+import video from '../Assets/video-white.png';
+import info from '../Assets/information-fill.png';
+import emoji from '../Assets/emoji.png';
+import chatBackground from '../Assets/summoner.png'
+import image from '../Assets/image.png';
+import camera from '../Assets/camera.png';
+import mic from '../Assets/mic.png';
 
 const Messages = () => {
   // const user = useUser();
@@ -262,22 +269,34 @@ const Messages = () => {
   // }
 
   return (
-    <div className="background" style={{ backgroundImage: 'url(' + chatBackground + ')', hegith: '100vh' }}>
-      <div className="messenger">
-        <div className="chatMenu">
-          <FriendsList
-            friends={friends}
-            userId={userId}
-            onSelectFriend={handleFriendSelect}
-            friendPicture={friendPicture}
-          />
+    <div className= "background" style={{ backgroundImage:'url(' + chatBackground+ ')'}}>
+    <div className="messenger">
+      <div className="chatMenu">
+      <FriendsList
+        friends={friends}
+        userId={userId}
+        onSelectFriend={handleFriendSelect}
+        friendPicture={friendPicture}
+        userPicture={userPicture}
+        username={username}
+      />
+      </div>
+      <div className="chatBox">
+        <div className="chatMenuWrapper">
+        <div className="top">
+        {selectedFriend && (
+        <div className="friendInfo">
+        <span className ="chooseFriend" style={{ color: "white" }}>{selectedFriend}</span>
+        <div className="icons">
+          <img src={phone} alt="phone" className="icon"/>
+          <img src={video} alt="video" className="icon"/>
+          <img src={info} alt="info" className="icon"/>
         </div>
-        <div className="chatBox">
-          <div className="chatMenuWrapper">
-            <h1 style={{ color: "white" }}>Messages</h1>
-            {selectedFriend && <div style={{ color: "white" }}>Chatting with: {selectedFriend}</div>}
-
-            {selectedFriendId ? (
+        </div>
+        )}
+        </div>
+        <div className="middle">
+        {selectedFriendId ? (
               <div className="message-container" id="message-container">
                 {messages.map((msg, index) => (
                   <ChatRec msg={msg} index={index} own={msg.sender === username} key={index} picture={userPicture} friendPicture={friendPicture} />
@@ -285,22 +304,32 @@ const Messages = () => {
                 <p
                   className="activity"
                   ref={activityRef}
-                  style={{ color: 'pink' }}
                 ></p>
               </div>
 
             ) : (
-              <p style={{ color: "white" }}>Choose a friend to chat!</p>
+              <p className="chooseFriend" style={{ color: "white" }}>Choose a friend to chat!</p>
             )}
-            {selectedFriendId ? <> 
+        </div>
+            <div className="bottom">
+            {selectedFriendId ? (
               <form onSubmit={sendMessage} className="inputBox">
+              <div className="icons">
+                 <img src={image} alt="image" className="icon"/>
+                <img src={camera} alt="camera" className="icon"/>
+                <img src={mic} alt="mic" className="icon"/>
+              </div>
                 <input className="chatInput" type="text" ref={inputRef} onChange={handleInputChange} />
-                <button type="submit" style={{ color: 'black', boxShadow: 'rgba(67, 100, 87, 0.849)' }}>Send</button>
-              </form>
-            </> : <>
+                <div className="emoji">
+                  <img src={emoji} alt="emoji" className="icon" />
+                </div>
+                <button type="submit" className="messageSend">Send</button>
+              </form>)
+             : <>
               < p style={{ color: "white" }}>...loading</p>
             </>}
           </div>
+            </div>
         </div>
         <div className="chat-online" >
           <div className="chatOnlineWrapper">
