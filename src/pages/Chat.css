@@ -1,8 +1,222 @@
 
-.message-page {
-    color: white;
-    font-size: 1rem;
+/* * {
+    color: white
+} */
+
+.messenger {
     display: flex;
-    gap: 5rem;
-    height: 100vh;
+    width: 90%;
+    height: 95vh;
+    /* border: 1px solid blue; */
+    margin:10px auto;
+    background-color: rgba(0, 0, 0, 0.815);
+    border-radius: 10px;
+    outline: none;
+    padding: 10px;
+    box-shadow: 10px 10px 10px rgba(53, 51, 63, 0.815);;;
+
+}
+
+.chatMenu {
+    flex: 3.5;
+    /* border: 1px solid pink; */
+    display: block;
+    margin: 0 auto;
+}
+
+.chatBox {
+    flex: 5.5;
+   display:block;
+   margin: 0 auto;
+   /* border: 1px solid yellow */
+}
+
+.chat-online {
+    flex: 3;
+    display: block;
+    margin: 0 auto;
+}
+
+
+.chatMenuWrapper,
+.chatBoxWrapper,
+.chatOnlineWrapper {
+    padding: 10px;
+    height: 100%;
+    /* gap:5px; */
+    box-shadow: 2px 2px 2px rgba(53, 51, 63, 0.815);
+    margin: 0 auto;
+    width: 100%;
+    box-sizing: border-box;
+    /* border: 1px solid pink; */
+}
+
+.chatMenuContainer {
+    display:flex;
+    width: 100%;
+    flex-direction: column;
+    justify-content: left;
+    
+}
+/* friendlist chatMenu */
+ h1 {
+    font-size : 700;
+ }
+
+.chatMenuInput {
+    width: 90%;
+    padding: 10px;
+    border: none;
+    border-bottom: 1px solid rgb(155, 154, 154);
+    background-color:transparent;
+    color:white;
+    outline: none;
+    box-shadow: 5px 5px 5px rgba(78, 88, 78, 0.815);
+}
+.friendsList {
+    display: block;
+    justify-content: left;
+}
+.conversation {
+    display: flex;
+    padding: 10px;
+    /* border: 1px solid yellow; */
+    align-items: center;
+    cursor: pointer;
+    margin: 0 auto;
+    list-style: none;
+}
+.conversation:hover {
+    background-color:rgba(78, 88, 78, 0.815);
+}
+
+.conversationImg {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit:cover;
+    margin-right: 20px;
+    background: rgba(67, 100, 87, 0.849);
+}
+.conversationName {
+    font-weight: 500;
+}
+
+
+
+
+/* chatBox */
+.message-container {
+    width: 95%;
+    display: flex;
+    flex-direction: column;
+    padding:10px;
+
+    /* border: 1px solid white */
+
+}
+.messageHistory {
+    display: flex;
+    flex-direction: column;
+    height: 9rem;
+    width: 95%;
+    /* border: 1px solid blue; */
+    padding: 10px;
+    border-radius: 10px;
+    max-width: 70%;
+    margin-left: 15px;
+    /* margin-top: 15px; */
+}
+
+.chatbox-top {
+    display: flex;
+    padding: 3px;
+    align-items: center;
+}
+
+.chatUserPic {
+    height:40px;
+    width: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+.messageText {
+    border-radius: 20px;
+    background-color: rgba(206, 161, 132, 0.5);
+    color: white;
+    margin-left:10px;
+    max-width: 300px;
+    margin:0;
+    padding: 10px;
+}
+
+.messageHistory p {
+    display: inline-block;
+    text-wrap:pretty;
+    font-size: 15px
+}
+
+.messageBottom {
+    font-size: 12px;
+    /* margin-top: 5px; */
+}
+
+.messageHistory.own {
+    align-items: flex-end;
+    align-self: flex-end;
+    margin-right: 15px;
+   
+}
+
+.messageHistory.own .messageText {
+    background-color: rgba(88, 134, 100, 0.8);
+    padding: 10px;
+}
+
+.messagePortion {
+    padding: 2px;
+}
+
+.message-container {
+    overflow-y:scroll;
+    height:75vh;
+}
+
+
+/* Input for chatting */
+.inputBox {
+    height: 3rem;
+    width: 90%;
+    display: flex;
+    margin: 20px auto;
+    justify-content: center;
+    /* border: 1px solid red; */
+}
+.chatInput {
+    height: 2rem;
+    width: 100%;
+    display: flex;
+    margin: 0 auto;
+    justify-content: center;
+    /* border: 1px solid red; */
+    color: black;
+    padding: 10px;
+    border: none;
+    border-bottom: 1px solid rgb(155, 154, 154);
+    background-color:transparent;
+    color:white;
+    outline: none;
+    box-shadow: 5px 5px 5px rgba(78, 88, 78, 0.815);
+}
+
+.chatInput:hover {
+    background-color: rgba(43, 84, 172, 0.315)
+}
+
+.activity {
+    color: yellow;
+    display: inline-flex;
+    justify-content: center
 }

@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux';
 import { setAllUsers } from '../../redux/allUsersSlice.js';
 import store from '../../redux/store.js';
 import { useUser, useSupabaseClient } from '@supabase/auth-helpers-react';
+import HomeFriendsList from './HomeFriendsList.jsx';
 
 // THIS IS A TEMPLATE FOR NOW - WE WILL FILL OUT CORRECTLY WHEN WE SET UP APP NAVIGATION FLOW
 const SidebarRightComponent = () => {
@@ -34,7 +35,7 @@ const SidebarRightComponent = () => {
       // console.log('allUsers: ',allUsers)
       // console.log('allUsers.data: ', allUsers.data);
       dispatch(setAllUsers(allUsers.data));
-    } catch (err) {
+    } catch (error) {
       console.error(
         'error in retrieveAllUsers:',
         error.response?.data || error.message
@@ -113,16 +114,13 @@ const SidebarRightComponent = () => {
     // Obviously later rewrite this to dynamically import
     // and fill from their friends list/ groups list/ clan list, just a placeholder for now
     <div className="homeRightSideBarWrapper">
-      <div className="homeRightSideBarBreak">
+
+      {/* Original friend search from database */}
+      {/* <div className="homeRightSideBarBreak">
         <div className="homeRightSideBarGroupName">
           <span>Add Friends</span>
         </div>
         <div className="homeRightSideBarGroupSearch dropdown">
-          {/* It would probably be better to retrieve all users from db on page load, or */}
-          {/* onClick, unless we absolutely need the latest users list immediately */}
-          {/* it should be fine to only get the users list onClick */}
-          {/* decided to use onFocus instead of onClick, since someone could shift into */}
-          {/* the input field or some other way of bringing it into focus */}
           <input
             type="text"
             placeholder="Search"
@@ -138,13 +136,7 @@ const SidebarRightComponent = () => {
           ></input>
           <FriendSearchComp friendSearchResults={charactersList} />
         </div>
-        {/* <div className="homeLeftSideBarGroupAdd">
-          <button type="button" className="homeFriendSearchAddBtn" onClick={() => {
-            // Add some redirect to the specified profile stuff here once profiles get set up
-
-          }}>Add</button>
-        </div> */}
-      </div>
+      </div> */}
       <div className="homeRightSideBarBreak">
         <div className="homeRightSideBarGroupName">
           <span>Friends</span>
@@ -165,36 +157,9 @@ const SidebarRightComponent = () => {
           }}>Add</button>
         </div> */}
       </div>
-      <div className="homeRightSideBar">
-        <div className="homeRightSideBarIcon">PFP</div>
-        <div className="homeRightSideBarContent">
-          <span>Friend 1</span>
-        </div>
-      </div>
-      <div className="homeRightSideBar">
-        <div className="homeRightSideBarIcon"></div>
-        <div className="homeRightSideBarContent">Hello</div>
-      </div>
-      <div className="homeRightSideBar">
-        <div className="homeRightSideBarIcon"></div>
-        <div className="homeRightSideBarContent">Hello</div>
-      </div>
-      <div className="homeRightSideBar">
-        <div className="homeRightSideBarIcon"></div>
-        <div className="homeRightSideBarContent">Hello</div>
-      </div>
-      <div className="homeRightSideBar">
-        <div className="homeRightSideBarIcon"></div>
-        <div className="homeRightSideBarContent">Hello</div>
-      </div>
-      <div className="homeRightSideBar">
-        <div className="homeRightSideBarIcon"></div>
-        <div className="homeRightSideBarContent">Hello</div>
-      </div>
-      <div className="homeRightSideBar">
-        <div className="homeRightSideBarIcon"></div>
-        <div className="homeRightSideBarContent">Hello</div>
-      </div>
+      <HomeFriendsList 
+
+      />
       <div className="homeRightSideBarBreak">
         <div className="homeRightSideBarGroupName">
           <span>Groups</span>

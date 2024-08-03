@@ -1,8 +1,16 @@
 import React from 'react';
 import axios from 'axios';
+import "../pages/Chat.css"
+import noPfp from '../Assets/noPfp.png';
 
-const FriendsList = ({ friends, onSelectFriend }) => {
+const FriendsList = ({ friends, onSelectFriend, friendPicture}) => {
   // get friend's id, then pass back to Message.jsx to get Chat Hist
+
+
+
+const CDNURL = "https://gusnjhjnuugqaqtgwhym.supabase.co/storage/v1/object/public/AoE/"
+
+
 
   const handleClick = async (name) => {
     try {
@@ -28,55 +36,24 @@ const FriendsList = ({ friends, onSelectFriend }) => {
 
   return (
     <>
-      <div
-        className="conversation"
-        style={{
-          width: '400px',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'top',
-          padding: '10px',
-        }}
-      >
-        <h1>Friends List</h1>
-        <div className="searchBar">
+      <div className="chatMenuWrapper">
+        <div className ="chatMenuContainer">
+        <h1 style={{color: "white"}}>Friends List</h1>
+        <div className="chatMenuInputBox">
           <input placeholder="Search for Friends" className="chatMenuInput" />
         </div>
-        <ul
-          className="friendsList"
-          style={{
-            color: 'yellow',
-            listStyle: 'none',
-            justifyContent: 'flex-start',
-            alignContent: 'center',
-          }}
-        >
+        <ul className="friendsList">
           {friends.map((friend) => (
-            <li
+            <li className="conversation"
               key={friend.username}
-              style={{
-                fontSize: '15px',
-                cursor: 'pointer',
-                border: 'solid 1px white',
-              }}
               onClick={() => handleClick(friend.username)}
             >
-              <img
-                className="conversationImg"
-                // src={friend.url}
-                style={{
-                  height: '50px',
-                  width: '50px',
-                  background: 'white',
-                  borderRadius: '50%',
-                  marginRight: '20px',
-                  objectFit: 'cover',
-                }}
-              />
-              <span className="conversationName">{friend.username}</span>
+              <img className="conversationImg" src={CDNURL + friend.pfp} alt ={'url(' + noPfp + ')'} /> 
+              <span className="conversationName" style={{color: "white"}}>{friend.username}</span>
             </li>
           ))}
         </ul>
+      </div>
       </div>
     </>
   );
