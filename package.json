@@ -6,9 +6,7 @@
   "scripts": {
     "build": "webpack --mode production",
     "serve": "webpack serve --mode development --open",
-    "dev": "concurrently \"nodemon backend/server.js\" \"npm run serve\""
-    "serve": "webpack serve --mode development",
-    "dev": "nodemon backend/server.js & webpack-dev-server",
+    "dev": "concurrently \"nodemon backend/server.js\" \"npm run serve\"",
     "test": "jest"
   },
   "keywords": [],
