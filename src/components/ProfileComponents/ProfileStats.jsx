@@ -11,14 +11,3 @@ const ProfileStats = () => {
 };
 
 export default ProfileStats;
-
-/*            <h3>Profile Stats</h3>
-            {summonerData ? (
-                <div>
-                    <p>Summoner Name: {summonerData.name}</p>
-                    <p>Level: {summonerData.summonerLevel}</p>
-       
-                </div>
-            ) : (
-                <p>No summoner data available.</p>
-            )}*/ 

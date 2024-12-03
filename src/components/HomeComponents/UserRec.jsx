@@ -1,69 +1,121 @@
-import React from 'react'
-import leagueLogo from '../../Assets/leagueLogo.png';
-import leagueDiamond from '../../Assets/leagueDiamond.png';
-import profPicFiller from '../../Assets/aoelogo3_kyler.png';
-// import profPicFiller from '../Assets/aoelogo2.png';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { setHomeFriendsList } from '../../redux/homeFriendsListSlice';
+import { setRemoveFriendHomeFriendsList } from '../../redux/removeFriendHomeFriendsListSlice';
 
 const UserRec = (props) => {
-  const { username, pfp, allgames } = props;
-  // console.log('username: ', username);
-  // console.log('allgames: ', allgames);
-  const CDNURL = "https://gusnjhjnuugqaqtgwhym.supabase.co/storage/v1/object/public/AoE/";
+  const {
+    username,
+    pfp,
+    bio,
+    languages,
+    id,
+    isFriend: initialIsFriend,
+  } = props;
+
+  const dispatch = useDispatch();
+
+  let languagesString = languages.join(', ');
+
+  const navigate = useNavigate();
+  const CDNURL =
+    'https://gusnjhjnuugqaqtgwhym.supabase.co/storage/v1/object/public/AoE/';
+
+  const [isFriend, setIsFriend] = useState(initialIsFriend);
+
+  const handleAddFriend = async () => {
+    try {
+      const response = await axios.post(
+        'http://localhost:3001/api/addFriendById',
+        { userId: props.userId, friendId: id }
+      );
+      if (response.data.success) {
+        dispatch(setHomeFriendsList({ username, pfp, id }));
+        setIsFriend(true);
+        // alert('Friend added successfully!');
+      } else {
+        alert('User is already a friend!');
+      }
+    } catch (err) {
+      console.error('Error in adding friend: ', err);
+    }
+  };
+
+  // const handleRemoveFriend = async () => {
+  //   try {
+  //     const response = await axios.post(
+  //       'http://localhost:3001/api/removeFriendById',
+  //       { userId: props.userId, friendId: id }
+  //     );
+  //     if (response.data.success) {
+  //       dispatch(setRemoveFriendHomeFriendsList({ username, friend_id: id }));
+  //       setIsFriend(false);
+  //       alert('Friend removed successfully!');
+  //     } else {
+  //       alert('Failed, user is not your friend!');
+  //     }
+  //   } catch (err) {
+  //     console.error('Error in removing friend: ', err);
+  //   }
+  // };
+
   return (
     <div className="userRec-wrapper">
-
       <img className="userRec-prof-pic" src={CDNURL + pfp} alt="" />
-
       <div className="userRec-userInfo">
-        <h2 className="userRec-username">{username}</h2>
-        {/* <h4 className="userRec-hours">1.2k Hours</h4> */}
+        <span
+          className="userRec-username"
+          onClick={(e) => {
+            navigate(`/profile/${username}`);
+          }}
+          style={{ cursor: 'pointer' }}
+        >
+          {username}
+        </span>
       </div>
-
       <div className="userRec-buttons">
-        <button className="userRec-Button">Add</button>
-        <button className="userRec-Button">Message</button>
+        {id === props.userId ? (
+          <button
+            className="userRec-Button"
+            style={{ backgroundColor: '#fcae1e' }}
+          >
+            User
+          </button>
+        ) : isFriend ? (
+          <button
+            className="userRec-Button"
+            style={{ backgroundColor: '#4B9CD3' }}
+            // onClick={handleRemoveFriend}
+          >
+            Friend
+          </button>
+        ) : (
+          <button
+            className="userRec-Button"
+            style={{ backgroundColor: '#17B169' }}
+            onClick={handleAddFriend}
+          >
+            Add
+          </button>
+        )}
       </div>
 
-      <div className="userRec-game-rank-Container">
-        Games: {allgames}
-        {/*  
-          <img className="userRec-gameLogo" src={leagueLogo} alt="League" />
-        <div className="userRec-rank">
-          <img className="userRec-gameRank" src={leagueDiamond} alt="League" />
-          <h5 className="userRec-rankName">Diamond</h5>
-        </div> */}
+      <textarea
+        readOnly
+        className="userRec-favorite-game"
+        defaultValue={`Languages: ` + languagesString}
+      ></textarea>
+      <div className="userRecBioWrapper">
+        <div className="userRecBioTag">Bio:</div>
+        <div className="userRec-game-rank-Container">
+          {bio}
+          {/* Games: {allgames} */}
+        </div>
       </div>
-
     </div>
-  )
+  );
+};
 
-
-  // return (
-  //   <div className="userRec-wrapper">
-
-  //       <img className="userRec-prof-pic" src={profPicFiller} alt="" />
-
-  //     <div className="userRec-userInfo">
-  //       <h2 className="userRec-username">FelValencia</h2>
-  //       <h4 className="userRec-hours">1.2k Hours</h4>
-  //     </div>
-
-  //     <div className="userRec-buttons">
-  //       <button className="userRec-Button">Add</button>
-  //       <button className="userRec-Button">Message</button>
-  //     </div>
-
-  //     <div className="userRec-game-rank-Container">
-
-  //         <img className="userRec-gameLogo" src={leagueLogo} alt="League" />
-  //       <div className="userRec-rank">
-  //         <img className="userRec-gameRank" src={leagueDiamond} alt="League" />
-  //         <h5 className="userRec-rankName">Diamond</h5>
-  //       </div>
-  //     </div>
-
-  //   </div>
-  // )
-}
-
-export default UserRec
+export default UserRec;

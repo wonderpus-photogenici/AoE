@@ -117,10 +117,10 @@ import React, { useRef, useState } from 'react';
 import { initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth';
 import { getFirestore, collection, query, orderBy, limit, addDoc, serverTimestamp } from 'firebase/firestore';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { useCollectionData } from 'react-firebase-hooks/firestore';
+import { useAuthState } from 'react-firebase-hooks/auth'; //hooks
+import { useCollectionData } from 'react-firebase-hooks/firestore'; // hooks
 
-const firebaseConfig = {
+const firebaseConfig = { //  set up for firebase  // ****missing databaseURL , but have mearsurementID 
   apiKey: "AIzaSyA8sCco43Znz3RPYvLGSa1jcLR37mOk2Hg",
   authDomain: "aoe-chat-9a467.firebaseapp.com",
   projectId: "aoe-chat-9a467",
@@ -130,22 +130,20 @@ const firebaseConfig = {
   measurementId: "G-QTFDPNZPYG"
 };
 
-// Initialize Firebase
+// Initialize Firebase with firebaseConfig function
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const firestore = getFirestore(app);
 
-function Chat() {
+function Chat() { // check is the user is login or not
   const [user] = useAuthState(auth); // Get the currently signed-in user
-
+                                      //Sign in = user is obj , signOut : user is  null
   return (
     <div className="chat">
-      <header>
 
-      </header>
-
+      <h1 style={{color:'white'}}>Hello from Chatting Room</h1>
       <section>
-        {user ? <ChatRoom /> : <SignIn />}
+        {user ? <ChatRoom /> : <SignIn />} 
       </section>
     </div>
   );
@@ -153,7 +151,7 @@ function Chat() {
 
 function SignIn() {
   const signInWithGoogle = () => {
-    const provider = new GoogleAuthProvider(); 
+    const provider = new GoogleAuthProvider(); // Question: here on index.js , you are using GoogleOAuth as provider , not google auth
     signInWithPopup(auth, provider); // triggers a popup window when user clicks sign in with google
   }
 

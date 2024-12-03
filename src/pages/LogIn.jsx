@@ -5,11 +5,9 @@ import { useDispatch } from 'react-redux';
 import { setUser } from '../redux/userSlice';
 import GoogleLoginButton from '../components/GoogleLogin.jsx';
 import '../App.scss';
-import store from '../redux/store'
-import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
-import leagueBackground from '../Assets/LeagueWallpaper.png'
-
-
+import store from '../redux/store';
+import { useUser, useSupabaseClient } from '@supabase/auth-helpers-react';
+import leagueBackground from '../Assets/LeagueWallpaper.png';
 
 const LogIn = () => {
   const [username, setUsername] = useState('');
@@ -40,10 +38,12 @@ const LogIn = () => {
       const { data, error } = await supabase.auth.signInWithPassword({
         email: email.data,
         password: password,
-      })
+      });
 
       if (error) {
-        alert("Sign in error: Error communicating with supabase, make sure to use a real email address!");
+        alert(
+          'Sign in error: Error communicating with supabase, make sure to use a real email address!'
+        );
         console.log(error);
       } else {
         // Supabase only allows 3 emails per hour, so I turned off verify email in supabase for now
@@ -67,37 +67,46 @@ const LogIn = () => {
   };
 
   return (
-    <div className='wrapper'style={{backgroundImage: "url(" + leagueBackground + ")"}} >
+    <div
+      className="wrapper"
+      style={{ backgroundImage: 'url(' + leagueBackground + ')' }}
+    >
       <GoogleLoginButton />
-      <div className='animate_animated animate__fadeInLeft'>
-        <div className='form-container'>
-          <div className='title'>Login</div>
+      <div className="animate_animated animate__fadeInLeft">
+        <div className="form-container">
+          <div className="title">Login</div>
           <form onSubmit={handleSubmit}>
-            <div className='field'>
+            <div className="field">
               <input
                 type="text"
                 name="username"
-                placeholder='Username'
+                placeholder="Username"
                 value={username}
                 onChange={handleInputChange}
                 required
-              />
-            </div>
-            <div className='field'>
-              <input
-                type="password"
-                name="password"
-                placeholder='Password'
-                value={password}
-                onChange={handleInputChange}
-                required
+                style={{borderRadius:'4px'}}
               />
             </div>
             <div className="field">
-              <button type="submit" className='login-btn'>Login</button>
+              <input
+                type="password"
+                name="password"
+                placeholder="Password"
+                value={password}
+                onChange={handleInputChange}
+                required
+                style={{borderRadius:'4px'}}
+              />
             </div>
-            <div className='link-to-p'>
-              <p>New User? <Link to='/signup'>Register Here</Link></p>
+            <div className="field">
+              <button type="submit" className="login-btn">
+                Login
+              </button>
+            </div>
+            <div className="link-to-p">
+              <p>
+                New User? <Link to="/signup">Register Here</Link>
+              </p>
             </div>
           </form>
         </div>
